@@ -1,0 +1,27 @@
+{
+  "name": "cistoca_backend",
+  "version": "1.0.0",
+  "description": "Server side",
+  "main": "server.js",
+  "scripts": {
+    "test": "snyk test",
+    "start": "nodemon server.js"
+  },
+  "author": "Stanko Ljuboja",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "fs-extra": "^7.0.1",
+    "helmet": "^3.15.0",
+    "jsonwebtoken": "^8.3.0",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.1",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.1"
+  },
+  "devDependencies": {
+    "snyk": "^1.122.0"
+  }
+}
