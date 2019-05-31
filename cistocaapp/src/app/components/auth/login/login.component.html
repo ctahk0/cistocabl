@@ -1,0 +1,27 @@
+<mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading" style="margin:auto"></mat-spinner>
+<form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading" class="ng-untouched ng-pristine ng-invalid" novalidate="">
+    <div class="login-container">
+        <div class="field-group">
+            <label for="email"> Email Address</label>
+            <input class="login-field" 
+                size="1" 
+                name="email" 
+                ngModel type="email" 
+                placeholder="Email Address" 
+                #emailInput="ngModel"
+                required email>
+            <!-- <input matInput name="email" ngModel type="email" placeholder="Email Address" #emailInput="ngModel" required email> -->
+            <mat-error *ngIf="emailInput.invalid && (emailInput.dirty)">Please enter a valid email.</mat-error>
+        </div>
+        <div class="field-group">
+            <label for="password"> Password</label>
+            <input class="login-field" size="1" name="password" ngModel type="password" placeholder="Password" #passwordInput="ngModel"
+                required>
+                <mat-error *ngIf="passwordInput.invalid && (passwordInput.dirty)">Please enter a valid password.</mat-error>
+        </div>
+        <div>
+            <br>
+        </div>
+        <button class="w-100 btn" *ngIf="!isLoading" type="submit">Log In</button>
+    </div>
+</form>

@@ -130,14 +130,11 @@ router.post('/login', (req, res, next) => {
                         });
                     }
                     const token = jwt.sign({
-                        rauth: result[0][0]['isSuperAdmin'],
-                        cauth: result[0][0]['isContributor'],
-                        sauth: result[0][0]['isSupport'],
                         iauth: result[0][0]['id'],
                         email: result[0][0]['email']
                     },
                         process.env.PUBLIC_KEY,
-                        { expiresIn: '2h' }
+                        { expiresIn: '8h' }
                     );
                     // console.log('Admin: ', result[0]['isAdmin']);
                     const ctime = new Date();

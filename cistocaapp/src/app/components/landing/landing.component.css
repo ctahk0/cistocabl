@@ -1,0 +1,203 @@
+.mc {
+  background-color: #fff;
+    /* background-image: url(../../../assets/bg1.jpg); */
+    /* background-position: center center; */
+    /* background-size: cover; */
+    transition: background 0.3s,border 0.3s,border-radius 0.3s,box-shadow 0.3s;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+
+a {
+  text-decoration: none;
+  /* color: blue; */
+}
+
+.cont {
+  font-family: "Roboto", Sans-serif;
+  max-width: 1000px;
+  min-height: 100vh;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-right: auto;
+  margin-left: auto;
+  position: relative;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.l-row {
+  width: 100%;
+  display: flex;
+}
+
+.l-col {
+  width: 100%;
+  position: relative;
+  min-height: 1px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.l-section {
+  width: 100%;
+  position: relative;
+  box-shadow: 0 0 40px 0 rgba(0,0,0,.24);
+}
+.l-cont {
+  min-height: 600px;
+  max-width: 1140px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  /* margin-right: auto;
+  margin-left: auto;
+  position: relative; */
+}
+.l-data {
+  width: 60%;
+  position: relative;
+  min-height: 1px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.r-data {
+  width: 40%;
+  position: relative;
+  min-height: 1px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.l-innerdata {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  position: relative;
+  background-color: transparent;
+  background-image: linear-gradient(290deg,#8e3092 0%,#8e3092 100%);
+  transition: background 0.3s,border 0.3s,border-radius 0.3s,box-shadow 0.3s;
+  padding: 75px 75px 75px 75px;
+}
+
+.l-img {
+  height: 60px;
+  border-radius: 6px 6px 6px 6px;
+  margin-bottom: 20px;
+}
+.r-innerdata {
+  display: flex;
+  width: 100%;
+  position: relative;
+  -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #fff;
+    transition: background 0.3s,border 0.3s,border-radius 0.3s,box-shadow 0.3s;
+    padding: 150px 50px 50px 50px;
+}
+.r-innerdata1 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0px 0px 0px 50px;
+  margin-top: -90px;
+  color: #7a7a7a;
+  font-size: .95em;
+  transition: color .1s ease-in-out,background-color .1s ease-in-out;
+}
+.bottom-text {
+  background-color: #fff;
+  color: #7a7a7a;
+  font-size: .85em;
+  position: relative;
+  margin: 40px 0px;
+}
+.title {
+  font-family: "Roboto", Sans-serif;
+  font-size: 67px;
+  font-weight: 100;
+  color: #fff;
+  padding: 0;
+  margin-bottom: 80px;
+    /* margin: -80px 0px 0px 0px; */
+    line-height: 1;
+}
+p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  margin-bottom: 1.5em;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1.9em;
+  font-family: "Roboto",Sans-serif;
+  text-transform: none;
+  font-size: 17px;
+}
+
+@media (max-width: 1024px) {
+  
+  .l-col {
+    padding: 20px 20px 20px 20px;
+    /* width: 90%; */
+    margin: auto;
+  }
+  
+  .r-innerdata {
+      display: block;
+      padding: 200px 30px 70px 30px;
+    }
+    .r-innerdata1 {
+      padding: 0px 0px 0px 30px;
+      margin-top: -70px;
+    }
+    /* .title {
+      margin: 0px 0px 0px 0px;
+    } */
+  }
+@media (max-width: 879px) {
+  .title {
+    margin-bottom: 55px;
+  }
+}
+@media (max-width: 767px) {
+  .l-row {
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    /* flex-direction: column; */
+  }
+  .l-data, .r-data {
+    width: 100%;
+  }
+  .l-innerdata {
+      padding: 50px 30px 50px 30px;
+  }
+  .r-innerdata {
+    display: block;
+    padding: 80px 30px 70px 30px;
+  }
+  .title {
+    margin: 100px 0px 0px 0px;
+    font-size: 51px;
+  }
+  p {
+    font-size: 15px;
+  }
+}
