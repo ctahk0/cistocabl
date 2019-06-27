@@ -1,0 +1,94 @@
+<app-sidebar></app-sidebar>
+
+<div class="main-container">
+    <div class="zaduzenja-list-container">
+        <div class="filter-line">
+            <div>
+                <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-raised-button type="button">Novo zaduženje</button>
+            </div>
+        </div>
+        <div class="tablewraper  mat-elevation-z1">
+            <mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
+            <div class="table-container">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z1" matSort matSortActive="broj"
+                    matSortDirection="asc" matSortDisableClear>
+
+                    <ng-container matColumnDef="broj">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Broj zaduženja</th>
+                        <td mat-cell *matCellDef="let element; let i = index;"
+                            style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{element['broj']}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="datum">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Datum</th>
+                        <td mat-cell *matCellDef="let element; let i = index;"
+                            style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{element['datum'] | date: 'shortDate'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="opis">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Opis/svrha</th>
+                        <td mat-cell *matCellDef="let element; let i = index;"
+                            style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{element['opis']}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vrsta_klijenta">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Vrsta klijenta</th>
+                        <td mat-cell *matCellDef="let element; let i = index;"
+                            style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{element['vrsta_klijenta']}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="dostava">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Dostava </th>
+                        <td mat-cell *matCellDef="let element" style="text-align: center;">
+                            <mat-checkbox [value]="element['dostava']" [(ngModel)]="element['dostava']">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="kontrola">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Kontrola </th>
+                        <td mat-cell *matCellDef="let element" style="text-align: center;">
+                            <mat-checkbox [value]="element['kontrola']" [(ngModel)]="element['kontrola']">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Details button">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element; let i = index;">
+                            <button mat-button type="button" (click)="onSwitchDetails(element)"
+                                [ngStyle]="{'color':selectedRowIndex == i ? 'white' : '#46B1C0'}">Details</button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Save button">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element; let i = index;">
+                            <button mat-button type="button" (click)="onChange(element)"
+                                [ngStyle]="{'color':selectedRowIndex == i ? 'white' : '#01828E'}">Save</button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let element;  let i = index; columns: displayedColumns;"
+                        [ngClass]="{'highlight': selectedRowIndex == i}" (click)="sendMemberMessage(element, i)">
+                    </tr>
+                </table>
+            </div>
+            <!-- <button mat-raised-button type="button" color="accent">Accent</button>
+        <button mat-raised-button type="button" color="primary">Primary</button> -->
+            <mat-paginator [length]="totalRows" [pageSizeOptions]="[20, 50, 100, 200]" (page)="onChangedPage($event)"
+                showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

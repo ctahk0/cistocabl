@@ -1,0 +1,32 @@
+<mat-toolbar *ngIf="userIsAuthenticated" class="fix-nav">
+    <button *ngIf="userIsAuthenticated" type="button" class="min-menu" mat-icon-button (click)="toggleSidebar()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    <div class="nav-brand" *ngIf="userIsAuthenticated">
+            <img src="../../../assets/img/logo-site.jpg" alt="">
+    </div>
+    <div class="nav-brand-small" *ngIf="!userIsAuthenticated">
+            <img src="../../../assets/img/logo-site.jpg" alt="">
+        <!-- We bring you the right target market -->
+    </div>
+
+    <span class="nav-spacer"></span>
+   
+    <div *ngIf="userIsAuthenticated">
+        <button mat-icon-button class="hidden-sm" mat-icon-button [matMenuTriggerFor]="profile" class="menu-button">
+            <mat-icon>account_circle</mat-icon>
+            <!-- <mat-icon matBadge="22" matBadgePosition="above after">home</mat-icon> -->
+        </button>
+        <mat-menu #profile="matMenu">
+            <button mat-menu-item (click)="onProfile()" class="menu-button">
+                <mat-icon>person</mat-icon>
+                <span>Profile</span>
+            </button>
+ 
+        </mat-menu>
+    </div>
+    <button *ngIf="userIsAuthenticated" mat-icon-button (click)="onLoggedout()">
+        <mat-icon>exit_to_app</mat-icon>
+    </button>
+
+</mat-toolbar>

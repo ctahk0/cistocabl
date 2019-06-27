@@ -1,0 +1,53 @@
+:host {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+  }
+  .fix-nav {
+    background-color: #E0E0E0;
+    border-bottom: solid;
+    border-bottom-width: 0.5px;
+    border-color: #adadad;
+  }
+  /* .nav-brand {
+    width: 215px;
+    text-align: center;
+  } */
+  .topnav-icon {
+    text-decoration: none;
+    display: flex;
+    color: #fff;
+  }
+  .nav-spacer {
+    flex: 1 1 auto;
+  }
+ 
+  .min-menu {
+    display: none;
+  }
+  
+  @media only screen and (max-width:992px){
+    .min-menu {
+      display:block;
+    }
+    .nav-brand-small {
+      font-size: 1.4rem;
+      width: 100%;
+      text-align: center;
+      margin: auto;
+    }
+    .nav-brand {
+      display: none;
+    }
+    /* .user-credit {
+      font-size: 0.7em;
+    } */
+   }
+
+.menu-button {
+  outline: none !important;
+  box-shadow: none;
+}

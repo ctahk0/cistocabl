@@ -1,0 +1,66 @@
+.main-card {
+    max-width: 690px;
+}
+.title {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-content: center;
+    text-align: center;
+    background-color: #FCB72A;
+    /* margin: auto; */
+}
+.main-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+.main-form-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.main-form-body {
+    display: flex;
+}
+.main-form-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* justify-content: flex-end; */
+    align-items: center;
+    margin-bottom: 30px;
+}
+.textarea-form-field {
+    flex-grow: 1;
+}
+.form-field {
+    padding-right: 8px;
+}
+.option-button {
+    padding: 10px;
+}
+
+.main-form-bottom {
+    display: flex;
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+}
+.main-form-bottom > button{
+    margin: auto;
+}
+.vrsta-klijenta {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+}
+.radio-label {
+    color: darkgrey;
+}
+
+@media screen and (max-width: 960px) {
+    mat-card {
+        max-width: 100%;
+    }
+}

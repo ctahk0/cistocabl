@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ title }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()" style="font-size:1.4rem;">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="font-size:1.3rem;">
+    {{ message }}
+</div>
+<div class="modal-footer">
+    <button class="bot-button" mat-raised-button color="warn" (click)="accept()">{{ btnOkText }}</button>
+    <button class="bot-button" mat-raised-button color="primary" (click)="decline()">{{ btnCancelText }}</button>
+</div>

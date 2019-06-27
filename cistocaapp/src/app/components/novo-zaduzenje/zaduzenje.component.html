@@ -1,0 +1,84 @@
+<app-sidebar></app-sidebar>
+
+<div class="main-container">
+    <mat-card class="main-card">
+        <!-- Title of an Card -->
+        <mat-card-title class="title">
+            Novo Zaduženje
+        </mat-card-title>
+
+        <mat-card-content>
+            <form [formGroup]="zaduzenjeForm" (ngSubmit)="onSubmit()">
+
+                <div class="main-form">
+                    <div class="main-form-header">
+                        <mat-form-field class="form-field">
+                            <mat-label> Broj:</mat-label>
+                            <input matInput formControlName="broj">
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label> Datum:</mat-label>
+                            <input matInput formControlName="datum" [matDatepicker]="picker">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="main-form-body">
+                        <mat-form-field class="textarea-form-field">
+                            <mat-label> Opis:</mat-label>
+                            <textarea matInput rows="5" formControlName="opis"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="main-form-footer">
+                        <mat-form-field class="form-field">
+                            <mat-label> Zaduženje:</mat-label>
+                            <mat-select formControlName="tip_zaduzenja" (selectionChange)=onChange($event)>
+                                <mat-option *ngFor="let e of tip" [value]="e">
+                                    {{e}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="vrsta-klijenta">
+                            <label class="radio-label"> Izaberite:</label>
+                            <mat-radio-group formControlName="vrsta_klijenta">
+                                <mat-radio-button class="option-button" *ngFor="let e of vrsta" [value]="e">
+                                    {{e}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+
+                    <div class="main-form-footer">
+                        <!-- We can call it like this because we use get in ts. -->
+                        <mat-form-field *ngIf="tip_zaduzenja.value == 'Kontrola'" class="form-field">
+                            <mat-label> Vrsta kontrole:</mat-label>
+                            <mat-select formControlName="kontrola_opis">
+                                <mat-option *ngFor="let e of kontrole" [value]="e">
+                                    {{e}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="main-form-body">
+                        <mat-form-field class="textarea-form-field">
+                            <mat-label> Napomena:</mat-label>
+                            <textarea matInput rows="5" formControlName="napomena"></textarea>
+                        </mat-form-field>
+                    </div>
+
+
+                </div>
+                <div class="main-form-bottom">
+                    <button mat-raised-button type="submit">Pošalji</button>
+                </div>
+                {{tip_zaduzenja.value}}
+                {{zaduzenjeForm.value | json}}
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+</div>

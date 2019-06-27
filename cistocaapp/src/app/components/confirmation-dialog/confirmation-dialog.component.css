@@ -1,0 +1,12 @@
+.modal-title, .modal-body {
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+
+.close {
+    outline: none !important;
+    box-shadow: none;
+}
+
+.bot-button {
+    min-width: 100px;
+}

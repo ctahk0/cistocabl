@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-// import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 import { MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -29,9 +29,10 @@ export class LandingComponent implements OnInit, OnDestroy {
     //     private activatedRoute: ActivatedRoute) { }
 
     constructor(
-            private router: Router,
-            private messageService: MessageService,
-            private activatedRoute: ActivatedRoute) { }
+        private authService: AuthService,
+        private router: Router,
+        private messageService: MessageService,
+        private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
 
@@ -47,6 +48,7 @@ export class LandingComponent implements OnInit, OnDestroy {
 
     }
     switchLogin() {
+        console.log('User is loged in');
         if (this.login === true) {
             this.paramsLogin = 'false';
         }
