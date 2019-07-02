@@ -45,8 +45,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isAdmin = userInfo.isUserLogged;
         this.os = userInfo.os;
 
-        this.showList();
-
+        // this.showList();
+        this.getCustomer();
         this.authListenerSubs = this.authService
             .getAuthStatus()
             .subscribe(isAuthenticated => {
@@ -62,6 +62,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.zaduzenja = mydata.data;
                 this.dataSource = new MatTableDataSource(this.zaduzenja);
                 this.dataSource.sort = this.sort;
+                this.isLoading = false;
+                // this.dataSource.paginator = this.paginator;
+            });
+    }
+
+    getCustomer() {
+        this.isLoading = true;
+        const ps = 20;
+        const pi = 0;
+        const filt = '';
+        this.mysqlservice.getCustomer(ps, pi, filt)
+            .subscribe((mydata: any) => {
+                console.log(mydata);
                 this.isLoading = false;
                 // this.dataSource.paginator = this.paginator;
             });

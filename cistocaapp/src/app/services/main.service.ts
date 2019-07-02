@@ -20,6 +20,13 @@ export class MainService {
 
   constructor(private _http: HttpClient) { }
 
+  /** ==================== KLIJENT LIST ================================================= */
+  getCustomer(pageSize: number, pageIndex: number, filter: string): Observable<any> {
+    console.log('Get customer');
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
+    return this._http.get(this._url + 'user/customer' + queryParams, httpOptions);
+  }
+
   /** ==================== ZADUZENJA LIST =============================================== */
   getZaduzenja(pageSize: number, pageIndex: number, filter: string): Observable<any> {
     const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
