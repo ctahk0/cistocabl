@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MainService } from 'src/app/services/main.service';
 import { MessageService } from 'primeng/api';
 
@@ -39,13 +39,17 @@ export class ZaduzenjeComponent implements OnInit {
             opis: '',
             klijent: [{ sif_par: '', naz_par: '', vrsta_klijenta: '', uli_bro: '', sif_uli: '', bro_sif: '' }],
             ulice: [],
-            inkasanti: [''],
+            inkasanti: ['', [Validators.required]],
             tip_zaduzenja: '',
             kontrola_opis: '',
             napomena: ''
         });
 
         this.getInkasanti();
+    }
+
+    get inkasanti() {
+        return this.zaduzenjeForm.get('inkasanti');
     }
 
     getInkasanti() {
@@ -58,6 +62,7 @@ export class ZaduzenjeComponent implements OnInit {
             this.isLoading = false;
         });
     }
+
     getCustomer() {
         this.isLoading = true;
         const ps = 20;
@@ -187,23 +192,25 @@ export class ZaduzenjeComponent implements OnInit {
         console.log('SUBMITTING FORM!');
         this.zaduzenjeForm.controls['ulice'].patchValue(this.selected_ulice);
         console.log(this.zaduzenjeForm.value);
-        this.mysqlservice.insertToDb(this.zaduzenjeForm.value).subscribe(resp => {
-            console.log(resp);
-            if (resp['status'] === 201) {
-                this.messageService.add({
-                    severity: 'info',
-                    summary: 'Kreiranje naloga',
-                    detail: 'Nalog uspješno kreiran!'
-                });
-                this.customerFilter = '';
-                this.streetFilter = '';
-                this.klijenti = null;
-                this.ulice = null;
-                this.selected_klijenti = [];
-                this.selected_ulice = [];
-                this.zaduzenjeForm.reset();
-            }
-        });
+        if (!this.zaduzenjeForm.invalid) {
+            this.mysqlservice.insertToDb(this.zaduzenjeForm.value).subscribe(resp => {
+                console.log(resp);
+                if (resp['status'] === 201) {
+                    this.messageService.add({
+                        severity: 'info',
+                        summary: 'Kreiranje naloga',
+                        detail: 'Nalog uspješno kreiran!'
+                    });
+                    this.customerFilter = '';
+                    this.streetFilter = '';
+                    this.klijenti = null;
+                    this.ulice = null;
+                    this.selected_klijenti = [];
+                    this.selected_ulice = [];
+                    this.zaduzenjeForm.reset();
+                }
+            });
+        }
     }
 
     applyCustomerFilter(filterValue: string) {

@@ -48,6 +48,9 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
+                            <mat-error *ngIf="inkasanti.invalid && inkasanti.touched">
+                                Morate izabrati inkasanta!
+                            </mat-error>
                         </div>
                     </div>
                     <div class="main-form-body">
@@ -227,7 +230,7 @@
                     <button mat-raised-button (click)=onSaveNalog()>Pošalji</button>
                 </div>
 
-                {{zaduzenjeForm.value | json}}
+                {{zaduzenjeForm.invalid}}
             </form>
         </mat-card-content>
     </mat-card>
