@@ -8,6 +8,8 @@ const router = express.Router();
 
 const userController = require('../../controlers/user');
 
+/** Fetch customer (klijent) data */
+router.get('/customer', checkAuth, userController.getCustomer);
 
 /** Fetch user profile data */
 router.get('/profile', checkAuth, userController.getUserData);

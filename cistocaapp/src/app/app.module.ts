@@ -42,7 +42,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TopnavComponent } from './components/topnav/topnav.component';
 import { ZaduzenjeComponent } from './components/novo-zaduzenje/zaduzenje.component';
-import { MatDatepickerModule } from '@angular/material';
+import { MatDatepickerModule, MatExpansionModule } from '@angular/material';
 
 
 @NgModule({
@@ -89,7 +89,8 @@ import { MatDatepickerModule } from '@angular/material';
     MatButtonToggleModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatExpansionModule
   ],
   providers: [ConfirmationDialogService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

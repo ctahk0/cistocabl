@@ -1,30 +1,181 @@
 <app-sidebar></app-sidebar>
-
+<p-toast></p-toast>
 <div class="main-container">
     <mat-card class="main-card">
         <!-- Title of an Card -->
         <mat-card-title class="title">
-            Novo Zaduženje
+            <div>
+                Nalog inkasantima - zaduženje
+            </div>
         </mat-card-title>
-
+        <mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
         <mat-card-content>
-            <form [formGroup]="zaduzenjeForm" (ngSubmit)="onSubmit()">
-
+            <form [formGroup]="zaduzenjeForm">
                 <div class="main-form">
                     <div class="main-form-header">
-                        <mat-form-field class="form-field">
-                            <mat-label> Broj:</mat-label>
-                            <input matInput formControlName="broj">
-                        </mat-form-field>
+                        <div class="main-form-header">
+                            <mat-form-field class="form-field">
+                                <mat-label> Broj:</mat-label>
+                                <input matInput formControlName="broj">
+                            </mat-form-field>
 
+                            <mat-form-field>
+                                <mat-label> Datum:</mat-label>
+                                <input matInput formControlName="datum" [matDatepicker]="picker">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="header-buttons">
+                            <button mat-raised-button class="header-buttons-items" 
+                                (click)="onNewNalog()">Novi nalog</button>
+                            <button mat-raised-button class="header-buttons-items"
+                                (click)="onSaveNalog()">Pošalji</button>
+                            <button mat-raised-button class="header-buttons-items" color="warn"
+                                (click)="onDeleteNalog()">Obriši</button>
+                        </div>
+                    </div>
+                    <div class="main-form-header">
+                        <div>
+
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Izaberite inkasanta</mat-label>
+                                <mat-select formControlName="inkasanti" multiple>
+                                    <mat-option *ngFor="let inkasant of inkasantiList" [value]="inkasant.id">{{inkasant.firstname}} {{inkasant.lastname}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="main-form-body">
+                        <!-- Klijent -->
                         <mat-form-field>
-                            <mat-label> Datum:</mat-label>
-                            <input matInput formControlName="datum" [matDatepicker]="picker">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-label>Izaberite klijenta po šifri ili nazivu</mat-label>
+                            <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text" formControlName="klijent_filter"
+                                (keyup)="applyCustomerFilter($event.target.value)" autocomplete="off">
+                        </mat-form-field>
+                        <!-- Klijent ulica -->
+                        <mat-form-field>
+                            <mat-label>Izaberite ulicu</mat-label>
+                            <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text" formControlName="ulica_filter"
+                                (keyup)="applyStreetFilter($event.target.value)" autocomplete="off">
                         </mat-form-field>
                     </div>
+                    <div class="main-form-body">
+                        <div class="row">
+                            <mat-card class="customer-list">
+                                <mat-selection-list dense #klijent_selection *ngIf="klijenti"
+                                    (selectionChange)="onSelectClient($event)">
+                                    <mat-list-option *ngFor="let klijent of klijenti" [value]="{
+                                            sif_par: klijent.sif_par, 
+                                            naz_par: klijent.naz_par, 
+                                            uli_bro: klijent.uli_bro,
+                                            sif_uli: klijent.sif_uli,
+                                            bro_sif: klijent.bro_sif,
+                                            vrsta_klijenta: klijent.vrsta_klijenta}"
+                                        [selected]="klijent.selected === 1">
+                                        {{klijent.sif_par}} {{klijent.naz_par}}
+                                    </mat-list-option>
+                                </mat-selection-list>
+                            </mat-card>
+                            <mat-card class="customer-list">
+                                <div>
+                                    <mat-selection-list dense #ulica_selection *ngIf="ulice">
+                                        <mat-list-item *ngFor="let ulica of ulice; let i = index">
+                                            <!-- <input type="text" formControlName="sifra_uli" value="{{ulica.sif_uli}}"> -->
+                                            {{ulica.naz_uli}}
+                                            <!-- <input type="text" formControlName="naz_uli" value="{{ulica.naz_uli}}"> -->
+                                            <span class="spacer"></span>
+                                            <div>
+                                                <input type="text" placeholder="Od" class="street-no" #brojod
+                                                    value="{{ulica.broj_od}}">
+                                                <input type="text" placeholder="Do" class="street-no" #brojdo
+                                                    value="{{ulica.broj_do}}">
+                                            </div>
+                                            <mat-checkbox style="margin-left: 3px;" [checked]="ulica.selected === 1"
+                                                (change)="onSelectUlica($event, {
+                                                    sif_uli: ulica.sif_uli, 
+                                                    naz_uli: ulica.naz_uli, 
+                                                    broj_od: brojod.value,
+                                                    broj_do: brojdo.value
+                                                }); false">
+                                            </mat-checkbox>
+                                        </mat-list-item>
+                                    </mat-selection-list>
+                                    <!-- <mat-selection-list dense #ulica_selection *ngIf="ulice"
+                                    (selectionChange)="onSelectUlica($event)">
+                                    <mat-list-option *ngFor="let ulica of ulice"
+                                    [value]="{sif_uli: ulica.sif_uli, naz_uli: ulica.naz_uli}"
+                                    [selected]="ulica.selected == '1'">
+                                    <div class="street-line">
+                                        <div>
+                                            {{ulica.naz_uli}}
+                                        </div>
+                                        <span class="spacer"></span>
+                                        <div>
+                                            Od: <input type="text" class="street-no">Do: <input type="text" class="street-no">
+                                        </div> 
+                                    </div>
+                                </mat-list-option>
+                            </mat-selection-list> -->
+                                </div>
+                            </mat-card>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="main-form-body">
+                        <div class="row">
+                            <mat-card class="customer-list highlight">
+                                <mat-card-title>Za nalog - klijenti</mat-card-title>
+                                <mat-selection-list dense #selected_klijent *ngIf="selected_klijenti">
+                                    <mat-list-item *ngFor="let klijent of selected_klijenti">
+                                        <div>
+                                            {{klijent.sif_par}} {{klijent.naz_par}}
+                                        </div>
+                                        <span class="spacer"></span>
+                                        <button mat-button (click)="onDetailsKlijent(klijent.sif_par)">
+                                            Detaljnije
+                                        </button>
+                                        <button mat-icon-button (click)="onRemoveKlijent(klijent.sif_par)" color="warn">
+                                            <mat-icon>delete_forever</mat-icon>
+                                        </button>
+                                    </mat-list-item>
+                                </mat-selection-list>
+                            </mat-card>
+                            <mat-card class="customer-list highlight">
+                                <mat-card-title>Za nalog - ulice</mat-card-title>
+                                <mat-selection-list dense #selected_ulica *ngIf="selected_ulice">
+                                    <mat-list-item *ngFor="let ulica of selected_ulice">
+                                        <div>
+                                            {{ulica.naz_uli}}, {{ulica.broj_od}} - {{ulica.broj_do}}
+                                        </div>
+                                        <span class="spacer"></span>
+                                        <button mat-icon-button (click)="onRemoveUlica(ulica.sif_uli)" color="warn">
+                                            <mat-icon>delete_forever</mat-icon>
+                                        </button>
+                                    </mat-list-item>
+                                </mat-selection-list>
+                            </mat-card>
+                        </div>
+                    </div>
 
+                    <!-- <mat-select placeholder="Izaberite klijenta" (openedChange)="searchCustomer.focus()"
+                                formControlName="sifra_klijenta" (selectionChange)="onChange()">
+                                <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text"
+                                    (keyup)="applyCustomerFilter($event.target.value)" autocomplete="off"
+                                    placeholder="Pretraga po šifri ili nazivu klijenta">
+                                <mat-divider></mat-divider>
+                                <mat-option *ngFor="let klijent of klijenti" [value]="klijent.sif_par">
+                                    {{klijent.sif_par}} {{klijent.naz_par}}
+                                </mat-option>
+                            </mat-select> -->
+                    <!-- </mat-form-field> -->
+                    <!-- END Klijent -->
+                    <!-- </div> -->
+                    <p></p>
                     <div class="main-form-body">
                         <mat-form-field class="textarea-form-field">
                             <mat-label> Opis:</mat-label>
@@ -35,20 +186,20 @@
                     <div class="main-form-footer">
                         <mat-form-field class="form-field">
                             <mat-label> Zaduženje:</mat-label>
-                            <mat-select formControlName="tip_zaduzenja" (selectionChange)=onChange($event)>
+                            <mat-select formControlName="tip_zaduzenja">
                                 <mat-option *ngFor="let e of tip" [value]="e">
                                     {{e}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <div class="vrsta-klijenta">
+                        <!-- <div class="vrsta-klijenta">
                             <label class="radio-label"> Izaberite:</label>
                             <mat-radio-group formControlName="vrsta_klijenta">
                                 <mat-radio-button class="option-button" *ngFor="let e of vrsta" [value]="e">
                                     {{e}}
                                 </mat-radio-button>
                             </mat-radio-group>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="main-form-footer">
@@ -73,9 +224,9 @@
 
                 </div>
                 <div class="main-form-bottom">
-                    <button mat-raised-button type="submit">Pošalji</button>
+                    <button mat-raised-button (click)=onSaveNalog()>Pošalji</button>
                 </div>
-                {{tip_zaduzenja.value}}
+
                 {{zaduzenjeForm.value | json}}
             </form>
         </mat-card-content>

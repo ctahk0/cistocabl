@@ -1,5 +1,9 @@
+mat-spinner {
+    position: fixed;
+    left: 50%;
+}
 .main-card {
-    max-width: 690px;
+    max-width: 1380px;
 }
 .title {
     padding-top: 20px;
@@ -8,6 +12,14 @@
     text-align: center;
     background-color: #FCB72A;
     /* margin: auto; */
+}
+/* .header-buttons {
+    min-width: 600px;
+    display: flex;
+    justify-content: flex-end;
+} */
+.header-buttons-items {
+    margin-left: 5px;
 }
 .main-form {
     display: flex;
@@ -21,6 +33,7 @@
 }
 .main-form-body {
     display: flex;
+    justify-content: space-between;
 }
 .main-form-footer {
     margin-top: 20px;
@@ -40,7 +53,13 @@
 .option-button {
     padding: 10px;
 }
-
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
 .main-form-bottom {
     display: flex;
     margin-top: 50px;
@@ -58,9 +77,34 @@
 .radio-label {
     color: darkgrey;
 }
-
+/* .searchCustomer { */
+    /* height: 50px !important; */
+    /* padding: 10px !important; */
+/* } */
+.customer-list {
+    height: 200px;
+    /* min-width: 300px; */
+    width: 50%;
+    overflow: auto;
+}
+.highlight {
+    background-color: antiquewhite;
+}
+.spacer {
+    flex-grow: 1;
+}
+.street-no {
+    max-width: 50px;
+}
+.street-line {
+    display: flex;
+    flex-direction: row;
+}
 @media screen and (max-width: 960px) {
     mat-card {
         max-width: 100%;
+    }
+    .row {
+        flex-direction: column;
     }
 }

@@ -21,16 +21,28 @@ export class MainService {
   constructor(private _http: HttpClient) { }
 
   /** ==================== KLIJENT LIST ================================================= */
-  getCustomer(pageSize: number, pageIndex: number, filter: string): Observable<any> {
-    console.log('Get customer');
-    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
+  getCustomer(pageSize: number, pageIndex: number, filter: string, streets: string): Observable<any> {
+    // console.log('Get customer');
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}&streets=${streets}`;
     return this._http.get(this._url + 'user/customer' + queryParams, httpOptions);
+  }
+
+  getStreet(pageSize: number, pageIndex: number, filter: string): Observable<any> {
+    // console.log('Get street');
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
+    return this._http.get(this._url + 'user/street' + queryParams, httpOptions);
   }
 
   /** ==================== ZADUZENJA LIST =============================================== */
   getZaduzenja(pageSize: number, pageIndex: number, filter: string): Observable<any> {
     const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
     return this._http.get(this._url + 'admin/zaduzenja' + queryParams, httpOptions);
+  }
+
+  /** ==================== ZADUZENJA LIST =============================================== */
+  getInkasanti(pageSize: number, pageIndex: number, filter: string): Observable<any> {
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
+    return this._http.get(this._url + 'admin/inkasanti' + queryParams, httpOptions);
   }
 
   /** ====================INSERT TO DB FUNCTION CALL ==================================== */

@@ -3,7 +3,29 @@ const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const db = require('../api/util/database');
 
+const klijent = require('../models/klijent');
 
+/** Get klijents */
+exports.getCustomer = (req, res, next) => {
+    console.log('Idemo sa GET CUSTOMER!!!!!');
+    // readData(query, tableName, filterColumns) --- za sva citanja iz tabela
+    klijent.readData(req.query,'pos_par','sif_par,naz_par', cb => {
+        if (cb.status === 200) {
+            res.status(200).json({
+                status: cb.status,
+                message: cb.message,
+                totalRec: cb.totalRec,
+                data: cb.data
+            });
+        } else {
+            res.status(cb.status).json({
+                status: cb.status,
+                message: cb.message,
+                error: cb.error
+            });
+        }
+    });
+}
 
 /** Get user profile data */
 exports.getUserData = (req, res, next) => {
