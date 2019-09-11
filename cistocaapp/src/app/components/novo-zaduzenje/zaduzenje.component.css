@@ -100,6 +100,7 @@ mat-spinner {
     display: flex;
     flex-direction: row;
 }
+
 @media screen and (max-width: 960px) {
     mat-card {
         max-width: 100%;

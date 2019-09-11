@@ -19,10 +19,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         'broj',
         'datum',
         'opis',
+        'tip_zaduzenja',
+        'kontrola_opis',
+        'napomena',
         'vrsta_klijenta',
-        'dostava',
-        'kontrola',
-        'Details button', 'Save button'];
+        'status',
+        'Details button'];
 
     dataSource: MatTableDataSource<any>;
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
