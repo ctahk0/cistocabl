@@ -27,6 +27,13 @@ export class MainService {
     return this._http.get(this._url + 'user/customer' + queryParams, httpOptions);
   }
 
+  /** ==================== KLIJENT LIST ================================================= */
+  getZaduzenjeKlijenti(pageSize: number, pageIndex: number, filter: string, streets: string): Observable<any> {
+    // console.log('Get customer');
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}&streets=${streets}`;
+    return this._http.get(this._url + 'admin/zaduzenjeklijenti' + queryParams, httpOptions);
+  }
+
   getStreet(pageSize: number, pageIndex: number, filter: string): Observable<any> {
     // console.log('Get street');
     const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
@@ -39,7 +46,7 @@ export class MainService {
     return this._http.get(this._url + 'admin/zaduzenja' + queryParams, httpOptions);
   }
 
-  /** ==================== ZADUZENJA LIST =============================================== */
+  /** ==================== INKASANTI LIST =============================================== */
   getInkasanti(pageSize: number, pageIndex: number, filter: string): Observable<any> {
     const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
     return this._http.get(this._url + 'admin/inkasanti' + queryParams, httpOptions);

@@ -4,6 +4,7 @@ import { AuthService } from '../auth/auth.service';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { MainService } from 'src/app/services/main.service';
 import { Router } from '@angular/router';
+import { ZaduzenjeService } from '../novo-zaduzenje/zaduzenje.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -37,10 +38,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     filter = '';
     selectedRowIndex = -1;
 
+    details: object;
+
     private authListenerSubs: Subscription;
 
 
-    constructor(private authService: AuthService, private mysqlservice: MainService, private router: Router) { }
+    constructor(private authService: AuthService,
+        private mysqlservice: MainService,
+        private zaduzenjeService: ZaduzenjeService,
+        private router: Router) { }
 
     ngOnInit() {
         const userInfo = this.authService.isUserLogged();
@@ -54,6 +60,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
             .subscribe(isAuthenticated => {
                 this.userIsAuthenticated = isAuthenticated;
             });
+
+        this.zaduzenjeService.currentDetails.subscribe(details => this.details = details);
     }
 
     showList() {
@@ -89,6 +97,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     onNovoZaduzenje() {
         this.router.navigate(['/zaduzenje']);
+    }
+
+    onSwitchDetails(e) {
+        console.log(e);
+        this.details = e;
+        console.log(e.broj);
+        this.mysqlservice.getZaduzenjeKlijenti(1000, 0, e.broj, null).subscribe((mydata: any) => {
+            console.log('------------');
+            console.log(mydata);
+            this.details['klijent'] = mydata.klijenti;
+            this.details['inkasant'] = mydata.inkasanti;
+            this.zaduzenjeService.changeMessage(this.details);
+            this.router.navigate(['/zaduzenje']);
+        });
     }
 
     ngOnDestroy() {

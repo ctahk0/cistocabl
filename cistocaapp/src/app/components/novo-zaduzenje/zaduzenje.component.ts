@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MainService } from 'src/app/services/main.service';
 import { MessageService } from 'primeng/api';
+import { ZaduzenjeService } from './zaduzenje.service';
 
 @Component({
     selector: 'app-Zaduzenje',
@@ -26,37 +27,68 @@ export class ZaduzenjeComponent implements OnInit {
     customerFilter = '';
     streetFilter = '';
     selectedStreetFilter = '';
+    inkasantiNalog = '';
 
-    constructor(private fb: FormBuilder, private mysqlservice: MainService, private messageService: MessageService) { }
+    details: object;
+    staticForm = false;
+
+    constructor(private fb: FormBuilder,
+        private mysqlservice: MainService,
+        private messageService: MessageService,
+        private zaduzenjeService: ZaduzenjeService
+    ) { }
 
     ngOnInit() {
 
-        this.zaduzenjeForm = this.fb.group({
-            klijent_filter: '',
-            ulica_filter: '',
-            broj: '',
-            datum: '',
-            opis: '',
-            klijent: [{ sif_par: '', naz_par: '', vrsta_klijenta: '', uli_bro: '', sif_uli: '', bro_sif: '' }],
-            ulice: [],
-            inkasanti: ['', [Validators.required]],
-            tip_zaduzenja: '',
-            kontrola_opis: '',
-            napomena: ''
-        });
-
-        this.getInkasanti();
+        this.zaduzenjeService.currentDetails.subscribe(details => this.details = details);
+        console.log('this details:', this.details);
+        console.log(Object.keys(this.details).length);
+        // !Object.keys(myObject).length
+        if (Object.keys(this.details).length !== 0) {
+            this.staticForm = true;
+            const klarr = this.details['klijent'];
+            for (let i = 0; i < klarr.length; i++) {
+                this.selected_klijenti.push({ sif_par: klarr[i]['klijent_id'], naz_par: klarr[i]['klijent_naziv'] });
+            }
+            console.log(this.selected_klijenti);
+            this.zaduzenjeForm = this.fb.group({
+                broj: [{ value: this.details['broj'], disabled: true }],
+                datum: [{ value: this.details['datum'], disabled: true }],
+                opis: [{ value: this.details['opis'], disabled: true }],
+                tip_zaduzenja: [{ value: this.details['tip_zaduzenja'], disabled: true }],
+                kontrola_opis: [{ value: this.details['kontrola_opis'], disabled: true }],
+                napomena: [{ value: this.details['napomena'], disabled: true }]
+            });
+            this.zaduzenjeService.changeMessage(null);
+            this.getInkasanti('2,3');
+        } else {
+            this.staticForm = false;
+            this.zaduzenjeForm = this.fb.group({
+                klijent_filter: '',
+                ulica_filter: '',
+                broj: '',
+                datum: '',
+                opis: '',
+                klijent: [{ sif_par: '', naz_par: '', vrsta_klijenta: '', uli_bro: '', sif_uli: '', bro_sif: '' }],
+                ulice: [],
+                inkasanti: ['', [Validators.required]],
+                tip_zaduzenja: '',
+                kontrola_opis: '',
+                napomena: ''
+            });
+            this.getInkasanti('');
+        }
     }
 
     get inkasanti() {
         return this.zaduzenjeForm.get('inkasanti');
     }
 
-    getInkasanti() {
+    getInkasanti(fi: string) {
         this.isLoading = true;
         const ps = 50;
         const pi = 0;
-        this.mysqlservice.getInkasanti(ps, pi, '').subscribe((mydata: any) => {
+        this.mysqlservice.getInkasanti(ps, pi, fi).subscribe((mydata: any) => {
             this.inkasantiList = mydata.data;
             console.log(mydata);
             this.isLoading = false;

@@ -28,15 +28,15 @@
                         </div>
 
                         <div class="header-buttons">
-                            <button mat-raised-button class="header-buttons-items" 
-                                (click)="onNewNalog()">Novi nalog</button>
-                            <button mat-raised-button class="header-buttons-items"
+                            <button mat-raised-button class="header-buttons-items" (click)="onNewNalog()">Novi
+                                nalog</button>
+                            <button *ngIf="!staticForm" mat-raised-button class="header-buttons-items"
                                 (click)="onSaveNalog()">Pošalji</button>
-                            <button mat-raised-button class="header-buttons-items" color="warn"
+                            <button *ngIf="!staticForm" mat-raised-button class="header-buttons-items" color="warn"
                                 (click)="onDeleteNalog()">Obriši</button>
                         </div>
                     </div>
-                    <div class="main-form-header">
+                    <div *ngIf="!staticForm" class="main-form-header">
                         <div>
 
                         </div>
@@ -44,30 +44,48 @@
                             <mat-form-field>
                                 <mat-label>Izaberite inkasanta</mat-label>
                                 <mat-select formControlName="inkasanti" multiple>
-                                    <mat-option *ngFor="let inkasant of inkasantiList" [value]="inkasant.id">{{inkasant.firstname}} {{inkasant.lastname}}
+                                    <mat-option *ngFor="let inkasant of inkasantiList" [value]="inkasant.id">
+                                        {{inkasant.firstname}} {{inkasant.lastname}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                            <mat-error *ngIf="inkasanti.invalid && inkasanti.touched" style="font-size: 0.8rem; margin-top: -15px;">
+                            <mat-error *ngIf="inkasanti.invalid && inkasanti.touched"
+                                style="font-size: 0.8rem; margin-top: -15px;">
                                 Morate izabrati inkasanta!
                             </mat-error>
                         </div>
                     </div>
-                    <div class="main-form-body">
+                    <div *ngIf="staticForm" class="main-form-header">
+                        <div>
+
+                        </div>
+                        <div class="inkasanti-list">
+                            <mat-selection-list dense *ngIf="inkasantiList">
+                                <mat-list-item *ngFor="let inkasant of inkasantiList">
+                                    <div>
+                                        {{inkasant.firstname}} {{inkasant.lastname}}
+                                    </div>
+                                </mat-list-item>
+                            </mat-selection-list>
+                        </div>
+                    </div>
+                    <div *ngIf="!staticForm" class="main-form-body">
                         <!-- Klijent -->
                         <mat-form-field>
                             <mat-label>Izaberite klijenta po šifri ili nazivu</mat-label>
-                            <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text" formControlName="klijent_filter"
-                                (keyup)="applyCustomerFilter($event.target.value)" autocomplete="off">
+                            <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text"
+                                formControlName="klijent_filter" (keyup)="applyCustomerFilter($event.target.value)"
+                                autocomplete="off">
                         </mat-form-field>
                         <!-- Klijent ulica -->
                         <mat-form-field>
                             <mat-label>Izaberite ulicu</mat-label>
-                            <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text" formControlName="ulica_filter"
-                                (keyup)="applyStreetFilter($event.target.value)" autocomplete="off">
+                            <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text"
+                                formControlName="ulica_filter" (keyup)="applyStreetFilter($event.target.value)"
+                                autocomplete="off">
                         </mat-form-field>
                     </div>
-                    <div class="main-form-body">
+                    <div *ngIf="!staticForm" class="main-form-body">
                         <div class="row">
                             <mat-card class="customer-list">
                                 <mat-selection-list dense #klijent_selection *ngIf="klijenti"
@@ -142,7 +160,8 @@
                                         <button mat-button (click)="onDetailsKlijent(klijent.sif_par)">
                                             Detaljnije
                                         </button>
-                                        <button mat-icon-button (click)="onRemoveKlijent(klijent.sif_par)" color="warn">
+                                        <button *ngIf="!staticForm" mat-icon-button
+                                            (click)="onRemoveKlijent(klijent.sif_par)" color="warn">
                                             <mat-icon>delete_forever</mat-icon>
                                         </button>
                                     </mat-list-item>
@@ -156,7 +175,8 @@
                                             {{ulica.naz_uli}}, {{ulica.broj_od}} - {{ulica.broj_do}}
                                         </div>
                                         <span class="spacer"></span>
-                                        <button mat-icon-button (click)="onRemoveUlica(ulica.sif_uli)" color="warn">
+                                        <button *ngIf="!staticForm" mat-icon-button
+                                            (click)="onRemoveUlica(ulica.sif_uli)" color="warn">
                                             <mat-icon>delete_forever</mat-icon>
                                         </button>
                                     </mat-list-item>

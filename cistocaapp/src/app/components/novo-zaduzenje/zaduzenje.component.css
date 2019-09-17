@@ -87,6 +87,12 @@ mat-spinner {
     width: 50%;
     overflow: auto;
 }
+.inkasanti-list {
+    height: 150px;
+    /* min-width: 300px; */
+    /* width: 70%; */
+    overflow: auto;
+}
 .highlight {
     background-color: antiquewhite;
 }
