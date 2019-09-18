@@ -89,22 +89,21 @@ export class ZaduzenjeComponent implements OnInit {
     }
 
     getInkasanti(fi: string) {
-        console.log('pozvani getInkasanti:', fi);
         this.isLoading = true;
         const ps = 50;
         const pi = 0;
         this.mysqlservice.getInkasanti(ps, pi, fi).subscribe((mydata: any) => {
             this.inkasantiList = mydata.data;
-            console.log(mydata);
             this.isLoading = false;
         });
     }
 
     getCustomer() {
         this.isLoading = true;
-        const ps = 20;
+        const ps = 200;
         const pi = 0;
-        this.mysqlservice.getCustomer(ps, pi, this.customerFilter, this.selectedStreetFilter)
+        console.log(this.selectedStreetFilter);
+        this.mysqlservice.getCustomer(ps, pi, this.customerFilter, this.selectedStreetFilter, 1, 2)
             .subscribe((mydata: any) => {
                 // console.log(mydata.data);
                 mydata.data.map(klijent => {
@@ -135,7 +134,7 @@ export class ZaduzenjeComponent implements OnInit {
 
     getStreet() {
         this.isLoading = true;
-        const ps = 20;
+        const ps = 200;
         const pi = 0;
         this.mysqlservice.getStreet(ps, pi, this.streetFilter)
             .subscribe((streetdata: any) => {
@@ -200,6 +199,7 @@ export class ZaduzenjeComponent implements OnInit {
     }
 
     onSelectUlica(e, ulica) {
+        console.log(this.selected_ulice);
         if (e.checked) {
             ulica.selected = 1;
             this.selected_ulice.push(ulica);
@@ -208,14 +208,14 @@ export class ZaduzenjeComponent implements OnInit {
             this.selected_ulice = this.selected_ulice.filter(el => el.sif_uli !== ulica.sif_uli);
         }
 
-        const array = [];
+        const arrUlice = [];
         for (const i in this.selected_ulice) {
             if (this.selected_ulice.hasOwnProperty(i)) {
-                array.push(this.selected_ulice[i].sif_uli);
+                arrUlice.push(this.selected_ulice[i].sif_uli);
             }
         }
         // tslint:disable-next-line: quotemark
-        this.selectedStreetFilter = "'" + array.join("','") + "'";
+        this.selectedStreetFilter = "'" + arrUlice.join("','") + "'";
         // console.log(this.selectedStreetFilter);
         this.getCustomer();
     }

@@ -21,14 +21,14 @@ export class MainService {
   constructor(private _http: HttpClient) { }
 
   /** ==================== KLIJENT LIST ================================================= */
-  getCustomer(pageSize: number, pageIndex: number, filter: string, streets: string): Observable<any> {
+  getCustomer(pageSize: number, pageIndex: number, filter: string, streets: string, brod: number, brdo: number): Observable<any> {
     // console.log('Get customer');
-    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}&streets=${streets}`;
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}&streets=${streets}&brod=${brod}&brdo=${brdo}`;
     return this._http.get(this._url + 'user/customer' + queryParams, httpOptions);
   }
 
   /** ==================== KLIJENT LIST ================================================= */
-  getZaduzenjeKlijenti(pageSize: number, pageIndex: number, filter: string, streets: string): Observable<any> {
+  getZaduzenjeKlijenti(pageSize: number, pageIndex: number, filter: string): Observable<any> {
     // console.log('Get customer');
     const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
     return this._http.get(this._url + 'admin/zaduzenjeklijenti' + queryParams, httpOptions);

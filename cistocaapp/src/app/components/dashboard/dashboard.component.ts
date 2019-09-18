@@ -103,7 +103,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         console.log(e);
         this.details = e;
         console.log(e.broj);
-        this.mysqlservice.getZaduzenjeKlijenti(1000, 0, e.broj, null).subscribe((mydata: any) => {
+        this.mysqlservice.getZaduzenjeKlijenti(1000, 0, e.broj).subscribe((mydata: any) => {
             console.log('------------');
             console.log(mydata);
             this.details['klijent'] = mydata.klijenti;
