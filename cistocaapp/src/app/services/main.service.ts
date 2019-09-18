@@ -30,7 +30,7 @@ export class MainService {
   /** ==================== KLIJENT LIST ================================================= */
   getZaduzenjeKlijenti(pageSize: number, pageIndex: number, filter: string, streets: string): Observable<any> {
     // console.log('Get customer');
-    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}&streets=${streets}`;
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
     return this._http.get(this._url + 'admin/zaduzenjeklijenti' + queryParams, httpOptions);
   }
 

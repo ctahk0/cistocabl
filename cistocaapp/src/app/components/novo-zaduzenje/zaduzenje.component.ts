@@ -51,6 +51,9 @@ export class ZaduzenjeComponent implements OnInit {
                 this.selected_klijenti.push({ sif_par: klarr[i]['klijent_id'], naz_par: klarr[i]['klijent_naziv'] });
             }
             console.log(this.selected_klijenti);
+            const arr = this.details['inkasant'].map(inkasant => inkasant.inkasant_id);
+            const fi = arr.join();
+            console.log('Fi------:', fi);
             this.zaduzenjeForm = this.fb.group({
                 broj: [{ value: this.details['broj'], disabled: true }],
                 datum: [{ value: this.details['datum'], disabled: true }],
@@ -60,7 +63,8 @@ export class ZaduzenjeComponent implements OnInit {
                 napomena: [{ value: this.details['napomena'], disabled: true }]
             });
             this.zaduzenjeService.changeMessage(null);
-            this.getInkasanti('2,3');
+            // this.filter = '(Age In (' + this.filtAge + '))';
+            this.getInkasanti('(id In (' + fi + '))');
         } else {
             this.staticForm = false;
             this.zaduzenjeForm = this.fb.group({
@@ -85,6 +89,7 @@ export class ZaduzenjeComponent implements OnInit {
     }
 
     getInkasanti(fi: string) {
+        console.log('pozvani getInkasanti:', fi);
         this.isLoading = true;
         const ps = 50;
         const pi = 0;
