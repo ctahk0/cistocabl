@@ -46,6 +46,12 @@ export class MainService {
     return this._http.get(this._url + 'admin/zaduzenja' + queryParams, httpOptions);
   }
 
+  /** ==================== MAX BROJ ZADUZENJA =========================================== */
+  getMaxBrojZaduzenja(pageSize: number, pageIndex: number, filter: string): Observable<any> {
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
+    return this._http.get(this._url + 'admin/zaduzenjebroj' + queryParams, httpOptions);
+  }
+
   /** ==================== INKASANTI LIST =============================================== */
   getInkasanti(pageSize: number, pageIndex: number, filter: string): Observable<any> {
     const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;

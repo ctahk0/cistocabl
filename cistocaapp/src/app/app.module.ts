@@ -4,13 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
+import { SidebarModule } from 'primeng/sidebar';
+import { DialogModule } from 'primeng/dialog';
 
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatOptionModule, MatNativeDateModule } from '@angular/material/core';
+import { MatOptionModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -43,8 +45,15 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TopnavComponent } from './components/topnav/topnav.component';
 import { ZaduzenjeComponent } from './components/novo-zaduzenje/zaduzenje.component';
 import { MatDatepickerModule, MatExpansionModule } from '@angular/material';
+import { TextMaskModule } from 'angular2-text-mask';
+import { MomentDateAdapter, MOMENT_DATE_FORMATS } from './moment-date-adapter';
 
-
+import {
+  MAT_DATE_LOCALE,
+  MAT_DATE_FORMATS,
+  DateAdapter,
+  MAT_NATIVE_DATE_FORMATS
+} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -66,6 +75,8 @@ import { MatDatepickerModule, MatExpansionModule } from '@angular/material';
     ReactiveFormsModule,
     HttpClientModule,
     ToastModule,
+    SidebarModule,
+    DialogModule,
     MatSidenavModule,
     MatTableModule,
     MatPaginatorModule,
@@ -90,12 +101,15 @@ import { MatDatepickerModule, MatExpansionModule } from '@angular/material';
     MatButtonToggleModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule,
-    MatExpansionModule
+    MatExpansionModule,
+    TextMaskModule,
   ],
   providers: [ConfirmationDialogService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    { provide: MAT_DATE_LOCALE, useValue: 'sr-SR' },
+    { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },
+    { provide: DateAdapter, useClass: MomentDateAdapter },
   ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorComponent, ConfirmationDialogComponent]

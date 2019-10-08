@@ -9,6 +9,65 @@
             </div>
         </mat-card-title>
         <mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
+
+        <p-dialog header="" [(visible)]="display_details" [contentStyle]="{'max-width':'800px'}">
+            <p-header>
+                {{klijent_sifra}},
+                {{klijent_naziv}}
+            </p-header>
+            <div class="rowTab">
+                <div class="labels">
+                    <label id="name-label" for="name">Klijent:</label>
+                </div>
+                <div class="rightTab">
+                    <input class="input-field" value="{{klijent_naziv}}">
+                </div>
+            </div>
+
+            <div class="rowTab">
+                <div class="labels">
+                    <label id="name-label" for="name">Stanje duga:</label>
+                </div>
+                <div class="rightTab">
+                    <input class="input-field" value="{{klijent_StanjeDuga}}">
+                </div>
+            </div>
+            <div class="rowTab">
+                <div class="labels">
+                    <label id="name-label" for="name">Zadnja kontrola:</label>
+                </div>
+                <div class="rightTab">
+                    <input class="input-field" value="{{klijent_ZadnjaKontrola}}">
+                </div>
+            </div>
+            <div class="rowTab">
+                <div class="labels">
+                    <label id="name-label" for="name">Status:</label>
+                </div>
+                <div class="rightTab">
+                    <input class="input-field" value="{{klijent_Status}}">
+                </div>
+            </div>
+            <div class="rowTab">
+                <div class="labels">
+                    <label id="name-label" for="name">Napomena:</label>
+                </div>
+                <div class="rightTab">
+                    <textarea class="input-field dtextarea" >{{klijent_Napomena}}</textarea>
+                </div>
+            </div>
+            <!-- {{klijent_sifra}}
+            {{klijent_naziv}}
+            {{klijent_StanjeDuga}}
+            {{klijent_ZadnjaKontrola}}
+            {{klijent_Status}}
+            {{klijent_Napomena}} -->
+
+        </p-dialog>
+
+        <!-- <p-sidebar [(visible)]="display_details" position="right" [style]="{width:'50em'}">
+        </p-sidebar> -->
+
         <mat-card-content>
             <form [formGroup]="zaduzenjeForm">
                 <div class="main-form">
@@ -16,24 +75,36 @@
                         <div class="main-form-header">
                             <mat-form-field class="form-field">
                                 <mat-label> Broj:</mat-label>
-                                <input matInput formControlName="broj">
+                                <!-- <input [textMask]="{mask: mask}" [(ngModel)]="myModel" type="text"/> -->
+                                <input matInput formControlName="broj" readonly>
                             </mat-form-field>
 
                             <mat-form-field>
-                                <mat-label> Datum:</mat-label>
-                                <input matInput formControlName="datum" [matDatepicker]="picker">
+                                <mat-label> Datum: (dd/mm/yyyy)</mat-label>
+                                <input #datePicker matInput formControlName="datum" [matDatepicker]="picker"
+                                    [readonly]="staticForm" onkeyup="
+                                var v = this.value;
+                                if (v.match(/^\d{2}$/) !== null) {
+                                    this.value = v + '/';
+                                } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
+                                    this.value = v + '/';
+                                }" (keypress)="_keyPress($event)" maxlength="10">
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
+                                <mat-datepicker #picker [disabled]="staticForm"></mat-datepicker>
+                                <mat-error
+                                    *ngIf="zaduzenjeForm.controls.datum.errors?.required && (zaduzenjeForm.controls.datum.dirty || zaduzenjeForm.controls.datum.touched)"
+                                    style="font-size: 0.8rem;">
+                                    Neispravan datum!</mat-error>
                             </mat-form-field>
                         </div>
 
                         <div class="header-buttons">
-                            <button mat-raised-button class="header-buttons-items" (click)="onNewNalog()">Novi
-                                nalog</button>
-                            <button *ngIf="!staticForm" mat-raised-button class="header-buttons-items"
+                            <button mat-raised-button type="button" class="header-buttons-items"
+                                (click)="onNewNalog()">Novi nalog</button>
+                            <button *ngIf="!staticForm" type="button" mat-raised-button class="header-buttons-items"
                                 (click)="onSaveNalog()">Pošalji</button>
-                            <button *ngIf="!staticForm" mat-raised-button class="header-buttons-items" color="warn"
-                                (click)="onDeleteNalog()">Obriši</button>
+                            <button *ngIf="!staticForm" type="button" mat-raised-button class="header-buttons-items"
+                                color="warn" (click)="onDeleteNalog()">Obriši</button>
                         </div>
                     </div>
                     <div *ngIf="!staticForm" class="main-form-header">
@@ -49,7 +120,8 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                            <mat-error *ngIf="inkasanti.invalid && inkasanti.touched"
+                            <mat-error
+                                *ngIf="zaduzenjeForm.controls.inkasanti.errors?.required && (zaduzenjeForm.controls.inkasanti.dirty || zaduzenjeForm.controls.inkasanti.touched)"
                                 style="font-size: 0.8rem; margin-top: -15px;">
                                 Morate izabrati inkasanta!
                             </mat-error>
@@ -150,32 +222,33 @@
                     <div class="main-form-body">
                         <div class="row">
                             <mat-card class="customer-list highlight">
-                                <mat-card-title>Za nalog - klijenti</mat-card-title>
+
                                 <mat-selection-list dense #selected_klijent *ngIf="selected_klijenti">
                                     <mat-list-item *ngFor="let klijent of selected_klijenti">
                                         <div>
                                             {{klijent.sif_par}} {{klijent.naz_par}}
                                         </div>
                                         <span class="spacer"></span>
-                                        <button mat-button (click)="onDetailsKlijent(klijent.sif_par)">
+                                        <button mat-button type="button" (click)="onClientDetails(klijent.sif_par)">
                                             Detaljnije
                                         </button>
-                                        <button *ngIf="!staticForm" mat-icon-button
+                                        <button type="button" *ngIf="!staticForm" mat-icon-button
                                             (click)="onRemoveKlijent(klijent.sif_par)" color="warn">
                                             <mat-icon>delete_forever</mat-icon>
                                         </button>
                                     </mat-list-item>
                                 </mat-selection-list>
                             </mat-card>
+
                             <mat-card class="customer-list highlight">
-                                <mat-card-title>Za nalog - ulice</mat-card-title>
+
                                 <mat-selection-list dense #selected_ulica *ngIf="selected_ulice">
                                     <mat-list-item *ngFor="let ulica of selected_ulice">
                                         <div>
                                             {{ulica.naz_uli}}, {{ulica.broj_od}} - {{ulica.broj_do}}
                                         </div>
                                         <span class="spacer"></span>
-                                        <button *ngIf="!staticForm" mat-icon-button
+                                        <button type="button" *ngIf="!staticForm" mat-icon-button
                                             (click)="onRemoveUlica(ulica.sif_uli)" color="warn">
                                             <mat-icon>delete_forever</mat-icon>
                                         </button>
@@ -202,11 +275,11 @@
                     <div class="main-form-body">
                         <mat-form-field class="textarea-form-field">
                             <mat-label> Opis:</mat-label>
-                            <textarea matInput rows="5" formControlName="opis"></textarea>
+                            <textarea matInput rows="5" formControlName="opis" [readonly]="staticForm"></textarea>
                         </mat-form-field>
                     </div>
 
-                    <div class="main-form-footer">
+                    <div *ngIf="!staticForm" class="main-form-footer">
                         <mat-form-field class="form-field">
                             <mat-label> Zaduženje:</mat-label>
                             <mat-select formControlName="tip_zaduzenja">
@@ -215,18 +288,15 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <!-- <div class="vrsta-klijenta">
-                            <label class="radio-label"> Izaberite:</label>
-                            <mat-radio-group formControlName="vrsta_klijenta">
-                                <mat-radio-button class="option-button" *ngFor="let e of vrsta" [value]="e">
-                                    {{e}}
-                                </mat-radio-button>
-                            </mat-radio-group>
-                        </div> -->
+                    </div>
+                    <div *ngIf="staticForm" class="main-form-footer">
+                        <mat-form-field class="form-field">
+                            <mat-label> Zaduženje:</mat-label>
+                            <input matInput formControlName="tip_zaduzenja" readonly>
+                        </mat-form-field>
                     </div>
 
-                    <div class="main-form-footer">
-                        <!-- We can call it like this because we use get in ts. -->
+                    <div *ngIf="!staticForm" class="main-form-footer">
                         <mat-form-field *ngIf="tip_zaduzenja.value == 'Kontrola'" class="form-field">
                             <mat-label> Vrsta kontrole:</mat-label>
                             <mat-select formControlName="kontrola_opis">
@@ -236,23 +306,33 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+                    <div *ngIf="staticForm" class="main-form-footer">
+                        <mat-form-field *ngIf="tip_zaduzenja.value == 'Kontrola'" class="form-field">
+                            <mat-label> Vrsta kontrole:</mat-label>
+                            <input matInput formControlName="kontrola_opis" readonly>
+                        </mat-form-field>
+                    </div>
 
                     <div class="main-form-body">
                         <mat-form-field class="textarea-form-field">
                             <mat-label> Napomena:</mat-label>
-                            <textarea matInput rows="5" formControlName="napomena"></textarea>
+                            <textarea matInput rows="5" formControlName="napomena" [readonly]="staticForm"></textarea>
                         </mat-form-field>
                     </div>
 
 
                 </div>
                 <div class="main-form-bottom">
-                    <button mat-raised-button (click)=onSaveNalog()>Pošalji</button>
+                    <button *ngIf="!staticForm" mat-raised-button type="button" (click)=onSaveNalog()>Pošalji</button>
                 </div>
 
                 {{zaduzenjeForm.invalid}}
+
             </form>
+
         </mat-card-content>
     </mat-card>
+
+
 
 </div>

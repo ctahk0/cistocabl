@@ -11,6 +11,7 @@ import { ZaduzenjeService } from './zaduzenje.service';
     providers: [MessageService]
 })
 
+
 export class ZaduzenjeComponent implements OnInit {
 
     zaduzenjeForm: FormGroup;
@@ -29,8 +30,32 @@ export class ZaduzenjeComponent implements OnInit {
     selectedStreetFilter = '';
     inkasantiNalog = '';
 
+    maxBroj = 0;
+    maxBrojStr = 'NA-0000/00';
+
     details: object;
     staticForm = false;
+    display_details = false;
+
+    klijent_sifra = '32642334';
+
+    klijent_naziv = 'AGRO MIRO DOO';
+    klijent_StanjeDuga = 22.45;
+    klijent_ZadnjaKontrola = '29.5.2019';
+    klijent_Status = 'Aktivan'
+    klijent_Napomena = 'Detaljna napomena, klijent je uredan, placa redoovno. Bio sam u kontroli 12.12.2017. i tada nije bio kod kuce';
+
+    // public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    // [/[A-Z]/i, /\d/, /[A-Z]/i, ' ', /\d/, /[A-Z]/i, /\d/]
+    // yy = new Date().getFullYear().toString().substr(-2);
+    // public mask = ['N', 'A', '-', /\d/, /\d/, /\d/, /\d/, '/', this.yy];
+
+    today = new Date();
+    yy = this.today.getFullYear().toString().substr(-2);
+    // mtoday = momen
+    // mm = this.today.getMonth() + 1;  // 10
+    // dd = this.today.getDate();     // 30
+    // yyyy = this.today.getFullYear(); // 2010
 
     constructor(private fb: FormBuilder,
         private mysqlservice: MainService,
@@ -42,9 +67,7 @@ export class ZaduzenjeComponent implements OnInit {
 
         this.zaduzenjeService.currentDetails.subscribe(details => this.details = details);
         console.log('this details:', this.details);
-        console.log(Object.keys(this.details).length);
-        // !Object.keys(myObject).length
-        if (Object.keys(this.details).length !== 0) {
+        if (this.details !== null && Object.keys(this.details).length !== 0) {
             this.staticForm = true;
             const klarr = this.details['klijent'];
             for (let i = 0; i < klarr.length; i++) {
@@ -54,14 +77,24 @@ export class ZaduzenjeComponent implements OnInit {
             const arr = this.details['inkasant'].map(inkasant => inkasant.inkasant_id);
             const fi = arr.join();
             console.log('Fi------:', fi);
+            // this.zaduzenjeForm = this.fb.group({
+            //     broj: [{ value: this.details['broj'], disabled: true }],
+            //     datum: [{ value: this.details['datum'], disabled: true }],
+            //     opis: [{ value: this.details['opis'], disabled: true }],
+            //     tip_zaduzenja: [{ value: this.details['tip_zaduzenja'], disabled: true }],
+            //     kontrola_opis: [{ value: this.details['kontrola_opis'], disabled: true }],
+            //     napomena: [{ value: this.details['napomena'], disabled: true }]
+            // });
             this.zaduzenjeForm = this.fb.group({
-                broj: [{ value: this.details['broj'], disabled: true }],
-                datum: [{ value: this.details['datum'], disabled: true }],
-                opis: [{ value: this.details['opis'], disabled: true }],
-                tip_zaduzenja: [{ value: this.details['tip_zaduzenja'], disabled: true }],
-                kontrola_opis: [{ value: this.details['kontrola_opis'], disabled: true }],
-                napomena: [{ value: this.details['napomena'], disabled: true }]
+                broj: this.details['broj'],
+                datum: this.details['datum'],
+                opis: this.details['opis'],
+                tip_zaduzenja: this.details['tip_zaduzenja'],
+                kontrola_opis: this.details['kontrola_opis'],
+                napomena: this.details['napomena']
             });
+
+            // this.zaduzenjeForm.disable();
             this.zaduzenjeService.changeMessage(null);
             // this.filter = '(Age In (' + this.filtAge + '))';
             this.getInkasanti('(id In (' + fi + '))');
@@ -70,8 +103,11 @@ export class ZaduzenjeComponent implements OnInit {
             this.zaduzenjeForm = this.fb.group({
                 klijent_filter: '',
                 ulica_filter: '',
-                broj: '',
-                datum: '',
+                broj: this.maxBrojStr,
+                datum: [this.today, Validators.compose([
+                    Validators.required,
+                    // this.validateDate
+                ])],
                 opis: '',
                 klijent: [{ sif_par: '', naz_par: '', vrsta_klijenta: '', uli_bro: '', sif_uli: '', bro_sif: '' }],
                 ulice: [],
@@ -80,12 +116,59 @@ export class ZaduzenjeComponent implements OnInit {
                 kontrola_opis: '',
                 napomena: ''
             });
+            this.getMaxBrojZaduzenja('');
             this.getInkasanti('');
         }
     }
 
     get inkasanti() {
         return this.zaduzenjeForm.get('inkasanti');
+    }
+
+    // ** Za  dodavanje nula ispred */
+    zfill(num, len) { return (Array(len).join('0') + num).slice(-len); }
+
+
+    validateDate(controls) {
+        // tslint:disable-next-line: max-line-length
+        const regExp = new RegExp(/^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/);
+        //  if (regExp.test(controls.value)) {
+        //    return null;
+        //  } else {
+        //    return { 'validateDate': true }
+        //  }
+        return regExp.test(controls.value) ? null : { 'validateDate': true };
+    }
+    // Prevent no number type input, valid characters in input are numbers only
+    _keyPress(event: any) {
+        const pattern = /^[0-9]*$/;
+        const inputChar = String.fromCharCode(event.charCode);
+
+        if (!pattern.test(inputChar)) {
+            // invalid character, prevent input
+            event.preventDefault();
+        }
+    }
+
+
+    getMaxBrojZaduzenja(fi: string) {
+        this.isLoading = true;
+        const ps = 1;
+        const pi = 0;
+        this.mysqlservice.getMaxBrojZaduzenja(ps, pi, fi).subscribe((mydata: any) => {
+            // console.log(mydata.data);
+            // Provjera  da li je prazno
+            if (mydata.data[0]['MAX(SUBSTR(broj, 4, 4))'] === null) {
+                this.maxBroj = 0;
+            } else {
+                this.maxBroj = mydata.data;
+            }
+            this.maxBroj++;
+            this.maxBrojStr = `NA-${this.zfill(this.maxBroj, 4)}/${this.yy}`;
+            this.isLoading = false;
+            this.zaduzenjeForm.controls['broj'].setValue(this.maxBrojStr);
+            // this.zaduzenjeForm.controls['broj'].patchValue(this.maxBrojStr);
+        });
     }
 
     getInkasanti(fi: string) {
@@ -224,10 +307,38 @@ export class ZaduzenjeComponent implements OnInit {
     //     console.log('Change!', e);
     //     console.log(this.zaduzenjeForm.controls.tip_zaduzenja);
     // }
+    onNewNalog() {
+        this.zaduzenjeForm.reset();
+        // this.zaduzenjeForm.enable();
+        // this.zaduzenjeService.changeMessage(null);
+        this.customerFilter = '';
+        this.streetFilter = '';
+        this.klijenti = null;
+        this.ulice = null;
+        this.selected_klijenti = [];
+        this.selected_ulice = [];
+
+        this.zaduzenjeForm = this.fb.group({
+            klijent_filter: '',
+            ulica_filter: '',
+            broj: this.maxBrojStr,
+            datum: this.today,
+            opis: '',
+            klijent: [{ sif_par: '', naz_par: '', vrsta_klijenta: '', uli_bro: '', sif_uli: '', bro_sif: '' }],
+            ulice: [],
+            inkasanti: ['', [Validators.required]],
+            tip_zaduzenja: '',
+            kontrola_opis: '',
+            napomena: ''
+        });
+        this.staticForm = false;
+        this.getMaxBrojZaduzenja('');
+    }
 
     onSaveNalog() {
         console.log('SUBMITTING FORM!');
         this.zaduzenjeForm.controls['ulice'].patchValue(this.selected_ulice);
+        // this.zaduzenjeForm.controls['datum'].setValue(tmp);
         console.log(this.zaduzenjeForm.value);
         if (!this.zaduzenjeForm.invalid) {
             this.mysqlservice.insertToDb(this.zaduzenjeForm.value).subscribe(resp => {
@@ -247,7 +358,14 @@ export class ZaduzenjeComponent implements OnInit {
                     this.zaduzenjeForm.reset();
                 }
             });
+        } else {
+            console.log('Invalid form!');
         }
+    }
+
+    onClientDetails(sifra) {
+        console.log(sifra);
+        this.display_details = true;
     }
 
     applyCustomerFilter(filterValue: string) {
