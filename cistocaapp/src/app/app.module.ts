@@ -45,7 +45,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TopnavComponent } from './components/topnav/topnav.component';
 import { ZaduzenjeComponent } from './components/novo-zaduzenje/zaduzenje.component';
 import { MatDatepickerModule, MatExpansionModule } from '@angular/material';
-import { TextMaskModule } from 'angular2-text-mask';
+// import { TextMaskModule } from 'angular2-text-mask';
 import { MomentDateAdapter, MOMENT_DATE_FORMATS } from './moment-date-adapter';
 
 import {
@@ -102,7 +102,7 @@ import {
     MatRadioModule,
     MatDatepickerModule,
     MatExpansionModule,
-    TextMaskModule,
+    // TextMaskModule,
   ],
   providers: [ConfirmationDialogService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

@@ -28,7 +28,9 @@
   .min-menu {
     display: none;
   }
-  
+  .nav-brand.ng-star-inserted {
+    margin-left: -15px;
+  }
   @media only screen and (max-width:992px){
     .min-menu {
       display:block;
