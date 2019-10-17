@@ -8,7 +8,7 @@ import { ZaduzenjeComponent } from './components/novo-zaduzenje/zaduzenje.compon
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'zaduzenje', component: ZaduzenjeComponent, canActivate: [AuthGuard] },
 ];
 

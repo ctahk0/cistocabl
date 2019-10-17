@@ -27,6 +27,13 @@ export class MainService {
     return this._http.get(this._url + 'user/customer' + queryParams, httpOptions);
   }
 
+  /** ==================== KLIJENT DETAILS - korisnik_usl ================================ */
+  getCustomerDetailsKorisnikUsl(pageSize: number, pageIndex: number, filter: string): Observable<any> {
+    // console.log('Get customer');
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
+    return this._http.get(this._url + 'user/customer-details-usl' + queryParams, httpOptions);
+  }
+
   /** ==================== KLIJENT LIST ================================================= */
   getZaduzenjeKlijenti(pageSize: number, pageIndex: number, filter: string): Observable<any> {
     // console.log('Get customer');

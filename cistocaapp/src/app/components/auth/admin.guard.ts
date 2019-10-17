@@ -16,9 +16,10 @@ export class AdminGuard implements CanActivate {
         if (!isAuth.isUserLogged) {
             this.router.navigate(['/login']);
         }
-        if (!isAuth.isAdmin) {
-            this.router.navigate(['/dashboard']);
-        }
+        // Ovdje redirekciju ako nije admin!
+        // if (!isAuth.isAdmin) {
+        //     this.router.navigate(['zaduzenje']);
+        // }
         return isAuth.isAdmin;
     }
 }

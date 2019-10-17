@@ -15,6 +15,15 @@
                 {{klijent_sifra}},
                 {{klijent_naziv}}
             </p-header>
+            <!-- sif_par -->
+            <!-- dat_poc_vaz -->
+            <!-- sif_vrs_ce -->
+            <!-- sif_usl -->
+            <!-- kolicina -->
+            <!-- status -->
+            <!-- datum_promene -->
+            <!-- sif_par -->
+            <!-- napomena -->
             <div class="rowTab">
                 <div class="labels">
                     <label id="name-label" for="name">Klijent:</label>
@@ -53,7 +62,16 @@
                     <label id="name-label" for="name">Napomena:</label>
                 </div>
                 <div class="rightTab">
-                    <textarea class="input-field dtextarea" >{{klijent_Napomena}}</textarea>
+                    <div class="border-list">
+
+                        <mat-list *ngFor="let el of klijent_details">
+                            <mat-list-item>- {{el.napomena}} </mat-list-item>
+                        </mat-list>
+                    </div>
+
+                    <!-- <ul *ngFor="let el of klijent_details" >
+                        <li>{{el.napomena}}</li>
+                    </ul> -->
                 </div>
             </div>
             <!-- {{klijent_sifra}}

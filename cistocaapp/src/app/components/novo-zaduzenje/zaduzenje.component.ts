@@ -37,13 +37,13 @@ export class ZaduzenjeComponent implements OnInit {
     staticForm = false;
     display_details = false;
 
-    klijent_sifra = '32642334';
-
-    klijent_naziv = 'AGRO MIRO DOO';
-    klijent_StanjeDuga = 22.45;
-    klijent_ZadnjaKontrola = '29.5.2019';
-    klijent_Status = 'Aktivan'
-    klijent_Napomena = 'Detaljna napomena, klijent je uredan, placa redoovno. Bio sam u kontroli 12.12.2017. i tada nije bio kod kuce';
+    klijent_details = [];
+    klijent_sifra = '';
+    klijent_naziv = '';
+    klijent_StanjeDuga = 0.00;
+    klijent_ZadnjaKontrola = '';
+    klijent_Status = '';
+    klijent_Napomena = '';
 
     // public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
     // [/[A-Z]/i, /\d/, /[A-Z]/i, ' ', /\d/, /[A-Z]/i, /\d/]
@@ -364,8 +364,35 @@ export class ZaduzenjeComponent implements OnInit {
     }
 
     onClientDetails(sifra) {
+        // sif_par
+        // dat_poc_vaz
+        // sif_vrs_ce
+        // sif_usl
+        // kolicina
+        // status
+        // datum_promene
+        // sif_par
+        // napomena
+        this.klijent_sifra = '32642334';
+        this.klijent_naziv = 'AGRO MIRO DOO';
+        this.klijent_StanjeDuga = 22.45;
+        this.klijent_ZadnjaKontrola = '29.5.2019';
+        this.klijent_Status = 'Aktivan';
+        this.klijent_Napomena = 'Detaljna napomena, klijent je uredan, placa redoovno. Bio sam u kontroli 12.12.2017. ';
+        this.klijent_details = [];
         console.log(sifra);
         this.display_details = true;
+        // call pagesize -1 for all rows!
+        this.mysqlservice.getCustomerDetailsKorisnikUsl(-1, 0, sifra).subscribe(resp => {
+            console.log(resp.data);
+            const det = resp.data;
+            this.klijent_sifra = sifra;
+            this.klijent_naziv = 'naziv';
+            for (let i = 0; i < resp.data.length; i++) {
+                this.klijent_details.push({ napomena: det[i].napomena });
+            }
+
+        });
     }
 
     applyCustomerFilter(filterValue: string) {

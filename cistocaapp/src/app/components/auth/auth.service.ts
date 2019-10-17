@@ -11,12 +11,14 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
     userLogged = false;
     isAdmin = false;
+    isInkasant = false;
     os = '';    // user OS
 
     private tokenTimer: any;
     private token: string;
     private authStatus = new Subject<boolean>();
     private adminStatus = new Subject<boolean>();
+    private inkasantStatus = new Subject<boolean>();
 
     _url = environment.apiBase;
     // _url = 'http://japauto.parts:8000/api/';
@@ -27,6 +29,7 @@ export class AuthService {
         return {
             isUserLogged: this.userLogged,
             isAdmin: this.isAdmin,
+            isInkasant: this.isInkasant,
             os: this.os
         };
     }
@@ -35,6 +38,9 @@ export class AuthService {
     }
     getAdminStatus() {
         return this.adminStatus.asObservable();
+    }
+    getInkasantStatus() {
+        return this.inkasantStatus.asObservable();
     }
     getToken() {
         return this.token;
@@ -89,9 +95,12 @@ export class AuthService {
                     // console.log('Detoken: ', this.deToken(this.token));
 
                     const role = this.deToken(this.token);
-                    // console.log(role);
+                    console.log(role);
                     if (role['rauth'] === 1) {
                         this.isAdmin = true;
+                    }
+                    if (role['cauth'] === 1) {
+                        this.isInkasant = true;
                     }
                     this.os = role['os'];
                     this.userLogged = true;
@@ -102,6 +111,7 @@ export class AuthService {
                     }, tokenExpiresIn * 1000);
                     this.authStatus.next(true);
                     this.adminStatus.next(this.isAdmin);
+                    this.inkasantStatus.next(this.isInkasant);
                     const now = new Date();
                     const expirationDate = new Date(now.getTime() + tokenExpiresIn * 1000);
                     this.saveAuth(this.token, expirationDate);
@@ -110,7 +120,7 @@ export class AuthService {
                     if (this.isAdmin) {
                         this.router.navigate(['dashboard']);
                     } else {
-                        this.router.navigate(['dashboard']);
+                        this.router.navigate(['zaduzenje']);
                     }
                 }
             });
@@ -131,6 +141,9 @@ export class AuthService {
             if (role['rauth'] === 1) {
                 this.isAdmin = true;
             }
+            if (role['cauth'] === 1) {
+                this.isInkasant = true;
+            }
             this.os = role['os'];
             this.userLogged = true;
             // this.tokenTimer = Math.round((expiresIn / 1000));
@@ -148,6 +161,7 @@ export class AuthService {
         this.token = null;
         this.userLogged = false;
         this.isAdmin = false;
+        this.isInkasant = false;
         this.authStatus.next(false);
         clearTimeout(this.tokenTimer);
         this.clearAuth();
@@ -185,7 +199,7 @@ export class AuthService {
         const role = JSON.parse(window.atob(base64));
         // console.log(role);
 
-        return ({ rauth: role.rauth, sauth: role.sauth, cauth: role.cauth, os: role.os });
+        return ({ rauth: role.rauth, cauth: role.cauth, os: role.os });
         // return false;
     }
 }

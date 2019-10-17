@@ -12,8 +12,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     showMenu = '';
     userIsAuthenticated = false;
     isAdmin = false;
-    isContributor = false;
-    isSupport = false;
+    isInkasant = false;
     os = '';
     pushRightClass = 'push-right';
     newMessages = null;
@@ -28,6 +27,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         const userInfo = this.authService.isUserLogged();
         this.userIsAuthenticated = userInfo.isUserLogged;
         this.isAdmin = userInfo.isAdmin;
+        this.isInkasant = userInfo.isInkasant;
         this.os = userInfo.os;
 
         this.authListenerSubs = this.authService
