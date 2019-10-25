@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MainService } from 'src/app/services/main.service';
 import { MessageService } from 'primeng/api';
 import { ZaduzenjeService } from './zaduzenje.service';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { InkasantiService } from '../inkasanti-obrada/inkasanti-obrada.service';
 
 @Component({
     selector: 'app-Zaduzenje',
@@ -48,6 +50,7 @@ export class ZaduzenjeComponent implements OnInit {
     klijent_Status = '';
     klijent_tk = [];
 
+    refresh = '';   // mozda ne treba, treba testirati. Sluzi za refresh app nakon unosa naloga!
     // public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
     // [/[A-Z]/i, /\d/, /[A-Z]/i, ' ', /\d/, /[A-Z]/i, /\d/]
     // yy = new Date().getFullYear().toString().substr(-2);
@@ -63,11 +66,13 @@ export class ZaduzenjeComponent implements OnInit {
     constructor(private fb: FormBuilder,
         private mysqlservice: MainService,
         private messageService: MessageService,
-        private zaduzenjeService: ZaduzenjeService
+        private zaduzenjeService: ZaduzenjeService,
+        private confirmationDialogService: ConfirmationDialogService,
+        private inkasantiservice: InkasantiService
     ) { }
 
     ngOnInit() {
-
+        this.inkasantiservice.currentState.subscribe(currentState => this.refresh = currentState);
         this.zaduzenjeService.currentDetails.subscribe(details => this.details = details);
         console.log('this details:', this.details);
         if (this.details !== null && Object.keys(this.details).length !== 0) {
@@ -133,6 +138,9 @@ export class ZaduzenjeComponent implements OnInit {
         return this.zaduzenjeForm.get('inkasanti');
     }
 
+    get broj() {
+        return this.zaduzenjeForm.get('broj');
+    }
     // ** Za  dodavanje nula ispred */
     zfill(num, len) { return (Array(len).join('0') + num).slice(-len); }
 
@@ -365,6 +373,8 @@ export class ZaduzenjeComponent implements OnInit {
                     this.selected_klijenti = [];
                     this.selected_ulice = [];
                     this.zaduzenjeForm.reset();
+                    console.log('We are done, call refresh!');
+                    this.inkasantiservice.refreshData('refresh');
                 }
             });
         } else {
@@ -383,6 +393,7 @@ export class ZaduzenjeComponent implements OnInit {
         // datum_promene
         // sif_par
         // napomena
+        this.isLoading = true;
         this.klijent_details = [];
 
         this.klijent_details = this.selected_klijenti.filter(function (klijent) {
@@ -421,9 +432,42 @@ export class ZaduzenjeComponent implements OnInit {
                 potrazuje += Number(this.klijent_tk[i]['izn_pot']);
             }
             this.klijent_StanjeDuga = (duguje - potrazuje).toFixed(2);
+            this.isLoading = false;
         });
     }
 
+    onDeleteNalog(id) {
+        console.log(id);
+        if (id != null) {
+            this.confirmationDialogService.confirm('Brisanje naloga', 'Da li ste sigurni?', 'Brisanje', 'Odustani', 'sm')
+                .then((confirmed) => {
+                    if (id != null && confirmed) {
+                        this.mysqlservice.DeleteNalog(id).subscribe((res: any) => {
+                            console.log(res);
+                            if (res['status'] === 200) {
+                                // form.reset();
+                                this.messageService.add({
+                                    severity: 'info',
+                                    summary: 'Brisanje naloga',
+                                    detail: 'Nalog uspješno obrisan!'
+                                });
+                            }
+                        }, (err => {
+                            console.log(err);
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: 'Greška!',
+                                detail: 'Greška prilikom brisanja naloga!'
+                            });
+                        })
+                        );
+                    }
+                })
+                .catch(() =>
+                    console.log('Delete canceled)')
+                );
+        }
+    }
     applyCustomerFilter(filterValue: string) {
         // console.log(this.selected);
         this.customerFilter = filterValue.trim().toLowerCase();

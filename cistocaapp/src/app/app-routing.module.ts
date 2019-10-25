@@ -5,11 +5,13 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthGuard } from './components/auth/auth.guard';
 import { AdminGuard } from './components/auth/admin.guard';
 import { ZaduzenjeComponent } from './components/novo-zaduzenje/zaduzenje.component';
+import { InkasantiDashboardComponent } from './components/inkasanti-dashboard/inkasanti-dashboard.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'zaduzenje', component: ZaduzenjeComponent, canActivate: [AuthGuard] },
+  { path: 'inkasanti', component: InkasantiDashboardComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

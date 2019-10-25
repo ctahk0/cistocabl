@@ -82,8 +82,8 @@ export class AuthService {
     }
 
     /** Login User */
-    loginUser(email: string, password: string, route: string) {
-        const authLogin = { email: email, password: password };
+    loginUser(username: string, password: string, route: string) {
+        const authLogin = { username: username, password: password };
         // console.log(authLogin);
         this._http.post<{ token: string, expiresIn: number, isAdmin: number }>(this._url + route, authLogin)
             .subscribe(response => {
@@ -120,7 +120,7 @@ export class AuthService {
                     if (this.isAdmin) {
                         this.router.navigate(['dashboard']);
                     } else {
-                        this.router.navigate(['zaduzenje']);
+                        this.router.navigate(['inkasanti']);
                     }
                 }
             });

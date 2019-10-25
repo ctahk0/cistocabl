@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatOptionModule } from '@angular/material/core';
+import { MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -30,6 +30,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,6 +45,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TopnavComponent } from './components/topnav/topnav.component';
 import { ZaduzenjeComponent } from './components/novo-zaduzenje/zaduzenje.component';
+import { InkasantiDashboardComponent } from './components/inkasanti-dashboard/inkasanti-dashboard.component';
 import { MatDatepickerModule, MatExpansionModule } from '@angular/material';
 // import { TextMaskModule } from 'angular2-text-mask';
 import { MomentDateAdapter, MOMENT_DATE_FORMATS } from './moment-date-adapter';
@@ -54,6 +56,11 @@ import {
   DateAdapter,
   MAT_NATIVE_DATE_FORMATS
 } from '@angular/material';
+import { InkasantiObradaComponent } from './components/inkasanti-obrada/inkasanti-obrada.component';
+import { InkasantiObradaIzvjestajComponent } from './components/inkasanti-obrada-izvjestaj/inkasanti-obrada-izvjestaj.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -65,7 +72,10 @@ import {
     DashboardComponent,
     SidebarComponent,
     TopnavComponent,
-    ZaduzenjeComponent
+    ZaduzenjeComponent,
+    InkasantiDashboardComponent,
+    InkasantiObradaComponent,
+    InkasantiObradaIzvjestajComponent
   ],
   imports: [
     BrowserModule,
@@ -102,6 +112,8 @@ import {
     MatRadioModule,
     MatDatepickerModule,
     MatExpansionModule,
+    MatRippleModule,
+    NgbModule
     // TextMaskModule,
   ],
   providers: [ConfirmationDialogService,

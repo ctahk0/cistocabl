@@ -5,7 +5,7 @@
         <!-- Title of an Card -->
         <mat-card-title class="title">
             <div>
-                Nalog inkasantima - zaduženje
+                Nalog inkasantima - zaduženje, broj.value
             </div>
         </mat-card-title>
         <mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
@@ -113,7 +113,7 @@
                             <button *ngIf="!staticForm" type="button" mat-raised-button class="header-buttons-items"
                                 (click)="onSaveNalog()">Pošalji</button>
                             <button *ngIf="!staticForm" type="button" mat-raised-button class="header-buttons-items"
-                                color="warn" (click)="onDeleteNalog()">Obriši</button>
+                                color="warn" (click)="onDeleteNalog(broj.value)">Obriši</button>
                         </div>
                     </div>
                     <div *ngIf="!staticForm" class="main-form-header">
@@ -287,12 +287,12 @@
                     <!-- END Klijent -->
                     <!-- </div> -->
                     <p></p>
-                    <div class="main-form-body">
+                    <!-- <div class="main-form-body">
                         <mat-form-field class="textarea-form-field">
                             <mat-label> Opis:</mat-label>
                             <textarea matInput rows="5" formControlName="opis" [readonly]="staticForm"></textarea>
                         </mat-form-field>
-                    </div>
+                    </div> -->
 
                     <div *ngIf="!staticForm" class="main-form-footer">
                         <mat-form-field class="form-field">
