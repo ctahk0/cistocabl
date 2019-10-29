@@ -1,0 +1,61 @@
+<app-sidebar></app-sidebar>
+<p-toast></p-toast>
+<div class="main-container">
+    <div class="rowTab">
+        <div>
+            <mat-form-field>
+                <mat-label>Pretraga po šifri ili nazivu</mat-label>
+
+                <!-- <label id="name-label" for="name">Pretraga po šifri ili nazivu:</label> -->
+
+                <input class="searchCustomer" matInput focused="'true'" type="text"
+                    (keyup)="applyCustomerFilter($event.target.value)" autocomplete="off">
+            </mat-form-field>
+        </div>
+        <div class="nav-spacer"></div>
+        <div>
+            <mat-form-field>
+                <!-- <mat-label>Pretraga korisnika po šifri ili nazivu</mat-label> -->
+                <mat-label>Pretraga po adresi:</mat-label>
+                <!-- <label id="name-label" for="name">Pretraga po adresi:</label> -->
+
+                <input class="searchCustomer" matInput focused="'true'" type="text"
+                    (keyup)="applyStreetFilter($event.target.value)" autocomplete="off">
+            </mat-form-field>
+        </div>
+    </div>
+
+
+    <mat-accordion>
+        <mat-expansion-panel *ngFor="let klijent of klijenti" (opened)="onOpen(klijent.sif_par)">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{klijent.sif_par}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{klijent.naz_par}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <ng-template matExpansionPanelContent>
+                <div class="client-container">
+                    <span class="small">Vrsta korisnika:</span>
+                    <span class="bold">{{klijent.vrsta_klijenta}}</span>
+                    <span class="small">Status: <strong>{{klijent_status}}</strong></span>
+                    <span class="small space-top">Adresa:</span>
+                    <span class="bold">{{klijent.uli_bro}}</span>
+                    <span class="small space-top">Količina:</span>
+                    <span class="bold">{{klijent_kolicina}}</span>
+                    <span class="small space-top">Stanje duga:</span>
+                    <span><strong>{{klijent_StanjeDuga}}</strong></span>
+                    <span class="small space-top">Napomena:</span>
+                    <div class="border-list">
+                        <ul *ngFor="let el of klijent_details">
+                            <li>{{el.napomena}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </ng-template>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <mat-divider></mat-divider>
+</div>

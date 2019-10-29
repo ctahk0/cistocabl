@@ -1,13 +1,19 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MainService } from 'src/app/services/main.service';
 import { InkasantiService } from '../inkasanti-obrada/inkasanti-obrada.service';
+import { environment } from 'src/environments/environment';
+import * as io from 'socket.io-client';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-inkasanti-dashboard',
   templateUrl: './inkasanti-dashboard.component.html',
   styleUrls: ['./inkasanti-dashboard.component.css']
 })
-export class InkasantiDashboardComponent implements OnInit {
+export class InkasantiDashboardComponent implements OnInit, OnDestroy {
+
+  private subscription: Subscription;
 
   isLoading = true;
   taskList = [];
@@ -16,18 +22,63 @@ export class InkasantiDashboardComponent implements OnInit {
   obrada = false;
   selected = 0;
   selectedCurrent = 0;
+
+  messageText: string;
+  messages: Array<any>;
+  socket: SocketIOClient.Socket;
+  socketUrl = environment.socket;
+
   constructor(
     private mysqlservice: MainService,
-    private inkasantiservice: InkasantiService) { }
+    private inkasantiservice: InkasantiService) {
+    this.socket = io.connect(this.socketUrl);
+  }
 
   ngOnInit() {
-    this.inkasantiservice.currentState.subscribe(refresh => {
-      console.log('dobili smo refresh!');
-      if (refresh === 'refresh') {
+    this.messages = new Array();
+
+    this.socket.on('serverMessage', (data: any) => {
+      console.log('!!!!!! Refresh request !!!!!', data.msg);
+      if (data.msg === 'refresh') {
+        this.taskList = [];
+        this.taskList_zavrseni = [];
+        this.taskList_novi = [];
         this.getData();
       }
+      // this.socket.emit('serverMessage', {
+      //   msg: 'Yes, its working for me!!'
+      // });
     });
     this.getData();
+    this.refreshFromService();
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  refreshFromService() {
+    this.subscription = this.inkasantiservice.currentData.subscribe(refobj => {
+      console.log('Refresh nakon obrade, sifra je: ', refobj);
+      console.log(this.taskList_novi);
+      for (let i = 0; i < this.taskList_novi.length; i++) {
+        const el = this.taskList_novi[i];
+        // console.log(el.broj);
+        if (el.broj === refobj['nalog']) {
+          // console.log('Nasao nalog, sad listaj klijente');
+          for (let n = 0; n < this.taskList_novi[i].data.length; n++) {
+            const kl = this.taskList_novi[i].data[n];
+            // console.log(kl.klijent_id);
+            if (kl.klijent_id === refobj['klijent_id']) {
+              // console.log('Nasao sam ga!, treba update statusa');
+              this.taskList_novi[i].data[n]['izvStatus'] = 1;
+              this.taskList_novi[i].data[n]['izvDatum'] = refobj['izvDatum'];
+              this.taskList_novi[i].data[n]['izvIzvjestaj'] = refobj['izvIzvjestaj'];
+              this.taskList_novi[i].data[n]['izvNapomena'] = refobj['izvNapomena'];
+            }
+          }
+        }
+      }
+    });
   }
 
   getData() {
@@ -107,10 +158,13 @@ export class InkasantiDashboardComponent implements OnInit {
       // console.log(kl, klijent_id);
       return kl.klijent_id === klijent_id;
     });
-    console.log(nl);
+    // console.log('iz ovog izvuci podatke!', korisnik);
     korisnik.nalog = nl[0].broj;
     korisnik.inkasant = nl[0].inkasantid;
-    // console.log('Ovo je selektovani korisnik', korisnik);
+    // korisnik.izvIzvjestaj = korisnik[0].izvIzvjestaj;
+    // korisnik.izvNapomena = korisnik[0].izvNapomena;
+    // korisnik.izvStatus = korisnik[0].izvStatus;
+    console.log('Ovo je selektovani korisnik', korisnik);
     this.selectedCurrent = this.selected;
     this.inkasantiservice.changeMessage(korisnik);
     this.obrada = true;
@@ -124,6 +178,7 @@ export class InkasantiDashboardComponent implements OnInit {
     });
     korisnik.nalog = nl[0].broj;
     korisnik.inkasant = nl[0].inkasantid;
+
     this.selectedCurrent = this.selected;
     this.inkasantiservice.changeMessage(korisnik);
     this.obrada = true;
@@ -138,6 +193,7 @@ export class InkasantiDashboardComponent implements OnInit {
     });
     korisnik.nalog = nl[0].broj;
     korisnik.inkasant = nl[0].inkasantid;
+
     this.selectedCurrent = this.selected;
     this.inkasantiservice.changeMessage(korisnik);
     this.obrada = true;

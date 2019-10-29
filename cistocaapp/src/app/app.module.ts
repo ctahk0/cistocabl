@@ -58,6 +58,8 @@ import {
 } from '@angular/material';
 import { InkasantiObradaComponent } from './components/inkasanti-obrada/inkasanti-obrada.component';
 import { InkasantiObradaIzvjestajComponent } from './components/inkasanti-obrada-izvjestaj/inkasanti-obrada-izvjestaj.component';
+import { PretragaKorisnikaComponent } from './components/pretraga-korisnika/pretraga-korisnika.component';
+import { NoviKorisnikComponent } from './components/novi-korisnik/novi-korisnik.component';
 
 
 
@@ -75,7 +77,9 @@ import { InkasantiObradaIzvjestajComponent } from './components/inkasanti-obrada
     ZaduzenjeComponent,
     InkasantiDashboardComponent,
     InkasantiObradaComponent,
-    InkasantiObradaIzvjestajComponent
+    InkasantiObradaIzvjestajComponent,
+    PretragaKorisnikaComponent,
+    NoviKorisnikComponent
   ],
   imports: [
     BrowserModule,

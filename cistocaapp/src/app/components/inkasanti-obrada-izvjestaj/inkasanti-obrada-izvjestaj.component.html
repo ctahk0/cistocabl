@@ -13,5 +13,5 @@
     <textarea matInput rows="15" [formControl]="zakljucakControl"></textarea>
 </mat-form-field>
 <div class="client-container">
-    <button mat-raised-button color="primary" (click)="onSave()">Sačuvaj</button>
+    <button mat-raised-button color="primary" (click)="onSave()" [disabled]="izvjestajControl.invalid">Sačuvaj</button>
 </div>

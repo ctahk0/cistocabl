@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MainService } from 'src/app/services/main.service';
 import { InkasantiService } from './inkasanti-obrada.service';
 import { MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-inkasanti-obrada',
@@ -9,13 +10,15 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./inkasanti-obrada.component.css'],
   providers: [MessageService]
 })
-export class InkasantiObradaComponent implements OnInit {
+export class InkasantiObradaComponent implements OnInit, OnDestroy {
+
+  private subscription: Subscription;
 
   isLoading = false;
   details: object;
   nalog: string;
   inkasant: number;
-  klijent_share: object;
+
   klijent_details = [];
   klijent_sifra = '';
   klijent_naziv = '';
@@ -38,8 +41,12 @@ export class InkasantiObradaComponent implements OnInit {
     this.getCurrentDetails();
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   getCurrentDetails() {
-    this.inkasantiservice.currentDetails.subscribe(details => {
+    this.subscription = this.inkasantiservice.currentDetails.subscribe(details => {
       this.details = details[0];
       this.nalog = details['nalog'];
       this.inkasant = details['inkasant'];
@@ -90,25 +97,19 @@ export class InkasantiObradaComponent implements OnInit {
     });
   }
 
-  onIzvjestaj(kl) {
-    console.log(kl);
-    this.klijent_share = {
-      nalog: this.nalog,
-      klijent_id: this.klijent_sifra,
-      inkasant_id: this.inkasant
-    };
+  onIzvjestaj() {
     this.izvjestaj = true;
   }
   onCloseInfo() {
     this.closeEvent.emit(false);
   }
   receiveIzvjestaj($event) {
+    console.log('Izvjestaj zavrsen!', this.klijent_sifra);
     this.izvjestaj = $event;
     this.messageService.add({
       severity: 'info',
       summary: 'Izvještaj',
       detail: 'Izvještaj je uspješno sačuvan!'
     });
-    this.inkasantiservice.refreshData('refresh');
   }
 }

@@ -4,7 +4,6 @@ import { MainService } from 'src/app/services/main.service';
 import { MessageService } from 'primeng/api';
 import { ZaduzenjeService } from './zaduzenje.service';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
-import { InkasantiService } from '../inkasanti-obrada/inkasanti-obrada.service';
 
 @Component({
     selector: 'app-Zaduzenje',
@@ -67,12 +66,10 @@ export class ZaduzenjeComponent implements OnInit {
         private mysqlservice: MainService,
         private messageService: MessageService,
         private zaduzenjeService: ZaduzenjeService,
-        private confirmationDialogService: ConfirmationDialogService,
-        private inkasantiservice: InkasantiService
+        private confirmationDialogService: ConfirmationDialogService
     ) { }
 
     ngOnInit() {
-        this.inkasantiservice.currentState.subscribe(currentState => this.refresh = currentState);
         this.zaduzenjeService.currentDetails.subscribe(details => this.details = details);
         console.log('this details:', this.details);
         if (this.details !== null && Object.keys(this.details).length !== 0) {
@@ -373,8 +370,6 @@ export class ZaduzenjeComponent implements OnInit {
                     this.selected_klijenti = [];
                     this.selected_ulice = [];
                     this.zaduzenjeForm.reset();
-                    console.log('We are done, call refresh!');
-                    this.inkasantiservice.refreshData('refresh');
                 }
             });
         } else {

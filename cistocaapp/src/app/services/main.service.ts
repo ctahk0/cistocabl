@@ -81,7 +81,7 @@ export class MainService {
   }
 
   insertToDbUser(formObj: object) {
-    return this._http.post(this._url + 'user/write', formObj, httpOptions);
+    return this._http.post(this._url + 'user/writenewuser', formObj, httpOptions);
   }
 
   // Edit/Save SMS Account

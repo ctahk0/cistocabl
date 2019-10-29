@@ -6,12 +6,16 @@ import { AuthGuard } from './components/auth/auth.guard';
 import { AdminGuard } from './components/auth/admin.guard';
 import { ZaduzenjeComponent } from './components/novo-zaduzenje/zaduzenje.component';
 import { InkasantiDashboardComponent } from './components/inkasanti-dashboard/inkasanti-dashboard.component';
+import { PretragaKorisnikaComponent } from './components/pretraga-korisnika/pretraga-korisnika.component';
+import { NoviKorisnikComponent } from './components/novi-korisnik/novi-korisnik.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'zaduzenje', component: ZaduzenjeComponent, canActivate: [AuthGuard] },
   { path: 'inkasanti', component: InkasantiDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'pretraga', component: PretragaKorisnikaComponent, canActivate: [AuthGuard] },
+  { path: 'novikorisnik', component: NoviKorisnikComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

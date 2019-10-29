@@ -19,7 +19,7 @@
         <mat-card-subtitle>{{klijent_naziv}}</mat-card-subtitle>
     </div>
     <div class="client-container" *ngIf="!izvjestaj">
-        <button mat-raised-button color="primary" (click)="onIzvjestaj(klijent_sifra)">Izvještaj</button>
+        <button mat-raised-button color="primary" (click)="onIzvjestaj()">Izvještaj</button>
         <span class="small">Vrsta korisnika:</span>
         <span class="space-bottom border-list">{{klijent_vrsta}}</span>
         <span class="small">Adresa:</span>
@@ -44,7 +44,6 @@
             </div>
         </div>
     </div>
-    <app-inkasanti-obrada-izvjestaj *ngIf="izvjestaj" [klijent_data]="klijent_share"
-        (izvjestajEvent)="receiveIzvjestaj($event)">
+    <app-inkasanti-obrada-izvjestaj *ngIf="izvjestaj" (izvjestajEvent)="receiveIzvjestaj($event)">
     </app-inkasanti-obrada-izvjestaj>
 </mat-card>

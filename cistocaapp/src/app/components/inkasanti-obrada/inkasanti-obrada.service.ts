@@ -9,15 +9,21 @@ export class InkasantiService {
   private detailsSource = new BehaviorSubject({});
   currentDetails = this.detailsSource.asObservable();
 
-  private refresh = new Subject<string>();
-  currentState = this.refresh.asObservable();
+  private refresh = new Subject<object>();
+  currentData = this.refresh.asObservable();
 
   constructor() { }
 
   changeMessage(details: object) {
     this.detailsSource.next(details);
   }
-  refreshData(fnc: string) {
-    this.refresh.next(fnc);
+  refreshData(klijent_id: string, nalog: string, izvDatum: Date, izvIzvjestaj: string, izvNapomena: string) {
+    this.refresh.next({
+      klijent_id: klijent_id,
+      nalog: nalog,
+      izvDatum: izvDatum,
+      izvIzvjestaj: izvIzvjestaj,
+      izvNapomena: izvNapomena
+    });
   }
 }
