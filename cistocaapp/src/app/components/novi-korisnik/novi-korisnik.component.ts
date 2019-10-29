@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class NoviKorisnikComponent implements OnInit {
 
+  isLoading = false;
   vrsta = '';
   ime = '';
   prezime = '';
@@ -40,8 +41,8 @@ export class NoviKorisnikComponent implements OnInit {
       napomena: this.napomena
     };
 
+    this.isLoading = true;
     this.mysqlservice.insertToDbUser(frm).subscribe(resp => {
-      console.log(resp);
       if (resp['status'] === 201) {
         this.messageService.add({
           severity: 'info',
@@ -49,13 +50,6 @@ export class NoviKorisnikComponent implements OnInit {
           detail: 'Novi korisnik je uspješno dodan u bazu!'
         });
         userForm.reset();
-        // this.vrsta = null;
-        // this.ime = null;
-        // this.prezime = null;
-        // this.adresa = null;
-        // this.kolicina = null;
-        // this.napomena = null;
-
       } else {
         this.messageService.add({
           severity: 'error',
@@ -63,6 +57,7 @@ export class NoviKorisnikComponent implements OnInit {
           detail: 'Greška prilikom unosa novog korisnika!'
         });
       }
+      this.isLoading = false;
     });
 
   }
