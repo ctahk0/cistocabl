@@ -87,7 +87,6 @@ export class InkasantiDashboardComponent implements OnInit, OnDestroy {
     this.mysqlservice.getIncData(fi).subscribe((mydata: any) => {
       console.log('This is received data?', mydata.data);
       const data = mydata.data;
-
       let tmpArr = [];
       let br = '';
       let n = 0;
@@ -125,7 +124,9 @@ export class InkasantiDashboardComponent implements OnInit, OnDestroy {
                   izvNapomena: data[i].izvNapomena,
                   izvStatus: data[i].izvStatus,
                   naziv_ulice: data[i].naziv_ulice,
-                  sifra_ulice: data[i].sifra_ulice
+                  sifra_ulice: data[i].sifra_ulice,
+                  broj_od: data[i].broj_od,
+                  broj_do: data[i].broj_do
                 }];
               }
             }

@@ -24,9 +24,11 @@ export class MainService {
     return this._http.get(url);
   }
   /** ==================== KLIJENT LIST ================================================= */
-  getCustomer(pageSize: number, pageIndex: number, filter: string, streets: string, brod: number, brdo: number): Observable<any> {
+  // tslint:disable-next-line: max-line-length
+  getCustomer(pageSize: number, pageIndex: number, filter: string, streets: string, streetsid: string, brod: number, brdo: number): Observable<any> {
     // console.log('Get customer');
-    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}&streets=${streets}&brod=${brod}&brdo=${brdo}`;
+    // tslint:disable-next-line: max-line-length
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}&streets=${streets}&streetsid=${streetsid}&brod=${brod}&brdo=${brdo}`;
     return this._http.get(this._url + 'user/customer' + queryParams, httpOptions);
   }
 

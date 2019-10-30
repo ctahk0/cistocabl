@@ -32,15 +32,21 @@
                     <div class="space-between" *ngFor="let kl of nalog.data"
                         (click)="onObradaNovi(nalog.broj, kl.klijent_id)">
 
-                        <div class="client-container ripple-container" matRipple
+                        <div *ngIf="kl.klijent_id" class="client-container ripple-container" matRipple
                             [ngStyle]="{'background-color':kl.izvStatus === 1 ? 'lightgreen' : 'white' }">
                             <mat-divider></mat-divider>
                             <span class="small space-top">Korisnik:</span>
                             <span><strong>{{kl.klijent_id}} - {{kl.klijent_naziv}}</strong></span>
                             <span class="small">Adresa:</span>
                             <span class="space-bottom">{{kl.klijent_adresa}}</span>
-
-                            <!-- <span >{{kl.izvStatus}}</span> -->
+                        </div>
+                        <div *ngIf="kl.sifra_ulice" class="client-container ripple-container" matRipple
+                            [ngStyle]="{'background-color':kl.izvStatus === 1 ? 'lightgreen' : 'white' }">
+                            <mat-divider></mat-divider>
+                            <span class="small space-top">Ulica:</span>
+                            <span><strong>{{kl.naziv_ulice}}</strong></span>
+                            <span class="small">Brojevi:</span>
+                            <span class="space-bottom">{{kl.broj_od}} - {{kl.broj_do}}</span>
                         </div>
                     </div>
                 </mat-expansion-panel>
@@ -73,13 +79,21 @@
                     </div>
                     <div class="space-between" *ngFor="let kl of nalog.data"
                         (click)="onObradaZavrseni(nalog.broj, kl.klijent_id)">
-                        <mat-divider></mat-divider>
-                        <div class="client-container ripple-container" matRipple
+                        <div *ngIf="kl.klijent_id" class="client-container ripple-container" matRipple
                             [ngStyle]="{'background-color':kl.izvStatus === 1 ? 'lightgreen' : 'white' }">
+                            <mat-divider></mat-divider>
                             <span class="small space-top">Korisnik:</span>
                             <span><strong>{{kl.klijent_id}} - {{kl.klijent_naziv}}</strong></span>
                             <span class="small">Adresa:</span>
                             <span class="space-bottom">{{kl.klijent_adresa}}</span>
+                        </div>
+                        <div *ngIf="kl.sifra_ulice" class="client-container ripple-container" matRipple
+                            [ngStyle]="{'background-color':kl.izvStatus === 1 ? 'lightgreen' : 'white' }">
+                            <mat-divider></mat-divider>
+                            <span class="small space-top">Ulica:</span>
+                            <span><strong>{{kl.naziv_ulice}}</strong></span>
+                            <span class="small">Brojevi:</span>
+                            <span class="space-bottom">{{kl.broj_od}} - {{kl.broj_do}}</span>
                         </div>
                     </div>
                 </mat-expansion-panel>
@@ -111,13 +125,21 @@
                     </div>
                     <div class="space-between" *ngFor="let kl of nalog.data"
                         (click)="onObradaSvi(nalog.broj, kl.klijent_id)">
-                        <mat-divider></mat-divider>
-                        <div class="client-container ripple-container" matRipple
+                        <div *ngIf="kl.klijent_id" class="client-container ripple-container" matRipple
                             [ngStyle]="{'background-color':kl.izvStatus === 1 ? 'lightgreen' : 'white' }">
+                            <mat-divider></mat-divider>
                             <span class="small space-top">Korisnik:</span>
                             <span><strong>{{kl.klijent_id}} - {{kl.klijent_naziv}}</strong></span>
                             <span class="small">Adresa:</span>
                             <span class="space-bottom">{{kl.klijent_adresa}}</span>
+                        </div>
+                        <div *ngIf="kl.sifra_ulice" class="client-container ripple-container" matRipple
+                            [ngStyle]="{'background-color':kl.izvStatus === 1 ? 'lightgreen' : 'white' }">
+                            <mat-divider></mat-divider>
+                            <span class="small space-top">Ulica:</span>
+                            <span><strong>{{kl.naziv_ulice}}</strong></span>
+                            <span class="small">Brojevi:</span>
+                            <span class="space-bottom">{{kl.broj_od}} - {{kl.broj_do}}</span>
                         </div>
                     </div>
                 </mat-expansion-panel>
