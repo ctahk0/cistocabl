@@ -30,7 +30,7 @@
                         <div class="border-list">{{nalog.napomena}}</div>
                     </div>
                     <div class="space-between" *ngFor="let kl of nalog.data"
-                        (click)="onObradaNovi(nalog.broj, kl.klijent_id)">
+                        (click)="onObradaNovi(nalog.broj, kl.klijent_id, kl.sifra_ulice)">
 
                         <div *ngIf="kl.klijent_id" class="client-container ripple-container" matRipple
                             [ngStyle]="{'background-color':kl.izvStatus === 1 ? 'lightgreen' : 'white' }">

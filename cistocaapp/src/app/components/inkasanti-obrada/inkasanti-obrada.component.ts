@@ -52,7 +52,11 @@ export class InkasantiObradaComponent implements OnInit, OnDestroy {
       this.inkasant = details['inkasant'];
       console.log('Details received:', details);
       // console.log('Details nalog received:', this.nalog);
-      this.onClientDetails(this.details['klijent_id']);
+      if (this.details['klijent_id'] !== '') {
+        this.onClientDetails(this.details['klijent_id']);
+      } else {
+        this.izvjestaj = true;
+      }
     });
   }
 

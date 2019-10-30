@@ -20,6 +20,8 @@
     </div>
     <div class="client-container" *ngIf="!izvjestaj">
         <button mat-raised-button color="primary" (click)="onIzvjestaj()">Izvještaj</button>
+    </div>
+    <div class="client-container" *ngIf="!izvjestaj && klijent_sifra">
         <span class="small">Vrsta korisnika:</span>
         <span class="space-bottom border-list">{{klijent_vrsta}}</span>
         <span class="small">Adresa:</span>
@@ -32,7 +34,6 @@
         <span class="space-bottom border-list">{{klijent_StanjeDuga}}</span>
         <span class="small">Status:</span>
         <span class="space-bottom border-list">{{klijent_status}}</span>
-
         <div class="labels">
             <label id="name-label" for="name">Napomena:</label>
         </div>

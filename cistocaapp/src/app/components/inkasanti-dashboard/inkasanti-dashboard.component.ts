@@ -148,17 +148,28 @@ export class InkasantiDashboardComponent implements OnInit, OnDestroy {
 
   }
 
-  onObradaNovi(broj_naloga, klijent_id) {
+  onObradaNovi(broj_naloga, klijent_id, ulica_id) {
     const nl = this.taskList_novi.filter(nla => {
       // console.log('ah:', nla.broj, broj_naloga);
       return nla.broj === broj_naloga;
     });
     // console.log('nl', nl);
+    // console.log('ispitati da li je ulica ili klijent');
+    // console.log('klijent id', klijent_id);
+    // console.log('ulica id', ulica_id);
 
-    const korisnik = nl[0].data.filter(kl => {
-      // console.log(kl, klijent_id);
-      return kl.klijent_id === klijent_id;
-    });
+    let korisnik;
+    if (klijent_id !== '') {
+      korisnik = nl[0].data.filter(kl => {
+        return kl.klijent_id === klijent_id;
+      });
+    } else {
+      korisnik = nl[0].data.filter(kl => {
+        return kl.sifra_ulice === ulica_id;
+      });
+    }
+
+
     // console.log('iz ovog izvuci podatke!', korisnik);
     korisnik.nalog = nl[0].broj;
     korisnik.inkasant = nl[0].inkasantid;
