@@ -79,8 +79,11 @@ export class MainService {
   insertToDb(formObj: object) {
     return this._http.post(this._url + 'admin/zaduzenja', formObj, httpOptions);
   }
-
   insertToDbUser(formObj: object) {
+    return this._http.post(this._url + 'user/write', formObj, httpOptions);
+  }
+
+  insertToDbNewUser(formObj: object) {
     return this._http.post(this._url + 'user/writenewuser', formObj, httpOptions);
   }
 
