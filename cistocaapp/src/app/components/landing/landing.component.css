@@ -197,6 +197,13 @@ p {
     margin: 100px 0px 0px 0px;
     font-size: 51px;
   }
+  .l-img {
+    width: 20px;
+  }
+  #logo-img {
+    width: 80px;
+    margin-left: 100%;
+  }
   p {
     font-size: 15px;
   }

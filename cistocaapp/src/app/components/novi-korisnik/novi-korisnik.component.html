@@ -1,0 +1,69 @@
+<app-sidebar></app-sidebar>
+<p-toast></p-toast>
+<div class="main-container">
+    <mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
+    <!-- <div class="nav-header">
+        <button type="button" class="close" (click)="onCloseInfo()" aria-label="Close">
+            <mat-icon>keyboard_backspace</mat-icon>
+        </button>
+        <span class="nav-spacer"></span>
+        <button type="button" class="close" (click)="onCloseInfo()" aria-label="Close">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div> -->
+    <mat-card class="space-top space-bottom">
+        <form #userForm="ngForm">
+            <div class="client-container">
+                <!-- <span class="small">* Vrsta korisnika:</span> -->
+                <!-- <mat-label>Vrsta korisnika:</mat-label> -->
+                <mat-form-field>
+                    <mat-select [(ngModel)]="vrsta" name="vrsta_korisnika" #vrsta_korisnika="ngModel" required placeholder="Vrsta korisnika:">
+                        <mat-option *ngFor="let vrsta of vrste_korisnika" [value]="vrsta">
+                            {{vrsta}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-error *ngIf="vrsta_korisnika.errors?.required && vrsta_korisnika.touched"
+                    style="font-size: 0.8rem; margin-top: -15px;">
+                    Morate izabrati vrstu korisnika!
+                </mat-error>
+                <!-- <span class="small">* Ime/naziv korisnika:</span> -->
+                <mat-form-field>
+                    <input matInput [(ngModel)]="ime" name="ime_korisnika" #ime_korisnika="ngModel" required placeholder="Ime/naziv korisnika:">
+                </mat-form-field>
+                <mat-error *ngIf="ime_korisnika.errors?.required && ime_korisnika.touched"
+                    style="font-size: 0.8rem; margin-top: -15px;">
+                    Morate unijeti ime/naziv korisnika!
+                </mat-error>
+
+                <!-- <span class="small">Prezime:</span> -->
+                <mat-form-field>
+                    <input matInput [(ngModel)]="prezime" name="prezime_korisnika" #prezime_korisnika="ngModel" placeholder="Prezime:">
+                </mat-form-field>
+
+                <!-- <span class="small">* Adresa:</span> -->
+                <mat-form-field>
+                    <input matInput [(ngModel)]="adresa" name="adresa_korisnika" #adresa_korisnika="ngModel" required placeholder="Adresa:">
+                </mat-form-field>
+                <mat-error *ngIf="adresa_korisnika.errors?.required && adresa_korisnika.touched"
+                    style="font-size: 0.8rem; margin-top: -15px;">
+                    Morate unijeti adresu korisnika!
+                </mat-error>
+                <!-- <span class="small">Količina:</span> -->
+                <mat-form-field>
+                    <input matInput [(ngModel)]="kolicina" type="number" name="kolicina_korisnika"
+                        #kolicina_korisnika="ngModel" placeholder="Količina:">
+                </mat-form-field>
+
+                <!-- <span class="small">Napomena:</span> -->
+                <mat-form-field appearance="outline">
+                    <textarea matInput [(ngModel)]="napomena" name="napomena_korisnika"
+                        #napomena_korisnika="ngModel" placeholder="Napomena:"></textarea>
+                </mat-form-field>
+            </div>
+        </form>
+    </mat-card>
+    <div class="client-container space-top">
+        <button mat-raised-button color="primary" (click)="onSave(userForm)" [disabled]="userForm.invalid">Sačuvaj</button>
+    </div>
+</div>

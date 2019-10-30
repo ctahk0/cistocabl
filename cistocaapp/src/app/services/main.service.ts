@@ -19,7 +19,10 @@ export class MainService {
 
 
   constructor(private _http: HttpClient) { }
-
+  getKarticaKorisnika(korisnik_id: string) {
+    const url = `http://10.10.20.11:8080/StanjeKupca/services/Service.ServiceHttpSoap11Endpoint/getKartica1?sifPar=${korisnik_id}`;
+    return this._http.get(url);
+  }
   /** ==================== KLIJENT LIST ================================================= */
   getCustomer(pageSize: number, pageIndex: number, filter: string, streets: string, brod: number, brdo: number): Observable<any> {
     // console.log('Get customer');
@@ -39,6 +42,13 @@ export class MainService {
     // console.log('Get customer');
     const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
     return this._http.get(this._url + 'admin/zaduzenjeklijenti' + queryParams, httpOptions);
+  }
+
+  /** ==================== PODACI ZA INKASANTA - LIST NALOGA I ZADUZENJA ================= */
+  getIncData(filter: string): Observable<any> {
+    // console.log('Get customer');
+    const queryParams = `?filter=${filter}`;
+    return this._http.get(this._url + 'user/incview' + queryParams, httpOptions);
   }
 
   getStreet(pageSize: number, pageIndex: number, filter: string): Observable<any> {
@@ -70,6 +80,10 @@ export class MainService {
     return this._http.post(this._url + 'admin/zaduzenja', formObj, httpOptions);
   }
 
+  insertToDbUser(formObj: object) {
+    return this._http.post(this._url + 'user/writenewuser', formObj, httpOptions);
+  }
+
   // Edit/Save SMS Account
   saveSmsAccountDetails(username: string, password: string) {
     return this._http.post(
@@ -88,9 +102,9 @@ export class MainService {
     );
   }
 
-  /** DELETE member*/
-  DeleteMember(id) {
-    return this._http.delete(this._url + 'admin/members/' + id);
+  /** DELETE Nalog*/
+  DeleteNalog(id: string) {
+    return this._http.delete(this._url + 'admin/zaduzenje/', { params: { id: id } });
   }
 
 

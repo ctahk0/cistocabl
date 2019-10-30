@@ -31,7 +31,7 @@
                         <td mat-cell *matCellDef="let element; let i = index;"
                             style="text-align: left; padding-left: 20px;"
                             [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
-                            {{element['datum'] | date: 'shortDate'}} </td>
+                            {{element['datum'] | date: 'dd/M/yy'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="opis">

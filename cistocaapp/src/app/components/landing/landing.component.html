@@ -9,7 +9,7 @@
                             <div class="l-data">
                                 <div class="l-innerdata">
                                     <div class="l-img">
-                                        <img src="../../../assets/img/logo.jpg" alt="">
+                                        <img id="logo-img" src="../../../assets/img/logo.jpg" alt="">
                                     </div>
                                     <div class="title">
                                         Dobrodošli!
@@ -20,7 +20,7 @@
                                 <div class="r-innerdata">
                                     <app-login></app-login>
                                 </div>
-                                <div class="r-innerdata1">
+                                <!-- <div class="r-innerdata1">
                                     <a href="#" style="position:relative; top:10px;" (click)="resetPassword()">Zaboravili ste šifru?</a>
                                     <br>
                                     <div class="bottom-text">
@@ -28,33 +28,7 @@
                                         <a href="#" style="color:#f12184;" *ngIf="!userIsAuthenticated"
                                             (click)="switchLogin()">Registrujte se</a>
                                     </div>
-                                </div>
-                            </div>
-                            <div *ngIf="!login && !resetPwd" class="r-data">
-                                <div class="r-innerdata">
-                                    <!-- <app-signup></app-signup> -->
-                                </div>
-                                <div class="r-innerdata1">
-                                    <br>
-                                    <div class="bottom-text">
-                                        Ukoliko već imate nalog
-                                        <a href="#" style="color:#f12184;" *ngIf="!userIsAuthenticated"
-                                            (click)="switchLogin()">Prijavite se</a>
-                                        <!-- <button mat-button color="accent" *ngIf="!userIsAuthenticated" (click)="switchLogin()">Log in</button> -->
-                                        za nastavak
-                                    </div>
-                                </div>
-                            </div>
-                            <div *ngIf="resetPwd" class="r-data">
-                                <div class="r-innerdata">
-                                    <!-- <app-resetpassword></app-resetpassword> -->
-                                </div>
-                                <div class="r-innerdata1">
-                                    <br>
-                                    <div class="bottom-text">
-                                        <a href="#" style="position:relative; top:10px;" (click)="onBack()">Nazad</a>
-                                    </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

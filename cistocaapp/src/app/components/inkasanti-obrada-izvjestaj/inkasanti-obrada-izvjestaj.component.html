@@ -1,0 +1,17 @@
+<p-toast></p-toast>
+<mat-form-field class="full-width">
+    <mat-label>Izaberite izvještaj</mat-label>
+    <mat-select [formControl]="izvjestajControl" required>
+        <mat-option *ngFor="let izvjestaj of sudske_provjere" [value]="izvjestaj">
+            {{izvjestaj}}
+        </mat-option>
+    </mat-select>
+    <mat-error *ngIf="izvjestajControl.hasError('required')">Morate izabrati jedan od ponuđenih izvještaja!</mat-error>
+</mat-form-field>
+<mat-form-field class="full-width">
+    <mat-label>Zaključak:</mat-label>
+    <textarea matInput rows="15" [formControl]="zakljucakControl"></textarea>
+</mat-form-field>
+<div class="client-container">
+    <button mat-raised-button color="primary" (click)="onSave()" [disabled]="izvjestajControl.invalid">Sačuvaj</button>
+</div>

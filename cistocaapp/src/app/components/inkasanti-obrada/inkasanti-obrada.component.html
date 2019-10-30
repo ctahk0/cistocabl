@@ -1,0 +1,49 @@
+<p-toast></p-toast>
+<mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
+<div class="nav-header">
+    <button type="button" class="close" (click)="onCloseInfo()" aria-label="Close">
+        <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+    <span class="nav-spacer"></span>
+    <button type="button" class="close" (click)="onCloseInfo()" aria-label="Close">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-card>
+    <div class="top-header">
+        <mat-card-title>{{klijent_sifra}}</mat-card-title>
+        <span class="nav-spacer"></span>
+        <mat-card-subtitle>{{nalog}}</mat-card-subtitle>
+    </div>
+    <div>
+        <mat-card-subtitle>{{klijent_naziv}}</mat-card-subtitle>
+    </div>
+    <div class="client-container" *ngIf="!izvjestaj">
+        <button mat-raised-button color="primary" (click)="onIzvjestaj()">Izvještaj</button>
+        <span class="small">Vrsta korisnika:</span>
+        <span class="space-bottom border-list">{{klijent_vrsta}}</span>
+        <span class="small">Adresa:</span>
+        <span class="space-bottom border-list">{{klijent_adresa}}</span>
+        <span class="small">Količina:</span>
+        <span class="space-bottom border-list">{{klijent_kolicina}}</span>
+        <span class="small">Šifra usluge:</span>
+        <span class="space-bottom border-list">{{klijent_sif_usl}}</span>
+        <span class="small">Stanje duga:</span>
+        <span class="space-bottom border-list">{{klijent_StanjeDuga}}</span>
+        <span class="small">Status:</span>
+        <span class="space-bottom border-list">{{klijent_status}}</span>
+
+        <div class="labels">
+            <label id="name-label" for="name">Napomena:</label>
+        </div>
+        <div class="rightTab">
+            <div class="border-list">
+                <ul *ngFor="let el of klijent_details">
+                    <li>{{el.napomena}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <app-inkasanti-obrada-izvjestaj *ngIf="izvjestaj" (izvjestajEvent)="receiveIzvjestaj($event)">
+    </app-inkasanti-obrada-izvjestaj>
+</mat-card>

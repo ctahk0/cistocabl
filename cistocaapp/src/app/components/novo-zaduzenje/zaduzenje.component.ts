@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MainService } from 'src/app/services/main.service';
 import { MessageService } from 'primeng/api';
 import { ZaduzenjeService } from './zaduzenje.service';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 
 @Component({
     selector: 'app-Zaduzenje',
@@ -40,11 +41,15 @@ export class ZaduzenjeComponent implements OnInit {
     klijent_details = [];
     klijent_sifra = '';
     klijent_naziv = '';
-    klijent_StanjeDuga = 0.00;
-    klijent_ZadnjaKontrola = '';
+    klijent_StanjeDuga = '0.00';
+    klijent_kolicina = 0;
+    klijent_sif_usl = '';
+    klijent_adresa = '';
+    klijent_vrsta = '';
     klijent_Status = '';
-    klijent_Napomena = '';
+    klijent_tk = [];
 
+    refresh = '';   // mozda ne treba, treba testirati. Sluzi za refresh app nakon unosa naloga!
     // public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
     // [/[A-Z]/i, /\d/, /[A-Z]/i, ' ', /\d/, /[A-Z]/i, /\d/]
     // yy = new Date().getFullYear().toString().substr(-2);
@@ -60,18 +65,23 @@ export class ZaduzenjeComponent implements OnInit {
     constructor(private fb: FormBuilder,
         private mysqlservice: MainService,
         private messageService: MessageService,
-        private zaduzenjeService: ZaduzenjeService
+        private zaduzenjeService: ZaduzenjeService,
+        private confirmationDialogService: ConfirmationDialogService
     ) { }
 
     ngOnInit() {
-
         this.zaduzenjeService.currentDetails.subscribe(details => this.details = details);
         console.log('this details:', this.details);
         if (this.details !== null && Object.keys(this.details).length !== 0) {
             this.staticForm = true;
             const klarr = this.details['klijent'];
             for (let i = 0; i < klarr.length; i++) {
-                this.selected_klijenti.push({ sif_par: klarr[i]['klijent_id'], naz_par: klarr[i]['klijent_naziv'] });
+                this.selected_klijenti.push({
+                    sif_par: klarr[i]['klijent_id'],
+                    naz_par: klarr[i]['klijent_naziv'],
+                    uli_bro: klarr[i]['klijent_adresa'],
+                    vrsta_klijenta: klarr[i]['klijent_vrsta']
+                });
             }
             console.log(this.selected_klijenti);
             const arr = this.details['inkasant'].map(inkasant => inkasant.inkasant_id);
@@ -125,6 +135,9 @@ export class ZaduzenjeComponent implements OnInit {
         return this.zaduzenjeForm.get('inkasanti');
     }
 
+    get broj() {
+        return this.zaduzenjeForm.get('broj');
+    }
     // ** Za  dodavanje nula ispred */
     zfill(num, len) { return (Array(len).join('0') + num).slice(-len); }
 
@@ -176,6 +189,7 @@ export class ZaduzenjeComponent implements OnInit {
         const ps = 50;
         const pi = 0;
         this.mysqlservice.getInkasanti(ps, pi, fi).subscribe((mydata: any) => {
+            console.log(mydata);
             this.inkasantiList = mydata.data;
             this.isLoading = false;
         });
@@ -189,7 +203,7 @@ export class ZaduzenjeComponent implements OnInit {
         this.mysqlservice.getCustomer(ps, pi, this.customerFilter, this.selectedStreetFilter, 1, 2)
             .subscribe((mydata: any) => {
                 // console.log(mydata.data);
-                mydata.data.map(klijent => {
+                mydata.data.data.map(klijent => {
                     if (klijent.sif_par.trim().startsWith('0')) {
                         klijent.vrsta_klijenta = 'Preduzeća';
                     } else if (klijent.sif_par.trim().startsWith('1')) {
@@ -200,7 +214,7 @@ export class ZaduzenjeComponent implements OnInit {
                         klijent.vrsta_klijenta = 'Preduzetnici';
                     }
                 });
-                this.klijenti = mydata.data;
+                this.klijenti = mydata.data.data;
                 for (let i = 0; i < this.klijenti.length; i++) {
                     for (let n = 0; n < this.selected_klijenti.length; n++) {
                         const sel = this.selected_klijenti[n].sif_par;
@@ -222,7 +236,7 @@ export class ZaduzenjeComponent implements OnInit {
         this.mysqlservice.getStreet(ps, pi, this.streetFilter)
             .subscribe((streetdata: any) => {
                 // console.log(streetdata.data);
-                this.ulice = streetdata.data;
+                this.ulice = streetdata.data.data;
                 // console.log
                 for (let i = 0; i < this.ulice.length; i++) {
                     this.ulice[i].selected = 0;
@@ -363,7 +377,8 @@ export class ZaduzenjeComponent implements OnInit {
         }
     }
 
-    onClientDetails(sifra) {
+    onClientDetails(kl_sifra, kl_naziv) {
+
         // sif_par
         // dat_poc_vaz
         // sif_vrs_ce
@@ -373,28 +388,81 @@ export class ZaduzenjeComponent implements OnInit {
         // datum_promene
         // sif_par
         // napomena
-        this.klijent_sifra = '32642334';
-        this.klijent_naziv = 'AGRO MIRO DOO';
-        this.klijent_StanjeDuga = 22.45;
-        this.klijent_ZadnjaKontrola = '29.5.2019';
-        this.klijent_Status = 'Aktivan';
-        this.klijent_Napomena = 'Detaljna napomena, klijent je uredan, placa redoovno. Bio sam u kontroli 12.12.2017. ';
+        this.isLoading = true;
         this.klijent_details = [];
-        console.log(sifra);
-        this.display_details = true;
-        // call pagesize -1 for all rows!
-        this.mysqlservice.getCustomerDetailsKorisnikUsl(-1, 0, sifra).subscribe(resp => {
-            console.log(resp.data);
-            const det = resp.data;
-            this.klijent_sifra = sifra;
-            this.klijent_naziv = 'naziv';
-            for (let i = 0; i < resp.data.length; i++) {
-                this.klijent_details.push({ napomena: det[i].napomena });
-            }
 
+        this.klijent_details = this.selected_klijenti.filter(function (klijent) {
+            return klijent.sif_par === kl_sifra;
+        });
+        this.klijent_adresa = this.klijent_details[0]['uli_bro'];
+        this.klijent_vrsta = this.klijent_details[0]['vrsta_klijenta'];
+
+        this.display_details = true;
+        this.klijent_details = [];
+        // call pagesize -1 for all rows!
+        this.mysqlservice.getCustomerDetailsKorisnikUsl(-1, 0, kl_sifra).subscribe(resp => {
+            console.log('------------ovaj response', resp.data);
+            const det = resp.data.data;
+            const tk = resp.data.tk;
+            this.klijent_sifra = kl_sifra;
+            this.klijent_naziv = kl_naziv;
+            for (let i = 0; i < det.length; i++) {
+                this.klijent_kolicina = det[i].kolicina;
+                this.klijent_sif_usl = det[i].sif_usl;
+                this.klijent_Status = det[i].status;
+                if (det[i].napomena != null && det[i].napomena !== '') {
+                    this.klijent_details.push({ napomena: det[i].napomena });
+                }
+            }
+            let duguje = 0;
+            let potrazuje = 0;
+
+            this.klijent_tk = tk.filter(function (klijent) {
+                return klijent.sif_kto.trim() === '2010200';
+            });
+            // console.log('klijent tk:', this.klijent_tk);
+            // console.log(this.klijent_tk.length);
+            for (let i = 0; i < this.klijent_tk.length; i++) {
+                duguje += Number(this.klijent_tk[i]['izn_dug']);
+                potrazuje += Number(this.klijent_tk[i]['izn_pot']);
+            }
+            this.klijent_StanjeDuga = (duguje - potrazuje).toFixed(2);
+            this.isLoading = false;
         });
     }
 
+    onDeleteNalog(id) {
+        console.log(id);
+        if (id != null) {
+            this.confirmationDialogService.confirm('Brisanje naloga', 'Da li ste sigurni?', 'Brisanje', 'Odustani', 'sm')
+                .then((confirmed) => {
+                    if (id != null && confirmed) {
+                        this.mysqlservice.DeleteNalog(id).subscribe((res: any) => {
+                            console.log(res);
+                            if (res['status'] === 200) {
+                                // form.reset();
+                                this.messageService.add({
+                                    severity: 'info',
+                                    summary: 'Brisanje naloga',
+                                    detail: 'Nalog uspješno obrisan!'
+                                });
+                            }
+                        }, (err => {
+                            console.log(err);
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: 'Greška!',
+                                detail: 'Greška prilikom brisanja naloga!'
+                            });
+                        })
+                        );
+                    }
+                })
+                .catch(() =>
+                    console.log('Delete canceled)')
+                );
+        }
+    }
     applyCustomerFilter(filterValue: string) {
         // console.log(this.selected);
         this.customerFilter = filterValue.trim().toLowerCase();

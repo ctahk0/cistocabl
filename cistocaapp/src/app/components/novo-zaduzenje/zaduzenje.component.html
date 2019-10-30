@@ -5,12 +5,12 @@
         <!-- Title of an Card -->
         <mat-card-title class="title">
             <div>
-                Nalog inkasantima - zaduženje
+                Nalog inkasantima - zaduženje, broj.value
             </div>
         </mat-card-title>
         <mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
 
-        <p-dialog header="" [(visible)]="display_details" [contentStyle]="{'max-width':'800px'}">
+        <p-dialog header="" [(visible)]="display_details" [contentStyle]="{'max-width':'1024px'}">
             <p-header>
                 {{klijent_sifra}},
                 {{klijent_naziv}}
@@ -26,61 +26,52 @@
             <!-- napomena -->
             <div class="rowTab">
                 <div class="labels">
-                    <label id="name-label" for="name">Klijent:</label>
+                    <label id="name-label" for="name">Vrsta klijenta:</label>
                 </div>
                 <div class="rightTab">
-                    <input class="input-field" value="{{klijent_naziv}}">
+                    <input class="input-field" value="{{klijent_vrsta}}">
                 </div>
-            </div>
-
-            <div class="rowTab">
+                <div class="labels">
+                    <label id="name-label" for="name">Adresa:</label>
+                </div>
+                <div class="rightTab">
+                    <input class="input-field" value="{{klijent_adresa}}">
+                </div>
+                <div class="labels">
+                    <label id="name-label" for="name">Količina:</label>
+                </div>
+                <div class="rightTab">
+                    <input class="input-field" value="{{klijent_kolicina}}">
+                </div>
+                <div class="labels">
+                    <label id="name-label" for="name">Šifra usluge:</label>
+                </div>
+                <div class="rightTab">
+                    <input class="input-field" value="{{klijent_sif_usl}}">
+                </div>
                 <div class="labels">
                     <label id="name-label" for="name">Stanje duga:</label>
                 </div>
                 <div class="rightTab">
                     <input class="input-field" value="{{klijent_StanjeDuga}}">
                 </div>
-            </div>
-            <div class="rowTab">
-                <div class="labels">
-                    <label id="name-label" for="name">Zadnja kontrola:</label>
-                </div>
-                <div class="rightTab">
-                    <input class="input-field" value="{{klijent_ZadnjaKontrola}}">
-                </div>
-            </div>
-            <div class="rowTab">
                 <div class="labels">
                     <label id="name-label" for="name">Status:</label>
                 </div>
                 <div class="rightTab">
                     <input class="input-field" value="{{klijent_Status}}">
                 </div>
-            </div>
-            <div class="rowTab">
                 <div class="labels">
                     <label id="name-label" for="name">Napomena:</label>
                 </div>
                 <div class="rightTab">
                     <div class="border-list">
-
-                        <mat-list *ngFor="let el of klijent_details">
-                            <mat-list-item>- {{el.napomena}} </mat-list-item>
-                        </mat-list>
+                        <ul *ngFor="let el of klijent_details">
+                            <li>{{el.napomena}}</li>
+                        </ul>
                     </div>
-
-                    <!-- <ul *ngFor="let el of klijent_details" >
-                        <li>{{el.napomena}}</li>
-                    </ul> -->
                 </div>
             </div>
-            <!-- {{klijent_sifra}}
-            {{klijent_naziv}}
-            {{klijent_StanjeDuga}}
-            {{klijent_ZadnjaKontrola}}
-            {{klijent_Status}}
-            {{klijent_Napomena}} -->
-
         </p-dialog>
 
         <!-- <p-sidebar [(visible)]="display_details" position="right" [style]="{width:'50em'}">
@@ -122,7 +113,7 @@
                             <button *ngIf="!staticForm" type="button" mat-raised-button class="header-buttons-items"
                                 (click)="onSaveNalog()">Pošalji</button>
                             <button *ngIf="!staticForm" type="button" mat-raised-button class="header-buttons-items"
-                                color="warn" (click)="onDeleteNalog()">Obriši</button>
+                                color="warn" (click)="onDeleteNalog(broj.value)">Obriši</button>
                         </div>
                     </div>
                     <div *ngIf="!staticForm" class="main-form-header">
@@ -240,22 +231,28 @@
                     <div class="main-form-body">
                         <div class="row">
                             <mat-card class="customer-list highlight">
+                                <mat-card-header>
+                                    <mat-card-title>Izabrani klijenti</mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
 
-                                <mat-selection-list dense #selected_klijent *ngIf="selected_klijenti">
-                                    <mat-list-item *ngFor="let klijent of selected_klijenti">
-                                        <div>
-                                            {{klijent.sif_par}} {{klijent.naz_par}}
-                                        </div>
-                                        <span class="spacer"></span>
-                                        <button mat-button type="button" (click)="onClientDetails(klijent.sif_par)">
-                                            Detaljnije
-                                        </button>
-                                        <button type="button" *ngIf="!staticForm" mat-icon-button
-                                            (click)="onRemoveKlijent(klijent.sif_par)" color="warn">
-                                            <mat-icon>delete_forever</mat-icon>
-                                        </button>
-                                    </mat-list-item>
-                                </mat-selection-list>
+                                    <mat-selection-list dense #selected_klijent *ngIf="selected_klijenti">
+                                        <mat-list-item *ngFor="let klijent of selected_klijenti">
+                                            <div>
+                                                {{klijent.sif_par}} {{klijent.naz_par}}
+                                            </div>
+                                            <span class="spacer"></span>
+                                            <button mat-button type="button"
+                                                (click)="onClientDetails(klijent.sif_par, klijent.naz_par)">
+                                                Detaljnije
+                                            </button>
+                                            <button type="button" *ngIf="!staticForm" mat-icon-button
+                                                (click)="onRemoveKlijent(klijent.sif_par)" color="warn">
+                                                <mat-icon>delete_forever</mat-icon>
+                                            </button>
+                                        </mat-list-item>
+                                    </mat-selection-list>
+                                </mat-card-content>
                             </mat-card>
 
                             <mat-card class="customer-list highlight">
@@ -290,12 +287,12 @@
                     <!-- END Klijent -->
                     <!-- </div> -->
                     <p></p>
-                    <div class="main-form-body">
+                    <!-- <div class="main-form-body">
                         <mat-form-field class="textarea-form-field">
                             <mat-label> Opis:</mat-label>
                             <textarea matInput rows="5" formControlName="opis" [readonly]="staticForm"></textarea>
                         </mat-form-field>
-                    </div>
+                    </div> -->
 
                     <div *ngIf="!staticForm" class="main-form-footer">
                         <mat-form-field class="form-field">

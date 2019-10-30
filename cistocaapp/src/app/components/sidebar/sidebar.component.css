@@ -9,6 +9,7 @@
     z-index: 999;
     -ms-overflow-y: auto;
     overflow-y: auto;
+    /* margin-left: -8px; */
   }
   #sidebar .mat-nav-list {
     width: 100%;
