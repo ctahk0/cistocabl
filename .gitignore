@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/cistocaapp/dist
 
 # dependencies
 /backend/node_modules
