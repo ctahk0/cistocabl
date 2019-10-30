@@ -33,7 +33,7 @@ export class PretragaKorisnikaComponent implements OnInit {
     const ps = 10;
     const pi = 0;
 
-    this.mysqlservice.getCustomer(ps, pi, this.customerFilter, this.streetFilter, 1, 1)
+    this.mysqlservice.getCustomer(ps, pi, this.customerFilter, this.streetFilter, '0', 1, 1)
       .subscribe((mydata: any) => {
         console.log(mydata.data);
         mydata.data.data.map(klijent => {
@@ -98,8 +98,9 @@ export class PretragaKorisnikaComponent implements OnInit {
     this.getCustomer();
   }
   applyStreetFilter(filterValue: string) {
-    // console.log(this.selected);
+    console.log('filter value', filterValue);
     this.streetFilter = filterValue.trim().toLowerCase();
+    console.log('streets filter', this.streetFilter);
     this.getCustomer();
   }
 }

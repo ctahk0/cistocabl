@@ -199,8 +199,11 @@ export class ZaduzenjeComponent implements OnInit {
         this.isLoading = true;
         const ps = 200;
         const pi = 0;
+        console.log('Testiranje ulica');
+        console.log(this.selected_ulice);
         console.log(this.selectedStreetFilter);
-        this.mysqlservice.getCustomer(ps, pi, this.customerFilter, this.selectedStreetFilter, 1, 2)
+
+        this.mysqlservice.getCustomer(ps, pi, this.customerFilter, this.selectedStreetFilter, '1', 1, 2)
             .subscribe((mydata: any) => {
                 // console.log(mydata.data);
                 mydata.data.data.map(klijent => {
