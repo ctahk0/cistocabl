@@ -17,9 +17,10 @@ export class InkasantiService {
   changeMessage(details: object) {
     this.detailsSource.next(details);
   }
-  refreshData(klijent_id: string, nalog: string, izvDatum: Date, izvIzvjestaj: string, izvNapomena: string) {
+  refreshData(klijent_id: string, ulica_id: string, nalog: string, izvDatum: Date, izvIzvjestaj: string, izvNapomena: string) {
     this.refresh.next({
       klijent_id: klijent_id,
+      ulica_id: ulica_id,
       nalog: nalog,
       izvDatum: izvDatum,
       izvIzvjestaj: izvIzvjestaj,

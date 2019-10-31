@@ -16,16 +16,23 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log('ERR INTERCEPTOR:', error);
-        let errorMessage = 'An unknown error occurred!';
+        let errorMessage = 'Nepoznata greška!';
+
         if (error.error.message) {
           errorMessage = error.error.message;
+          const controlError = error.error.error.message;
           console.log('We have a error here', errorMessage);
-          // this.dialog.open(ErrorComponent, {data: {message: errorMessage}});
-          this.errorService.throwError(errorMessage);
+          if (controlError.indexOf('CONSTRAINT `izvjestaj_inkasanti') !== -1) {
+            this.errorService.throwError('Postoji izvještaj inkasanta za ovaj nalog. Nije dozvoljeno brisanje!');
+          } else {
+            // this.dialog.open(ErrorComponent, {data: {message: errorMessage}});
+            this.errorService.throwError(errorMessage);
+          }
           return throwError(error);
         } else {
           return throwError(error);
         }
+
       })
     );
   }

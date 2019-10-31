@@ -12,10 +12,12 @@ import { ZaduzenjeService } from '../novo-zaduzenje/zaduzenje.service';
     styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+
     userIsAuthenticated = false;
     isAdmin = false;
     os = '';
     isLoading = false;
+
     displayedColumns: string[] = [
         'broj',
         'datum',
@@ -41,7 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     details: object;
 
     private authListenerSubs: Subscription;
-
+    private zaduzenjeServiceSubs: Subscription;
 
     constructor(private authService: AuthService,
         private mysqlservice: MainService,
@@ -61,7 +63,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.userIsAuthenticated = isAuthenticated;
             });
 
-        this.zaduzenjeService.currentDetails.subscribe(details => this.details = details);
+        this.zaduzenjeServiceSubs = this.zaduzenjeService.currentDetails.subscribe(details => this.details = details);
     }
 
     showList() {
@@ -100,12 +102,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     onSwitchDetails(e) {
-        console.log(e);
+        // console.log(e);
         this.details = e;
-        console.log(e.broj);
+        // console.log(e.broj);
         this.mysqlservice.getZaduzenjeKlijenti(1000, 0, e.broj).subscribe((mydata: any) => {
-            console.log('------------');
-            console.log(mydata);
+            // console.log('------------');
+            // console.log(mydata);
             this.details['klijent'] = mydata.klijenti;
             this.details['inkasant'] = mydata.inkasanti;
             this.zaduzenjeService.changeMessage(this.details);
@@ -115,5 +117,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.authListenerSubs.unsubscribe();
+        this.zaduzenjeServiceSubs.unsubscribe();
     }
 }

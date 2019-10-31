@@ -64,11 +64,18 @@ export class InkasantiDashboardComponent implements OnInit, OnDestroy {
         const el = this.taskList_novi[i];
         // console.log(el.broj);
         if (el.broj === refobj['nalog']) {
-          // console.log('Nasao nalog, sad listaj klijente');
+          // console.log('Nasao nalog, sad listaj klijente ili ulice');
           for (let n = 0; n < this.taskList_novi[i].data.length; n++) {
             const kl = this.taskList_novi[i].data[n];
             // console.log(kl.klijent_id);
-            if (kl.klijent_id === refobj['klijent_id']) {
+            if (kl.klijent_id === refobj['klijent_id'] && refobj['klijent_id'] !== '') {
+              // console.log('Nasao sam ga!, treba update statusa');
+              this.taskList_novi[i].data[n]['izvStatus'] = 1;
+              this.taskList_novi[i].data[n]['izvDatum'] = refobj['izvDatum'];
+              this.taskList_novi[i].data[n]['izvIzvjestaj'] = refobj['izvIzvjestaj'];
+              this.taskList_novi[i].data[n]['izvNapomena'] = refobj['izvNapomena'];
+            }
+            if (kl.sifra_ulice === refobj['ulica_id'] && refobj['ulica_id'] !== '') {
               // console.log('Nasao sam ga!, treba update statusa');
               this.taskList_novi[i].data[n]['izvStatus'] = 1;
               this.taskList_novi[i].data[n]['izvDatum'] = refobj['izvDatum'];

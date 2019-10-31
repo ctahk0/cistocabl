@@ -64,18 +64,19 @@ export class InkasantiObradaIzvjestajComponent implements OnInit, OnDestroy {
       inkasant_id: this.klijent_data['inkasant'],
       zaduzenje_id: this.klijent_data['nalog'],
       klijent_id: this.klijent_data[0]['klijent_id'],
+      ulica_id: this.klijent_data[0]['sifra_ulice'],
       datum_izvjestaja: today,
       izvjestaj: this.izvjestajControl.value,
       napomena: this.zakljucakControl.value,
       status: 1
     };
     // 'inkasant_id,zaduzenje_id,datum_izvjestaja,izvjestaj,napomena,status'
-    // console.log('frm to save:', frm);
+    console.log('frm to save:', frm);
 
     this.mysqlservice.insertToDbUser(frm).subscribe(resp => {
       console.log(resp);
       if (resp['status'] === 201) {
-        this.inkasantiservice.refreshData(this.klijent_data[0]['klijent_id'],
+        this.inkasantiservice.refreshData(this.klijent_data[0]['klijent_id'], this.klijent_data[0]['sifra_ulice'],
           this.klijent_data['nalog'], today, this.izvjestajControl.value, this.zakljucakControl.value);
         this.izvjestajEvent.emit(false);
       } else {

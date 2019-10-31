@@ -17,7 +17,7 @@ export class ZaduzenjeComponent implements OnInit {
 
     zaduzenjeForm: FormGroup;
     vrsta = ['Domaćinstva', 'Pravna lica'];
-    tip = ['Dostava', 'Kontrola'];
+    tip = [];
     // klijenti = [{ sif_par: '', naz_par: '' }];
     klijenti = [];
     selected_klijenti = [];
@@ -76,14 +76,24 @@ export class ZaduzenjeComponent implements OnInit {
             this.staticForm = true;
             const klarr = this.details['klijent'];
             for (let i = 0; i < klarr.length; i++) {
-                this.selected_klijenti.push({
-                    sif_par: klarr[i]['klijent_id'],
-                    naz_par: klarr[i]['klijent_naziv'],
-                    uli_bro: klarr[i]['klijent_adresa'],
-                    vrsta_klijenta: klarr[i]['klijent_vrsta']
-                });
+                if (klarr[i]['klijent_id'] !== '') {
+                    this.selected_klijenti.push({
+                        sif_par: klarr[i]['klijent_id'],
+                        naz_par: klarr[i]['klijent_naziv'],
+                        uli_bro: klarr[i]['klijent_adresa'],
+                        vrsta_klijenta: klarr[i]['klijent_vrsta']
+                    });
+                }
+                if (klarr[i]['sifra_ulice'] !== '') {
+                    this.selected_ulice.push({
+                        sif_uli: klarr[i]['sifra_ulice'],
+                        naz_uli: klarr[i]['naziv_ulice'],
+                        broj_od: klarr[i]['broj_od'],
+                        broj_do: klarr[i]['broj_do']
+                    });
+                }
             }
-            console.log(this.selected_klijenti);
+            // console.log(this.selected_klijenti);
             const arr = this.details['inkasant'].map(inkasant => inkasant.inkasant_id);
             const fi = arr.join();
             console.log('Fi------:', fi);
@@ -126,9 +136,14 @@ export class ZaduzenjeComponent implements OnInit {
                 kontrola_opis: '',
                 napomena: ''
             });
+            this.tip = this.getTipZaduzenja();
             this.getMaxBrojZaduzenja('');
             this.getInkasanti('');
         }
+    }
+
+    getTipZaduzenja() {
+        return ['Dostava', 'Kontrola', 'Novi korisnici'];
     }
 
     get inkasanti() {
@@ -292,10 +307,19 @@ export class ZaduzenjeComponent implements OnInit {
         for (let i = 0; i < this.ulice.length; i++) {
             if (e === this.ulice[i].sif_uli) {
                 this.ulice[i].selected = 0;
+                this.selected_ulice = this.selected_ulice.filter(el => el.sif_uli !== e);
             }
         }
-        // this.zaduzenjeForm.controls['klijent'].patchValue(this.selected_ulice);
+        const arrUlice = [];
+        for (const i in this.selected_ulice) {
+            if (this.selected_ulice.hasOwnProperty(i)) {
+                arrUlice.push(this.selected_ulice[i].sif_uli);
+            }
+        }
+        // tslint:disable-next-line: quotemark
+        this.selectedStreetFilter = "'" + arrUlice.join("','") + "'";
         this.getStreet();
+        this.getCustomer();
     }
 
     onSelectUlica(e, ulica) {
@@ -350,6 +374,7 @@ export class ZaduzenjeComponent implements OnInit {
         });
         this.staticForm = false;
         this.getMaxBrojZaduzenja('');
+        this.getInkasanti('');
     }
 
     onSaveNalog() {
@@ -441,7 +466,7 @@ export class ZaduzenjeComponent implements OnInit {
                 .then((confirmed) => {
                     if (id != null && confirmed) {
                         this.mysqlservice.DeleteNalog(id).subscribe((res: any) => {
-                            console.log(res);
+                            console.log('THIS IS RES', res);
                             if (res['status'] === 200) {
                                 // form.reset();
                                 this.messageService.add({
@@ -452,11 +477,13 @@ export class ZaduzenjeComponent implements OnInit {
                             }
                         }, (err => {
                             console.log(err);
-                            this.messageService.add({
-                                severity: 'error',
-                                summary: 'Greška!',
-                                detail: 'Greška prilikom brisanja naloga!'
-                            });
+                            if (err.error.error.errno !== 1451) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: 'Greška!',
+                                    detail: 'Greška prilikom brisanja naloga!'
+                                });
+                            }
                         })
                         );
                     }

@@ -1,146 +1,132 @@
 <app-sidebar></app-sidebar>
 <p-toast></p-toast>
 <div class="main-container">
-    <mat-card class="main-card">
-        <!-- Title of an Card -->
+    <!-- <mat-card class="main-card">
         <mat-card-title class="title">
             <div>
                 Nalog inkasantima - zaduženje, {{broj.value}}
             </div>
-        </mat-card-title>
-        <mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
+        </mat-card-title> -->
+    <div class="title">
+        Nalog inkasantima - zaduženje, {{broj.value}}
+    </div>
+    <mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
 
-        <p-dialog header="" [(visible)]="display_details" [contentStyle]="{'max-width':'1024px'}">
-            <p-header>
-                {{klijent_sifra}},
-                {{klijent_naziv}}
-            </p-header>
-            <!-- sif_par -->
-            <!-- dat_poc_vaz -->
-            <!-- sif_vrs_ce -->
-            <!-- sif_usl -->
-            <!-- kolicina -->
-            <!-- status -->
-            <!-- datum_promene -->
-            <!-- sif_par -->
-            <!-- napomena -->
-            <div class="rowTab">
-                <div class="labels">
-                    <label id="name-label" for="name">Vrsta klijenta:</label>
-                </div>
-                <div class="rightTab">
-                    <input class="input-field" value="{{klijent_vrsta}}">
-                </div>
-                <div class="labels">
-                    <label id="name-label" for="name">Adresa:</label>
-                </div>
-                <div class="rightTab">
-                    <input class="input-field" value="{{klijent_adresa}}">
-                </div>
-                <div class="labels">
-                    <label id="name-label" for="name">Količina:</label>
-                </div>
-                <div class="rightTab">
-                    <input class="input-field" value="{{klijent_kolicina}}">
-                </div>
-                <div class="labels">
-                    <label id="name-label" for="name">Šifra usluge:</label>
-                </div>
-                <div class="rightTab">
-                    <input class="input-field" value="{{klijent_sif_usl}}">
-                </div>
-                <div class="labels">
-                    <label id="name-label" for="name">Stanje duga:</label>
-                </div>
-                <div class="rightTab">
-                    <input class="input-field" value="{{klijent_StanjeDuga}}">
-                </div>
-                <div class="labels">
-                    <label id="name-label" for="name">Status:</label>
-                </div>
-                <div class="rightTab">
-                    <input class="input-field" value="{{klijent_Status}}">
-                </div>
-                <div class="labels">
-                    <label id="name-label" for="name">Napomena:</label>
-                </div>
-                <div class="rightTab">
-                    <div class="border-list">
-                        <ul *ngFor="let el of klijent_details">
-                            <li>{{el.napomena}}</li>
-                        </ul>
-                    </div>
+    <p-dialog header="" [(visible)]="display_details" [contentStyle]="{'max-width':'1024px'}">
+        <p-header>
+            {{klijent_sifra}},
+            {{klijent_naziv}}
+        </p-header>
+        <!-- sif_par -->
+        <!-- dat_poc_vaz -->
+        <!-- sif_vrs_ce -->
+        <!-- sif_usl -->
+        <!-- kolicina -->
+        <!-- status -->
+        <!-- datum_promene -->
+        <!-- sif_par -->
+        <!-- napomena -->
+        <div class="rowTab">
+            <div class="labels">
+                <label id="name-label" for="name">Vrsta klijenta:</label>
+            </div>
+            <div class="rightTab">
+                <input class="input-field" value="{{klijent_vrsta}}">
+            </div>
+            <div class="labels">
+                <label id="name-label" for="name">Adresa:</label>
+            </div>
+            <div class="rightTab">
+                <input class="input-field" value="{{klijent_adresa}}">
+            </div>
+            <div class="labels">
+                <label id="name-label" for="name">Količina:</label>
+            </div>
+            <div class="rightTab">
+                <input class="input-field" value="{{klijent_kolicina}}">
+            </div>
+            <div class="labels">
+                <label id="name-label" for="name">Šifra usluge:</label>
+            </div>
+            <div class="rightTab">
+                <input class="input-field" value="{{klijent_sif_usl}}">
+            </div>
+            <div class="labels">
+                <label id="name-label" for="name">Stanje duga:</label>
+            </div>
+            <div class="rightTab">
+                <input class="input-field" value="{{klijent_StanjeDuga}}">
+            </div>
+            <div class="labels">
+                <label id="name-label" for="name">Status:</label>
+            </div>
+            <div class="rightTab">
+                <input class="input-field" value="{{klijent_Status}}">
+            </div>
+            <div class="labels">
+                <label id="name-label" for="name">Napomena:</label>
+            </div>
+            <div class="rightTab">
+                <div class="border-list">
+                    <ul *ngFor="let el of klijent_details">
+                        <li>{{el.napomena}}</li>
+                    </ul>
                 </div>
             </div>
-        </p-dialog>
+        </div>
+    </p-dialog>
 
-        <!-- <p-sidebar [(visible)]="display_details" position="right" [style]="{width:'50em'}">
+    <!-- <p-sidebar [(visible)]="display_details" position="right" [style]="{width:'50em'}">
         </p-sidebar> -->
 
-        <mat-card-content>
-            <form [formGroup]="zaduzenjeForm">
-                <div class="main-form">
-                    <div class="main-form-header">
-                        <div class="main-form-header">
-                            <mat-form-field class="form-field">
-                                <mat-label> Broj:</mat-label>
-                                <!-- <input [textMask]="{mask: mask}" [(ngModel)]="myModel" type="text"/> -->
-                                <input matInput formControlName="broj" readonly>
-                            </mat-form-field>
+    <!-- <mat-card-content> -->
+    <form [formGroup]="zaduzenjeForm">
+        <div class="main-form">
+            <div class="main-form-header">
+                <div class="main-form-header">
+                    <mat-form-field class="form-field">
+                        <mat-label> Broj:</mat-label>
+                        <!-- <input [textMask]="{mask: mask}" [(ngModel)]="myModel" type="text"/> -->
+                        <input matInput formControlName="broj" readonly>
+                    </mat-form-field>
 
-                            <mat-form-field>
-                                <mat-label> Datum: (dd/mm/yyyy)</mat-label>
-                                <input #datePicker matInput formControlName="datum" [matDatepicker]="picker"
-                                    [readonly]="staticForm" onkeyup="
+                    <mat-form-field>
+                        <mat-label> Datum: (dd/mm/yyyy)</mat-label>
+                        <input #datePicker matInput formControlName="datum" [matDatepicker]="picker"
+                            [readonly]="staticForm" onkeyup="
                                 var v = this.value;
                                 if (v.match(/^\d{2}$/) !== null) {
                                     this.value = v + '/';
                                 } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
                                     this.value = v + '/';
                                 }" (keypress)="_keyPress($event)" maxlength="10">
-                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                <mat-datepicker #picker [disabled]="staticForm"></mat-datepicker>
-                                <mat-error
-                                    *ngIf="zaduzenjeForm.controls.datum.errors?.required && (zaduzenjeForm.controls.datum.dirty || zaduzenjeForm.controls.datum.touched)"
-                                    style="font-size: 0.8rem;">
-                                    Neispravan datum!</mat-error>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="header-buttons">
-                            <button mat-raised-button type="button" class="header-buttons-items"
-                                (click)="onNewNalog()">Novi nalog</button>
-                            <button *ngIf="!staticForm" type="button" mat-raised-button class="header-buttons-items"
-                                (click)="onSaveNalog()">Pošalji</button>
-                            <button *ngIf="!staticForm" type="button" mat-raised-button class="header-buttons-items"
-                                color="warn" (click)="onDeleteNalog(broj.value)">Obriši</button>
-                        </div>
-                    </div>
-                    <div *ngIf="!staticForm" class="main-form-header">
-                        <div>
-
-                        </div>
-                        <div>
-                            <mat-form-field>
-                                <mat-label>Izaberite inkasanta</mat-label>
-                                <mat-select formControlName="inkasanti" multiple>
-                                    <mat-option *ngFor="let inkasant of inkasantiList" [value]="inkasant.id">
-                                        {{inkasant.firstname}} {{inkasant.lastname}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-error
-                                *ngIf="zaduzenjeForm.controls.inkasanti.errors?.required && (zaduzenjeForm.controls.inkasanti.dirty || zaduzenjeForm.controls.inkasanti.touched)"
-                                style="font-size: 0.8rem; margin-top: -15px;">
-                                Morate izabrati inkasanta!
-                            </mat-error>
-                        </div>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker [disabled]="staticForm"></mat-datepicker>
+                        <mat-error
+                            *ngIf="zaduzenjeForm.controls.datum.errors?.required && (zaduzenjeForm.controls.datum.dirty || zaduzenjeForm.controls.datum.touched)"
+                            style="font-size: 0.8rem;">
+                            Neispravan datum!</mat-error>
+                    </mat-form-field>
+                    <div class="space-between" *ngIf="!staticForm">
+                        <mat-form-field>
+                            <mat-label>Izaberite inkasanta</mat-label>
+                            <mat-select formControlName="inkasanti" multiple>
+                                <mat-option *ngFor="let inkasant of inkasantiList" [value]="inkasant.id">
+                                    {{inkasant.firstname}} {{inkasant.lastname}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="zaduzenjeForm.controls.inkasanti.errors?.required && (zaduzenjeForm.invalid)"
+                            style="font-size: 0.8rem; margin-top: -15px;">
+                            Morate izabrati inkasanta!
+                        </mat-error>
                     </div>
                     <div *ngIf="staticForm" class="main-form-header">
                         <div>
 
                         </div>
                         <div class="inkasanti-list">
+                            <mat-label> Inkasant:</mat-label>
                             <mat-selection-list dense *ngIf="inkasantiList">
                                 <mat-list-item *ngFor="let inkasant of inkasantiList">
                                     <div>
@@ -150,64 +136,76 @@
                             </mat-selection-list>
                         </div>
                     </div>
-                    <div *ngIf="!staticForm" class="main-form-body">
-                        <!-- Klijent -->
-                        <mat-form-field>
-                            <mat-label>Izaberite klijenta po šifri ili nazivu</mat-label>
-                            <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text"
-                                formControlName="klijent_filter" (keyup)="applyCustomerFilter($event.target.value)"
-                                autocomplete="off">
-                        </mat-form-field>
-                        <!-- Klijent ulica -->
-                        <mat-form-field>
-                            <mat-label>Izaberite ulicu</mat-label>
-                            <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text"
-                                formControlName="ulica_filter" (keyup)="applyStreetFilter($event.target.value)"
-                                autocomplete="off">
-                        </mat-form-field>
-                    </div>
-                    <div *ngIf="!staticForm" class="main-form-body">
-                        <div class="row">
-                            <mat-card class="customer-list">
-                                <mat-selection-list dense #klijent_selection *ngIf="klijenti"
-                                    (selectionChange)="onSelectClient($event)">
-                                    <mat-list-option *ngFor="let klijent of klijenti" [value]="{
+
+                </div>
+
+                <div class="header-buttons">
+                    <button mat-raised-button type="button" class="header-buttons-items" (click)="onNewNalog()">Novi
+                        nalog</button>
+                    <button *ngIf="!staticForm" type="button" mat-raised-button class="header-buttons-items"
+                        (click)="onSaveNalog()">Pošalji</button>
+                    <button type="button" mat-raised-button class="header-buttons-items" color="warn"
+                        (click)="onDeleteNalog(broj.value)">Obriši</button>
+                </div>
+            </div>
+
+            <div *ngIf="!staticForm" class="main-form-body">
+                <!-- Klijent -->
+                <mat-form-field>
+                    <mat-label>Izaberite klijenta po šifri ili nazivu</mat-label>
+                    <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text"
+                        formControlName="klijent_filter" (keyup)="applyCustomerFilter($event.target.value)"
+                        autocomplete="off">
+                </mat-form-field>
+                <!-- Klijent ulica -->
+                <mat-form-field>
+                    <mat-label>Izaberite ulicu</mat-label>
+                    <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text"
+                        formControlName="ulica_filter" (keyup)="applyStreetFilter($event.target.value)"
+                        autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div *ngIf="!staticForm" class="main-form-body">
+                <div class="row">
+                    <mat-card class="customer-list">
+                        <mat-selection-list dense #klijent_selection *ngIf="klijenti"
+                            (selectionChange)="onSelectClient($event)">
+                            <mat-list-option *ngFor="let klijent of klijenti" [value]="{
                                             sif_par: klijent.sif_par, 
                                             naz_par: klijent.naz_par, 
                                             uli_bro: klijent.uli_bro,
                                             sif_uli: klijent.sif_uli,
                                             bro_sif: klijent.bro_sif,
                                             vrsta_klijenta: klijent.vrsta_klijenta}"
-                                        [selected]="klijent.selected === 1">
-                                        {{klijent.sif_par}} {{klijent.naz_par}}
-                                    </mat-list-option>
-                                </mat-selection-list>
-                            </mat-card>
-                            <mat-card class="customer-list">
-                                <div>
-                                    <mat-selection-list dense #ulica_selection *ngIf="ulice">
-                                        <mat-list-item *ngFor="let ulica of ulice; let i = index">
-                                            <!-- <input type="text" formControlName="sifra_uli" value="{{ulica.sif_uli}}"> -->
-                                            {{ulica.naz_uli}}
-                                            <!-- <input type="text" formControlName="naz_uli" value="{{ulica.naz_uli}}"> -->
-                                            <span class="spacer"></span>
-                                            <div>
-                                                <input type="text" placeholder="Od" class="street-no" #brojod
-                                                    value="{{ulica.broj_od}}">
-                                                <input type="text" placeholder="Do" class="street-no" #brojdo
-                                                    value="{{ulica.broj_do}}">
-                                            </div>
-                                            <mat-checkbox style="margin-left: 3px;" [checked]="ulica.selected === 1"
-                                                (change)="onSelectUlica($event, {
+                                [selected]="klijent.selected === 1">
+                                {{klijent.sif_par}} {{klijent.naz_par}}
+                            </mat-list-option>
+                        </mat-selection-list>
+                    </mat-card>
+                    <mat-card class="customer-list">
+                        <div>
+                            <mat-selection-list dense #ulica_selection *ngIf="ulice">
+                                <mat-list-item *ngFor="let ulica of ulice; let i = index">
+                                    <!-- <input type="text" formControlName="sifra_uli" value="{{ulica.sif_uli}}"> -->
+                                    {{ulica.naz_uli}}
+                                    <!-- <input type="text" formControlName="naz_uli" value="{{ulica.naz_uli}}"> -->
+                                    <span class="spacer"></span>
+                                    <div>
+                                        <input type="text" placeholder="Od" class="street-no" #brojod
+                                            value="{{ulica.broj_od}}">
+                                        <input type="text" placeholder="Do" class="street-no" #brojdo
+                                            value="{{ulica.broj_do}}">
+                                    </div>
+                                    <mat-checkbox style="margin-left: 3px;" [checked]="ulica.selected === 1" (change)="onSelectUlica($event, {
                                                     sif_uli: ulica.sif_uli, 
                                                     naz_uli: ulica.naz_uli, 
                                                     broj_od: brojod.value,
                                                     broj_do: brojdo.value
                                                 }); false">
-                                            </mat-checkbox>
-                                        </mat-list-item>
-                                    </mat-selection-list>
-                                    <!-- <mat-selection-list dense #ulica_selection *ngIf="ulice"
+                                    </mat-checkbox>
+                                </mat-list-item>
+                            </mat-selection-list>
+                            <!-- <mat-selection-list dense #ulica_selection *ngIf="ulice"
                                     (selectionChange)="onSelectUlica($event)">
                                     <mat-list-option *ngFor="let ulica of ulice"
                                     [value]="{sif_uli: ulica.sif_uli, naz_uli: ulica.naz_uli}"
@@ -223,57 +221,53 @@
                                     </div>
                                 </mat-list-option>
                             </mat-selection-list> -->
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
+            <p></p>
+            <div class="main-form-body">
+                <div class="row">
+                    <mat-card class="customer-list highlight">
+                        Korisnici za nalog:
+                        <mat-selection-list dense #selected_klijent *ngIf="selected_klijenti">
+                            <mat-list-item *ngFor="let klijent of selected_klijenti">
+                                <div>
+                                    {{klijent.sif_par}} {{klijent.naz_par}}
                                 </div>
-                            </mat-card>
-                        </div>
-                    </div>
-                    <p></p>
-                    <div class="main-form-body">
-                        <div class="row">
-                            <mat-card class="customer-list highlight">
-                                <mat-card-header>
-                                    <mat-card-title>Izabrani klijenti</mat-card-title>
-                                </mat-card-header>
-                                <mat-card-content>
+                                <span class="spacer"></span>
+                                <button mat-stroked-button type="button"
+                                    (click)="onClientDetails(klijent.sif_par, klijent.naz_par)">
+                                    Detaljnije
+                                </button>
+                                <button type="button" *ngIf="!staticForm" mat-icon-button
+                                    (click)="onRemoveKlijent(klijent.sif_par)" color="warn">
+                                    <mat-icon>delete_forever</mat-icon>
+                                </button>
+                            </mat-list-item>
+                        </mat-selection-list>
 
-                                    <mat-selection-list dense #selected_klijent *ngIf="selected_klijenti">
-                                        <mat-list-item *ngFor="let klijent of selected_klijenti">
-                                            <div>
-                                                {{klijent.sif_par}} {{klijent.naz_par}}
-                                            </div>
-                                            <span class="spacer"></span>
-                                            <button mat-button type="button"
-                                                (click)="onClientDetails(klijent.sif_par, klijent.naz_par)">
-                                                Detaljnije
-                                            </button>
-                                            <button type="button" *ngIf="!staticForm" mat-icon-button
-                                                (click)="onRemoveKlijent(klijent.sif_par)" color="warn">
-                                                <mat-icon>delete_forever</mat-icon>
-                                            </button>
-                                        </mat-list-item>
-                                    </mat-selection-list>
-                                </mat-card-content>
-                            </mat-card>
+                    </mat-card>
 
-                            <mat-card class="customer-list highlight">
+                    <mat-card class="customer-list highlight">
+                        Ulice za nalog:
+                        <mat-selection-list dense #selected_ulica *ngIf="selected_ulice">
+                            <mat-list-item *ngFor="let ulica of selected_ulice">
+                                <div>
+                                    {{ulica.naz_uli}}, {{ulica.broj_od}} - {{ulica.broj_do}}
+                                </div>
+                                <span class="spacer"></span>
+                                <button type="button" *ngIf="!staticForm" mat-icon-button
+                                    (click)="onRemoveUlica(ulica.sif_uli)" color="warn">
+                                    <mat-icon>delete_forever</mat-icon>
+                                </button>
+                            </mat-list-item>
+                        </mat-selection-list>
+                    </mat-card>
+                </div>
+            </div>
 
-                                <mat-selection-list dense #selected_ulica *ngIf="selected_ulice">
-                                    <mat-list-item *ngFor="let ulica of selected_ulice">
-                                        <div>
-                                            {{ulica.naz_uli}}, {{ulica.broj_od}} - {{ulica.broj_do}}
-                                        </div>
-                                        <span class="spacer"></span>
-                                        <button type="button" *ngIf="!staticForm" mat-icon-button
-                                            (click)="onRemoveUlica(ulica.sif_uli)" color="warn">
-                                            <mat-icon>delete_forever</mat-icon>
-                                        </button>
-                                    </mat-list-item>
-                                </mat-selection-list>
-                            </mat-card>
-                        </div>
-                    </div>
-
-                    <!-- <mat-select placeholder="Izaberite klijenta" (openedChange)="searchCustomer.focus()"
+            <!-- <mat-select placeholder="Izaberite klijenta" (openedChange)="searchCustomer.focus()"
                                 formControlName="sifra_klijenta" (selectionChange)="onChange()">
                                 <input class="searchCustomer" #searchCustomer matInput focused="'true'" type="text"
                                     (keyup)="applyCustomerFilter($event.target.value)" autocomplete="off"
@@ -283,71 +277,66 @@
                                     {{klijent.sif_par}} {{klijent.naz_par}}
                                 </mat-option>
                             </mat-select> -->
-                    <!-- </mat-form-field> -->
-                    <!-- END Klijent -->
-                    <!-- </div> -->
-                    <p></p>
-                    <!-- <div class="main-form-body">
+            <!-- </mat-form-field> -->
+            <!-- END Klijent -->
+            <!-- </div> -->
+            <p></p>
+            <!-- <div class="main-form-body">
                         <mat-form-field class="textarea-form-field">
                             <mat-label> Opis:</mat-label>
                             <textarea matInput rows="5" formControlName="opis" [readonly]="staticForm"></textarea>
                         </mat-form-field>
                     </div> -->
 
-                    <div *ngIf="!staticForm" class="main-form-footer">
-                        <mat-form-field class="form-field">
-                            <mat-label> Zaduženje:</mat-label>
-                            <mat-select formControlName="tip_zaduzenja">
-                                <mat-option *ngFor="let e of tip" [value]="e">
-                                    {{e}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div *ngIf="staticForm" class="main-form-footer">
-                        <mat-form-field class="form-field">
-                            <mat-label> Zaduženje:</mat-label>
-                            <input matInput formControlName="tip_zaduzenja" readonly>
-                        </mat-form-field>
-                    </div>
+            <div *ngIf="!staticForm" class="main-form-footer">
+                <mat-form-field class="form-field">
+                    <mat-label> Zaduženje:</mat-label>
+                    <mat-select formControlName="tip_zaduzenja">
+                        <mat-option *ngFor="let e of tip" [value]="e">
+                            {{e}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="staticForm" class="main-form-footer">
+                <mat-form-field class="form-field">
+                    <mat-label> Zaduženje:</mat-label>
+                    <input matInput formControlName="tip_zaduzenja" readonly>
+                </mat-form-field>
+            </div>
 
-                    <div *ngIf="!staticForm" class="main-form-footer">
-                        <mat-form-field *ngIf="tip_zaduzenja.value == 'Kontrola'" class="form-field">
-                            <mat-label> Vrsta kontrole:</mat-label>
-                            <mat-select formControlName="kontrola_opis">
-                                <mat-option *ngFor="let e of kontrole" [value]="e">
-                                    {{e}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div *ngIf="staticForm" class="main-form-footer">
-                        <mat-form-field *ngIf="tip_zaduzenja.value == 'Kontrola'" class="form-field">
-                            <mat-label> Vrsta kontrole:</mat-label>
-                            <input matInput formControlName="kontrola_opis" readonly>
-                        </mat-form-field>
-                    </div>
+            <div *ngIf="!staticForm" class="main-form-footer">
+                <mat-form-field *ngIf="tip_zaduzenja.value == 'Kontrola'" class="form-field">
+                    <mat-label> Vrsta kontrole:</mat-label>
+                    <mat-select formControlName="kontrola_opis">
+                        <mat-option *ngFor="let e of kontrole" [value]="e">
+                            {{e}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="staticForm" class="main-form-footer">
+                <mat-form-field *ngIf="tip_zaduzenja.value == 'Kontrola'" class="form-field">
+                    <mat-label> Vrsta kontrole:</mat-label>
+                    <input matInput formControlName="kontrola_opis" readonly>
+                </mat-form-field>
+            </div>
 
-                    <div class="main-form-body">
-                        <mat-form-field class="textarea-form-field">
-                            <mat-label> Napomena:</mat-label>
-                            <textarea matInput rows="5" formControlName="napomena" [readonly]="staticForm"></textarea>
-                        </mat-form-field>
-                    </div>
-
-
-                </div>
-                <div class="main-form-bottom">
-                    <button *ngIf="!staticForm" mat-raised-button type="button" (click)=onSaveNalog()>Pošalji</button>
-                </div>
-
-                {{zaduzenjeForm.invalid}}
-
-            </form>
-
-        </mat-card-content>
-    </mat-card>
+            <div class="main-form-body">
+                <mat-form-field class="textarea-form-field">
+                    <mat-label> Napomena:</mat-label>
+                    <textarea matInput rows="5" formControlName="napomena" [readonly]="staticForm"></textarea>
+                </mat-form-field>
+            </div>
 
 
+        </div>
+        <div class="main-form-bottom">
+            <button *ngIf="!staticForm" mat-raised-button type="button" (click)=onSaveNalog()>Pošalji</button>
+        </div>
+
+        <!-- {{zaduzenjeForm.invalid}} -->
+
+    </form>
 
 </div>
