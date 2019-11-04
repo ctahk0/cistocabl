@@ -1,0 +1,115 @@
+<app-sidebar></app-sidebar>
+
+<div class="main-container">
+    <div class="izv-container">
+        <div class="tablewraper  mat-elevation-z1">
+            <mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
+            <div class="table-container">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z1" matSort matSortActive="izvDatum"
+                    matSortDirection="desc" matSortDisableClear>
+                    <!-- <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
+                        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                        <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                    </ng-container> -->
+
+                    <ng-container matColumnDef="inkasant">
+                        <th mat-header-cell *matHeaderCellDef>Inkasant</th>
+                        <td mat-cell *matCellDef="let element; let i = index;"
+                            style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{element['inkasant']}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="filtInkasant">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-form-field class="table-filter">
+                                <input matInput [(ngModel)]="filtInkasant">
+                            </mat-form-field>
+                        </th>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nalBroj">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nalog</th>
+                        <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{el['nalBroj']}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="filtNalogBroj">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-form-field class="table-filter">
+                                <input matInput [(ngModel)]="filtNalogBroj">
+                            </mat-form-field>
+                        </th>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nalDatum">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Datum naloga</th>
+                        <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{el['nalDatum'] | date: 'dd/M/yy'}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="filtNalogDatum">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-form-field class="table-filter">
+                                <input matInput [(ngModel)]="filtNalogDatum">
+                            </mat-form-field>
+                        </th>
+                    </ng-container>
+                    <ng-container matColumnDef="nalTip_zaduzenja">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Zaduženje</th>
+                        <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{el['nalTip_zaduzenja']}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nalKontrola_opis">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kontrola</th>
+                            <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
+                                [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                                {{el['nalKontrola_opis']}} </td>
+                        </ng-container>
+                    <ng-container matColumnDef="izvDatum">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Datum izvještaja</th>
+                        <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{el['izvDatum'] | date: 'dd/M/yy'}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="klijent_id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Šifra korisnika</th>
+                        <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{el['klijent_id']}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="klijent_naziv">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Naziv</th>
+                        <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{el['klijent_naziv']}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="naziv_ulice">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ulica</th>
+                            <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
+                                [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                                {{el['naziv_ulice']}} </td>
+                        </ng-container>
+                    <ng-container matColumnDef="Details button">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let el; let i = index;">
+                            <button mat-button type="button" (click)="onSwitchDetails(el)"
+                                [ngStyle]="{'color':selectedRowIndex == i ? 'white' : '#46B1C0'}">Detaljnije</button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row
+                        *matHeaderRowDef="['filtInkasant', 'filtNalogBroj', 'filtNalogDatum'] sticky: true"
+                        class="example-second-header-row">
+                    </tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let el;  let i = index; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+            <!-- <button mat-raised-button type="button" color="accent">Accent</button>
+        <button mat-raised-button type="button" color="primary">Primary</button> -->
+            <mat-paginator [length]="totalRows" [pageSizeOptions]="[20, 50, 100, 200]" (page)="onChangedPage($event)"
+                showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

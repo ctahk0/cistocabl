@@ -65,6 +65,12 @@ export class MainService {
     return this._http.get(this._url + 'admin/zaduzenja' + queryParams, httpOptions);
   }
 
+  /** ==================== IZVJESTAJI LIST ============================================== */
+  getIzvjestaji(pageSize: number, pageIndex: number, filter: string): Observable<any> {
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
+    return this._http.get(this._url + 'admin/izvjestaji' + queryParams, httpOptions);
+  }
+
   /** ==================== MAX BROJ ZADUZENJA =========================================== */
   getMaxBrojZaduzenja(pageSize: number, pageIndex: number, filter: string): Observable<any> {
     const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;

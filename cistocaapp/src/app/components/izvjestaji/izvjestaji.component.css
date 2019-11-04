@@ -1,0 +1,33 @@
+
+table {
+    width: 100%;
+  }
+  
+  .highlight{
+    background: #007b89;
+    color: #fff;
+  }
+  
+  /* Spinner  */
+  /* Absolute Center Spinner */
+  .tablewraper {
+    position: relative;
+  }
+  
+  .table-container {
+    height: calc(100vh - 210px);
+    /* min-height: 200px; */
+    overflow: auto;
+  }
+  .loading {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 999;
+  }
+
+  .table-filter {
+      max-width: 100px;
+      padding-right: 10px;
+  }

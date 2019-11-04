@@ -21,11 +21,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     displayedColumns: string[] = [
         'broj',
         'datum',
-        'opis',
         'tip_zaduzenja',
         'kontrola_opis',
         'napomena',
-        'vrsta_klijenta',
         'status',
         'Details button'];
 

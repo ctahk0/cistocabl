@@ -2,7 +2,7 @@
     <mat-nav-list color="primary">
         <a *ngIf="isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/dashboard"
             (click)="onMenuClick()">
-            <mat-icon class="sidenav-icon">dashboard</mat-icon> {{ 'Zaduženja' }}
+            <mat-icon class="sidenav-icon">assignment</mat-icon> {{ 'Zaduženja' }}
         </a>
         <a *ngIf="!isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/inkasanti" 
             (click)="onMenuClick()">
@@ -15,6 +15,10 @@
         <a class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/novikorisnik" 
             (click)="onMenuClick()">
             <mat-icon class="sidenav-icon">add_box</mat-icon> {{ 'Novi korisnik' }}
+        </a>
+        <a *ngIf="isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/izvjestaji" 
+            (click)="onMenuClick()">
+            <mat-icon class="sidenav-icon">description</mat-icon> {{ 'Izvještaji' }}
         </a>
     </mat-nav-list>
 </div>

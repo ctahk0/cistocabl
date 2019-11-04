@@ -60,6 +60,7 @@ import { InkasantiObradaComponent } from './components/inkasanti-obrada/inkasant
 import { InkasantiObradaIzvjestajComponent } from './components/inkasanti-obrada-izvjestaj/inkasanti-obrada-izvjestaj.component';
 import { PretragaKorisnikaComponent } from './components/pretraga-korisnika/pretraga-korisnika.component';
 import { NoviKorisnikComponent } from './components/novi-korisnik/novi-korisnik.component';
+import { IzvjestajiComponent } from './components/izvjestaji/izvjestaji.component';
 
 
 
@@ -79,7 +80,8 @@ import { NoviKorisnikComponent } from './components/novi-korisnik/novi-korisnik.
     InkasantiObradaComponent,
     InkasantiObradaIzvjestajComponent,
     PretragaKorisnikaComponent,
-    NoviKorisnikComponent
+    NoviKorisnikComponent,
+    IzvjestajiComponent
   ],
   imports: [
     BrowserModule,
