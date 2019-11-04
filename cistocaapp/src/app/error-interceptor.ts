@@ -20,16 +20,23 @@ export class ErrorInterceptor implements HttpInterceptor {
 
         if (error.error.message) {
           errorMessage = error.error.message;
-          const controlError = error.error.error.message;
-          console.log('We have a error here', errorMessage);
-          if (controlError.indexOf('CONSTRAINT `izvjestaj_inkasanti') !== -1) {
-            this.errorService.throwError('Postoji izvještaj inkasanta za ovaj nalog. Nije dozvoljeno brisanje!');
+          let controlError = '';
+          if (typeof (error.error.error) != 'undefined' && error.error.error != null) {
+            controlError = error.error.error.message;
+
+            console.log('We have a error here', errorMessage);
+            if (controlError.indexOf('CONSTRAINT `izvjestaj_inkasanti') !== -1) {
+              this.errorService.throwError('Postoji izvještaj inkasanta za ovaj nalog. Nije dozvoljeno brisanje!');
+            } else {
+              // this.dialog.open(ErrorComponent, {data: {message: errorMessage}});
+              this.errorService.throwError(errorMessage);
+            }
           } else {
-            // this.dialog.open(ErrorComponent, {data: {message: errorMessage}});
             this.errorService.throwError(errorMessage);
           }
           return throwError(error);
         } else {
+
           return throwError(error);
         }
 

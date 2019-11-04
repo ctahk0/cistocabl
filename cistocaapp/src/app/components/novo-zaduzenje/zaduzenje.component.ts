@@ -214,9 +214,9 @@ export class ZaduzenjeComponent implements OnInit {
         this.isLoading = true;
         const ps = 200;
         const pi = 0;
-        console.log('Testiranje ulica');
-        console.log(this.selected_ulice);
-        console.log(this.selectedStreetFilter);
+        // console.log('Testiranje ulica');
+        // console.log(this.selected_ulice);
+        // console.log(this.selectedStreetFilter);
 
         this.mysqlservice.getCustomer(ps, pi, this.customerFilter, this.selectedStreetFilter, '1', 1, 2)
             .subscribe((mydata: any) => {
@@ -380,8 +380,17 @@ export class ZaduzenjeComponent implements OnInit {
     onSaveNalog() {
         console.log('SUBMITTING FORM!');
         this.zaduzenjeForm.controls['ulice'].patchValue(this.selected_ulice);
-        // this.zaduzenjeForm.controls['datum'].setValue(tmp);
         console.log(this.zaduzenjeForm.value);
+        console.log(this.zaduzenjeForm.controls.klijent.value.sif_par);
+        console.log(this.zaduzenjeForm.controls.ulice.value.length);
+        if (this.zaduzenjeForm.controls.ulice.value.length === 0 && this.zaduzenjeForm.controls.klijent.value.sif_par === '') {
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Upozorenje!',
+                detail: 'Morate izabrati korisnika ili ulicu za nalog!'
+            });
+            return;
+        }
         if (!this.zaduzenjeForm.invalid) {
             this.mysqlservice.insertToDb(this.zaduzenjeForm.value).subscribe(resp => {
                 console.log(resp);
@@ -401,6 +410,11 @@ export class ZaduzenjeComponent implements OnInit {
                 }
             });
         } else {
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Kreiranje naloga',
+                detail: 'Morate popuniti sva obavezna polja!'
+            });
             console.log('Invalid form!');
         }
     }

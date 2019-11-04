@@ -4,8 +4,110 @@
     <div class="izv-container">
         <div class="tablewraper  mat-elevation-z1">
             <mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
-            <div class="table-container">
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z1" matSort matSortActive="izvDatum"
+
+            <!-- Main dashboard container -->
+            <div *ngIf="details" class="detail-reports-container">
+                <div class="nav-header">
+                    <button type="button" class="close" (click)="onCloseInfo()" aria-label="Close">
+                        <mat-icon>keyboard_backspace</mat-icon>
+                    </button>
+                    <span class="nav-spacer"></span>
+                    <button type="button" class="close" (click)="onCloseInfo()" aria-label="Close">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <mat-card class="mat-elevation-z0">
+                    <div class="top-header">
+                        <mat-card-title *ngIf="klijent_sifra">{{klijent_sifra}}, {{klijent_naziv}}</mat-card-title>
+                        <mat-card-title *ngIf="klijent_ulica_id">{{klijent_naziv_ulice}}</mat-card-title>
+                        <!-- <span class="nav-spacer"></span>
+                        <mat-card-subtitle>{{klijent_adresa}}</mat-card-subtitle> -->
+                    </div>
+                    <div>
+                        <mat-card-subtitle *ngIf="klijent_sifra">{{klijent_adresa}}</mat-card-subtitle>
+                        <mat-card-subtitle *ngIf="klijent_ulica_id">{{klijent_broj_od}} - {{klijent_broj_do}}
+                        </mat-card-subtitle>
+                    </div>
+
+                    <div class="client-container">
+                        <div *ngIf="klijent_sifra" class="client-container">
+                            <span class="small">Vrsta korisnika:</span>
+                            <span class="space-bottom border-list">{{klijent_vrsta}}</span>
+                            <span class="small">Količina:</span>
+                            <span class="space-bottom border-list">{{klijent_kolicina}}</span>
+                            <span class="small">Šifra usluge:</span>
+                            <span class="space-bottom border-list">{{klijent_sif_usl}}</span>
+                            <span class="small">Stanje duga:</span>
+                            <span class="space-bottom border-list">{{klijent_StanjeDuga}}</span>
+                            <span class="small">Status:</span>
+                            <span class="space-bottom border-list">{{klijent_status}}</span>
+                            <div class="labels">
+                                <label id="name-label" for="name">Napomena:</label>
+                            </div>
+                            <div class="rightTab">
+                                <div class="border-list">
+                                    <ul *ngFor="let el of klijent_details">
+                                        <li *ngIf="el.napomena">{{el.napomena}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <!-- 
+                                broj_do: ""
+                                broj_od: ""
+                                firstname: "Perica"
+                                inkasant: "Perica Marcic"
+                                inkasant_id: 6
+                                izvDatum: "2019-11-03T23:00:00.000Z"
+                                izvIZvjestaj: "9. Ostalo"
+                                izvNapomena: "Mlađen izvještaj↵Pero 04.11 NA 0001/19"
+                                izvStatus: 1
+                                klijent_adresa: "I Krajiške Brigade 1                              "
+                                klijent_id: "1441643   "
+                                klijent_naziv: "KAVIĆ MLAĐEN                                                "
+                                klijent_vrsta: "Domaćinstva"
+                                lastname: "Marcic"
+                                nalBroj: "NA-0001/19"
+                                nalDatum: "2019-11-03T23:00:00.000Z"
+                                nalKontrola_opis: "Kontrola po listingu"
+                                nalNapomena: "Kontrola 2 klijenta sami na nalogu.↵Prekontrolisati kada oba imaju izvjestaj na istom nalogu"
+                                nalStatus: 1
+                                nalTip_zaduzenja: "Kontrola"
+                                naziv_ulice: ""
+                                ulica_id: ""
+                             -->
+                            <!-- izvjestaj inkasanti -->
+                            <mat-card-title class="space-bottom space-top">Izvještaji inkasanata</mat-card-title>
+
+                            <div class="inkasant-report space-bottom space-top" *ngFor="let el of klijent_details">
+                                <div *ngIf="el.nalBroj">
+                                    <mat-card-subtitle>Datum: <strong>{{el.izvDatum | date: 'dd/M/yy'}}</strong>, Nalog:
+                                        <strong>{{el.nalBroj}}</strong>
+                                        <br> Inkasant: <strong>{{el.inkasant}}</strong>
+                                        <br> Vrsta Naloga: <strong>{{el.nalTip_zaduzenja}}</strong>
+                                        <br> Vrsta kontrole: <strong>{{el.nalKontrola_opis}}</strong>
+                                        <br> Napomena: <strong>{{el.nalNapomena}}</strong>
+                                    </mat-card-subtitle>
+                                    <div class="client-container">
+                                        <span class="space-bottom">Datum izvještaja:
+                                            <strong>{{el.izvDatum | date: 'dd/M/yy'}}</strong></span>
+                                        <span class="space-bottom">Izvještaj:
+                                            <strong>{{el.izvIZvjestaj}}</strong></span>
+                                        <span class="space-bottom">Napomena inkasanta:
+                                            <strong>{{el.izvNapomena}}</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <!-- Main dashboard container -->
+            <div *ngIf="!details" class="table-container">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z1" matSort matSortActive="nalBroj"
                     matSortDirection="desc" matSortDisableClear>
                     <!-- <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
                         <th mat-header-cell *matHeaderCellDef> {{column}} </th>
@@ -61,11 +163,11 @@
                             {{el['nalTip_zaduzenja']}} </td>
                     </ng-container>
                     <ng-container matColumnDef="nalKontrola_opis">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kontrola</th>
-                            <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
-                                [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
-                                {{el['nalKontrola_opis']}} </td>
-                        </ng-container>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Kontrola</th>
+                        <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{el['nalKontrola_opis']}} </td>
+                    </ng-container>
                     <ng-container matColumnDef="izvDatum">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Datum izvještaja</th>
                         <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
@@ -85,15 +187,15 @@
                             {{el['klijent_naziv']}} </td>
                     </ng-container>
                     <ng-container matColumnDef="naziv_ulice">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ulica</th>
-                            <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
-                                [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
-                                {{el['naziv_ulice']}} </td>
-                        </ng-container>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Ulica</th>
+                        <td mat-cell *matCellDef="let el; let i = index;" style="text-align: left; padding-left: 20px;"
+                            [ngStyle]="{'color':selectedRowIndex == i ? 'white' : 'black'}">
+                            {{el['naziv_ulice']}} </td>
+                    </ng-container>
                     <ng-container matColumnDef="Details button">
                         <th mat-header-cell *matHeaderCellDef></th>
                         <td mat-cell *matCellDef="let el; let i = index;">
-                            <button mat-button type="button" (click)="onSwitchDetails(el)"
+                            <button mat-button type="button" (click)="onClientDetails(el.klijent_id, el.ulica_id)"
                                 [ngStyle]="{'color':selectedRowIndex == i ? 'white' : '#46B1C0'}">Detaljnije</button>
                         </td>
                     </ng-container>
@@ -108,8 +210,8 @@
             </div>
             <!-- <button mat-raised-button type="button" color="accent">Accent</button>
         <button mat-raised-button type="button" color="primary">Primary</button> -->
-            <mat-paginator [length]="totalRows" [pageSizeOptions]="[20, 50, 100, 200]" (page)="onChangedPage($event)"
-                showFirstLastButtons></mat-paginator>
+            <mat-paginator *ngIf="!details" [length]="totalRows" [pageSizeOptions]="[20, 50, 100, 200]"
+                (page)="onChangedPage($event)" showFirstLastButtons></mat-paginator>
         </div>
     </div>
 </div>
