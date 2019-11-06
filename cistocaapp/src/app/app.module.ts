@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { SidebarModule } from 'primeng/sidebar';
 import { DialogModule } from 'primeng/dialog';
+import { ChartsModule } from 'ng2-charts';
 
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -61,6 +62,7 @@ import { InkasantiObradaIzvjestajComponent } from './components/inkasanti-obrada
 import { PretragaKorisnikaComponent } from './components/pretraga-korisnika/pretraga-korisnika.component';
 import { NoviKorisnikComponent } from './components/novi-korisnik/novi-korisnik.component';
 import { IzvjestajiComponent } from './components/izvjestaji/izvjestaji.component';
+import { IzvjestajiInkasantiComponent } from './components/izvjestaji-inkasanti/izvjestaji-inkasanti.component';
 
 
 
@@ -81,7 +83,8 @@ import { IzvjestajiComponent } from './components/izvjestaji/izvjestaji.componen
     InkasantiObradaIzvjestajComponent,
     PretragaKorisnikaComponent,
     NoviKorisnikComponent,
-    IzvjestajiComponent
+    IzvjestajiComponent,
+    IzvjestajiInkasantiComponent
   ],
   imports: [
     BrowserModule,
@@ -119,7 +122,8 @@ import { IzvjestajiComponent } from './components/izvjestaji/izvjestaji.componen
     MatDatepickerModule,
     MatExpansionModule,
     MatRippleModule,
-    NgbModule
+    NgbModule,
+    ChartsModule
     // TextMaskModule,
   ],
   providers: [ConfirmationDialogService,

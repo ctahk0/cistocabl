@@ -42,7 +42,7 @@ export class NoviKorisnikComponent implements OnInit {
     };
 
     this.isLoading = true;
-    this.mysqlservice.insertToDbUser(frm).subscribe(resp => {
+    this.mysqlservice.insertToDbNewUser(frm).subscribe(resp => {
       if (resp['status'] === 201) {
         this.messageService.add({
           severity: 'info',

@@ -9,6 +9,7 @@ import { InkasantiDashboardComponent } from './components/inkasanti-dashboard/in
 import { PretragaKorisnikaComponent } from './components/pretraga-korisnika/pretraga-korisnika.component';
 import { NoviKorisnikComponent } from './components/novi-korisnik/novi-korisnik.component';
 import { IzvjestajiComponent } from './components/izvjestaji/izvjestaji.component';
+import { IzvjestajiInkasantiComponent } from './components/izvjestaji-inkasanti/izvjestaji-inkasanti.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'pretraga', component: PretragaKorisnikaComponent, canActivate: [AuthGuard] },
   { path: 'novikorisnik', component: NoviKorisnikComponent, canActivate: [AuthGuard] },
   { path: 'izvjestaji', component: IzvjestajiComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'inkasantiizv', component: IzvjestajiInkasantiComponent, canActivate: [AuthGuard, AdminGuard] },
 ];
 
 @NgModule({

@@ -53,6 +53,13 @@ export class MainService {
     return this._http.get(this._url + 'user/incview' + queryParams, httpOptions);
   }
 
+  /** ==================== PODACI ZA INKASANTA - LIST NALOGA I ZADUZENJA ================= */
+  getIncReport(filter: string, inkasant_id: number): Observable<any> {
+    // console.log('Get customer');
+    const queryParams = `?filter=${filter}&inkasant_id=${inkasant_id}`;
+    return this._http.get(this._url + 'admin/inkasantiizvjestaj' + queryParams, httpOptions);
+  }
+
   getStreet(pageSize: number, pageIndex: number, filter: string): Observable<any> {
     // console.log('Get street');
     const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;

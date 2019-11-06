@@ -1,0 +1,55 @@
+<app-sidebar></app-sidebar>
+<div class="main-container">
+    <mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading"></mat-spinner>
+
+    <div class="inkasanti-container">
+        <div class="outer">
+            <div class="inkasanti-cards" *ngFor="let inkasant of inkasantiList">
+                <button mat-raised-button class="inc-card" (click)="getInkasantiReport(inkasant.id)">{{inkasant.firstname}} {{inkasant.lastname}}</button>
+                <!-- <mat-card class="inc-card">
+                    <mat-card-title>{{inkasant.firstname}} {{inkasant.lastname}}</mat-card-title>
+                </mat-card> -->
+            </div>
+        </div>
+
+        <div class="report-container">
+            <mat-card class="report-card">
+                <mat-card-header>
+
+                    <mat-card-title>{{inkasant}}</mat-card-title>
+                    <mat-card-subtitle>Izvjestaj produktivnosti za period: </mat-card-subtitle>
+                    <mat-card class="card">
+                        <mat-card-subtitle>Nalozi:</mat-card-subtitle>
+                        <mat-card-title>
+                            {{broj_naloga}}
+                        </mat-card-title>
+                    </mat-card>
+                    <mat-card class="card">
+                        <mat-card-subtitle>Kontrolisani korisnici:</mat-card-subtitle>
+                        <mat-card-title>
+                            {{broj_korisnika}}
+                        </mat-card-title>
+                    </mat-card>
+                    <mat-card class="card">
+                        <mat-card-subtitle>Novi korisnici:</mat-card-subtitle>
+                        <mat-card-title>
+                            {{novikorisnici}}
+                        </mat-card-title>
+                    </mat-card>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content>
+
+                    <div class="chart-container">
+                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
+                            [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
+                            [colors]="pieColors" (chartHover)="chartHovered($event)"></canvas>
+                    </div>
+                </mat-card-content>
+
+            </mat-card>
+        </div>
+    </div>
+
+
+</div>

@@ -21,7 +21,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (error.error.message) {
           errorMessage = error.error.message;
           let controlError = '';
-          if (typeof (error.error.error) != 'undefined' && error.error.error != null) {
+          if (typeof (error.error.error) !== 'undefined' && error.error.error != null) {
             controlError = error.error.error.message;
 
             console.log('We have a error here', errorMessage);

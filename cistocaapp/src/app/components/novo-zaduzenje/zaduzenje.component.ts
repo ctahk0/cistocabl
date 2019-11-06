@@ -201,11 +201,14 @@ export class ZaduzenjeComponent implements OnInit {
 
     getInkasanti(fi: string) {
         this.isLoading = true;
-        const ps = 50;
+        const ps = 500;
         const pi = 0;
         this.mysqlservice.getInkasanti(ps, pi, fi).subscribe((mydata: any) => {
-            console.log(mydata);
-            this.inkasantiList = mydata.data;
+            this.inkasantiList = mydata.data.filter(ink => {
+                return ink.isInkasant === 1;
+            });
+            // console.log(mydata);
+            // this.inkasantiList = mydata.data;
             this.isLoading = false;
         });
     }

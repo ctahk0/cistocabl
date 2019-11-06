@@ -20,5 +20,9 @@
             (click)="onMenuClick()">
             <mat-icon class="sidenav-icon">description</mat-icon> {{ 'Izvještaji' }}
         </a>
+        <a *ngIf="isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/inkasantiizv" 
+            (click)="onMenuClick()">
+            <mat-icon class="sidenav-icon">trending_up</mat-icon> {{ 'Inkasanti' }}
+        </a>
     </mat-nav-list>
 </div>

@@ -1,0 +1,33 @@
+.loading {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 999;
+}
+.inkasanti-cards {
+    max-width: 250px;
+    padding: 5px;
+}
+.inkasanti-container {
+    display: flex;
+}
+
+.report-container {
+    padding: 5px;
+    /* background: #ccc; */
+    /* width: 800px; */
+    /* height: 600px; */
+}
+.inc-card {
+    min-width: 180px;
+}
+.card {
+    min-width: 180px;
+    padding: 10px;
+    margin-left: 5px;
+    margin-bottom: 60px;
+}
+.chartjs-render-monitor {
+    height: 350px;
+}
