@@ -121,9 +121,10 @@ export class IzvjestajiInkasantiComponent implements OnInit {
           i++;
         }
       }
-
-      const uniqNalozi = [...new Set(origdata.map(x => x.zaduzenje_id))];
-      // console.log(uniqNalozi);
+                          // ...Array.from(new Set([1, 2, 3, 1, 1])).
+      const uniqNalozi = [...Array.from(new Set(origdata.map(x => x.zaduzenje_id)))];
+      console.log('uniq');
+      console.log(uniqNalozi);
       this.broj_naloga = uniqNalozi.length.toString();
       this.broj_korisnika = origdata.length.toString();
       const ink = this.inkasantiList.filter(e => {
