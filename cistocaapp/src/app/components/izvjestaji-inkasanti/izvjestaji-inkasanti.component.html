@@ -5,7 +5,8 @@
     <div class="inkasanti-container">
         <div class="outer">
             <div class="inkasanti-cards" *ngFor="let inkasant of inkasantiList">
-                <button mat-raised-button class="inc-card" (click)="getInkasantiReport(inkasant.id)">{{inkasant.firstname}} {{inkasant.lastname}}</button>
+                <button mat-raised-button class="inc-card"
+                    (click)="getInkasantiReport(inkasant.id)">{{inkasant.firstname}} {{inkasant.lastname}}</button>
                 <!-- <mat-card class="inc-card">
                     <mat-card-title>{{inkasant.firstname}} {{inkasant.lastname}}</mat-card-title>
                 </mat-card> -->
@@ -17,7 +18,33 @@
                 <mat-card-header>
 
                     <mat-card-title>{{inkasant}}</mat-card-title>
-                    <mat-card-subtitle>Izvjestaj produktivnosti za period: </mat-card-subtitle>
+                    <mat-card-subtitle>Izvjestaj produktivnosti za period:
+                        <br>
+                        <mat-form-field class="inkasanti-cards">
+                            <mat-label> Datum od: (dd/mm/yyyy)</mat-label>
+                            <input #datePickerod matInput [matDatepicker]="pickerod" [(ngModel)]="datumod" onkeyup="
+                                var v = this.value;
+                                if (v.match(/^\d{2}$/) !== null) {
+                                    this.value = v + '/';
+                                } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
+                                    this.value = v + '/';
+                                }" (keypress)="_keyPress($event)" maxlength="10">
+                            <mat-datepicker-toggle matSuffix [for]="pickerod"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerod></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field class="inkasanti-cards">
+                            <mat-label> Datum do: (dd/mm/yyyy)</mat-label>
+                            <input #datePickerdo matInput [matDatepicker]="pickerdo" [(ngModel)]="datumdo" onkeyup="
+                                var v = this.value;
+                                if (v.match(/^\d{2}$/) !== null) {
+                                    this.value = v + '/';
+                                } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
+                                    this.value = v + '/';
+                                }" (keypress)="_keyPress($event)" maxlength="10">
+                            <mat-datepicker-toggle matSuffix [for]="pickerdo"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerdo></mat-datepicker>
+                        </mat-form-field>
+                    </mat-card-subtitle>
                     <mat-card class="card">
                         <mat-card-subtitle>Nalozi:</mat-card-subtitle>
                         <mat-card-title>
@@ -43,8 +70,9 @@
                     <div class="chart-container">
                         <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
                             [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
-                            [colors]="pieColors" (chartHover)="chartHovered($event)"></canvas>
+                            [colors]="pieColors"></canvas>
                     </div>
+                    <!-- (chartHover)="chartHovered($event)" -->
                 </mat-card-content>
 
             </mat-card>

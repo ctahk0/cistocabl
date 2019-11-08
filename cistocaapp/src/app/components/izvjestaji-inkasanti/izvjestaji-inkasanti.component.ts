@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MainService } from 'src/app/services/main.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-izvjestaji-inkasanti',
@@ -15,7 +16,8 @@ export class IzvjestajiInkasantiComponent implements OnInit {
   broj_korisnika = '';
   inkasant = '';
   filter = '';
-
+  datumod = '';
+  datumdo = '';
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true,
@@ -67,8 +69,34 @@ export class IzvjestajiInkasantiComponent implements OnInit {
     // this.getInkasantiReport(0);
   }
 
+  checkDatesFilter() {
+    console.log(this.datumod);
+
+    if (this.datumod && this.datumdo) {
+      console.log('Ima datum');
+      const datod = moment(this.datumod).format('YYYY-MM-DD');
+      const datdo = moment(this.datumdo).format('YYYY-MM-DD');
+
+      this.filter = `zaduzenje.datum BETWEEN '${datod}' AND '${datdo}'`;
+      console.log(this.filter);
+    } else {
+      this.filter = '';
+      console.log('nema datum');
+    }
+  }
+  // Prevent no number type input, valid characters in input are numbers only
+  _keyPress(event: any) {
+    const pattern = /^[0-9]*$/;
+    const inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
+  }
 
   getInkasantiReport(inkasant_id: number) {
+    this.checkDatesFilter();
     console.log(inkasant_id);
     this.isLoading = true;
     this.mysqlservice.getIncReport(this.filter, inkasant_id).subscribe((mydata: any) => {
