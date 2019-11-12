@@ -1,0 +1,38 @@
+table {
+    width: 100%;
+}
+
+.highlight {
+    background: #007b89;
+    color: #fff;
+}
+
+.filter-line {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+
+/* Absolute Center Spinner */
+
+.tablewraper {
+    position: relative;
+}
+
+.table-container {
+    height: calc(100vh - 210px);
+    /* min-height: 200px; */
+    overflow: auto;
+}
+.newuser {
+    margin-top: 20px;
+    max-width: 300px;
+}
+.loading {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 999;
+}

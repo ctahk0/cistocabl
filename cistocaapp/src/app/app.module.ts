@@ -63,6 +63,8 @@ import { PretragaKorisnikaComponent } from './components/pretraga-korisnika/pret
 import { NoviKorisnikComponent } from './components/novi-korisnik/novi-korisnik.component';
 import { IzvjestajiComponent } from './components/izvjestaji/izvjestaji.component';
 import { IzvjestajiInkasantiComponent } from './components/izvjestaji-inkasanti/izvjestaji-inkasanti.component';
+import { AdministracijaComponent } from './components/administracija/administracija.component';
+import { SignupComponent } from './components/auth/signup/signup.component';
 
 
 
@@ -84,7 +86,9 @@ import { IzvjestajiInkasantiComponent } from './components/izvjestaji-inkasanti/
     PretragaKorisnikaComponent,
     NoviKorisnikComponent,
     IzvjestajiComponent,
-    IzvjestajiInkasantiComponent
+    IzvjestajiInkasantiComponent,
+    AdministracijaComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

@@ -66,14 +66,15 @@ export class AuthService {
     }
 
     /** INSERT/CREATE User */
-    createUser(email: string, password: string, firstname: string, lastname: string, route: string) {
+    createUser(username: string, password: string, firstname: string, lastname: string, route: string) {
         // console.log('From service', contributor);
         const authData: AuthData = {
-            email: email,
+            username: username,
             password: password,
             firstname: firstname,
             lastname: lastname,
             admin: false,
+            inkasant: true,
             blocked: false
         };
         return this._http.post(

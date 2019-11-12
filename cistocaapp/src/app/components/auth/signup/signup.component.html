@@ -1,0 +1,41 @@
+<!-- <div class="cont"> -->
+<p-toast></p-toast>
+<mat-spinner strokeWidth="3" [diameter]="50" class="loading" *ngIf="isLoading" style="margin:auto"></mat-spinner>
+<mat-card class="space-top space-bottom">
+    <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading"
+        class="ng-untouched ng-pristine ng-invalid" novalidate="">
+        <div class="client-container">
+
+            <mat-form-field>
+                <input matInput name="firstname" ngModel type="text" placeholder="Ime" #firstnameInput="ngModel"
+                    required>
+            </mat-form-field>
+            <!-- <mat-error *ngIf="ime_korisnika.errors?.required && ime_korisnika.touched"
+            style="font-size: 0.8rem; margin-top: -15px;">
+            Morate unijeti ime/naziv korisnika!
+        </mat-error> -->
+
+            <mat-form-field>
+                <input matInput name="lastname" ngModel type="text" placeholder="Prezime" #lastnameInput="ngModel"
+                    required>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput name="username" ngModel type="username" placeholder="Korisničko ime"
+                    #emailInput="ngModel" required>
+            </mat-form-field>
+            <!-- <mat-error *ngIf="emailInput.invalid && (emailInput.dirty)">Please enter a valid E mail.</mat-error> -->
+
+            <mat-form-field>
+                <input matInput name="password" ngModel type="password" placeholder="Lozinka" #passwordInput="ngModel"
+                    (input)="onConfirmPassword(signupForm)" required>
+            </mat-form-field>
+            <mat-error *ngIf="passwordInput.invalid && (passwordInput.dirty)">Please enter a valid password.</mat-error>
+
+            <br>
+
+            <button class="w-100 btn" *ngIf="!isLoading" type="submit">Kreiraj nalog</button>
+        </div>
+    </form>
+
+</mat-card>

@@ -125,6 +125,11 @@ export class MainService {
     return this._http.delete(this._url + 'admin/zaduzenje/', { params: { id: id } });
   }
 
+  /** ==================== REGISTERED USERS ===================================== */
+  getRegisteredUsers(pageSize: number, pageIndex: number, filter: string): Observable<any> {
+    const queryParams = `?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`;
+    return this._http.get(this._url + 'admin/regusers' + queryParams, httpOptions);
+  }
 
   /** UPDATE User */
   updateUser(frm, route: string) {

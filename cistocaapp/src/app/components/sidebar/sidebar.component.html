@@ -1,27 +1,31 @@
 <div id="sidebar">
     <mat-nav-list color="primary">
+        <a *ngIf="isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/admin"
+            (click)="onMenuClick()">
+            <mat-icon class="sidenav-icon">home_work</mat-icon> {{ 'Administracija' }}
+        </a>
         <a *ngIf="isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/dashboard"
             (click)="onMenuClick()">
             <mat-icon class="sidenav-icon">assignment</mat-icon> {{ 'Zaduženja' }}
         </a>
-        <a *ngIf="!isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/inkasanti" 
+        <a *ngIf="!isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/inkasanti"
             (click)="onMenuClick()">
             <mat-icon class="sidenav-icon">ballot</mat-icon> {{ 'Nalozi' }}
         </a>
-        <a class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/pretraga" 
+        <a class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/pretraga"
             (click)="onMenuClick()">
             <mat-icon class="sidenav-icon">group</mat-icon> {{ 'Pretraga korisnika' }}
         </a>
-        <a class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/novikorisnik" 
+        <a class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/novikorisnik"
             (click)="onMenuClick()">
             <mat-icon class="sidenav-icon">add_box</mat-icon> {{ 'Novi korisnik' }}
         </a>
-        <a *ngIf="isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/izvjestaji" 
+        <a *ngIf="isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/izvjestaji"
             (click)="onMenuClick()">
             <mat-icon class="sidenav-icon">description</mat-icon> {{ 'Izvještaji' }}
         </a>
-        <a *ngIf="isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item routerLink="/inkasantiizv" 
-            (click)="onMenuClick()">
+        <a *ngIf="isAdmin" class="sidenavelement" routerLinkActive="active-link" mat-list-item
+            routerLink="/inkasantiizv" (click)="onMenuClick()">
             <mat-icon class="sidenav-icon">trending_up</mat-icon> {{ 'Inkasanti' }}
         </a>
     </mat-nav-list>

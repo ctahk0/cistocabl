@@ -10,9 +10,11 @@ import { PretragaKorisnikaComponent } from './components/pretraga-korisnika/pret
 import { NoviKorisnikComponent } from './components/novi-korisnik/novi-korisnik.component';
 import { IzvjestajiComponent } from './components/izvjestaji/izvjestaji.component';
 import { IzvjestajiInkasantiComponent } from './components/izvjestaji-inkasanti/izvjestaji-inkasanti.component';
+import { AdministracijaComponent } from './components/administracija/administracija.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
+  { path: 'admin', component: AdministracijaComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'zaduzenje', component: ZaduzenjeComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'inkasanti', component: InkasantiDashboardComponent, canActivate: [AuthGuard] },
